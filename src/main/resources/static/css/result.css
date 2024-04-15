@@ -1,0 +1,25 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+#container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+#resultMap {
+    width: 80%; /* Adjust the width of the map as needed */
+    height: 400px; /* Set the height of the map */
+    margin-bottom: 20px; /* Adjust spacing between the map and the button */
+}
+
+#nextButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}

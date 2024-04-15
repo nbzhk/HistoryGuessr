@@ -1,4 +1,4 @@
-package org.softuni.finalproject.model;
+package org.softuni.finalproject.model.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,0 +1,15 @@
+#container {
+    display: flex;
+    flex-direction: row; /* Make children align horizontally */
+    align-items: center; /* Center items vertically */
+}
+
+#googleMap #resultMap {
+    width: 70%; /* Adjust the width of the map */
+    height: 400px; /* Adjust the height of the map */
+}
+
+#fetchButton #nextButton{
+    width: 30%; /* Adjust the width of the button */
+    height: 40px; /* Adjust the height of the button */
+}
