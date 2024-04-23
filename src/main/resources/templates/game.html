@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Game</title>
     <link rel="stylesheet" href="/css/styles.css">
 
 
@@ -38,31 +38,31 @@
             v: "weekly",
         });
     </script>
-
+    <script type="module" src="/js/googleMap.js"></script>
 </head>
 <body>
 <div id="container">
-     <div id="googleMap"></div>
-    <script type="module" src="/js/googleMap.js"></script>
-    <button id="fetchButton">Submit</button>
 
-    <!--<div id="picture">
-        <img src="/img/Eiffel.jpeg">
-    </div>-->
 </div>
-<h1>Year Slider</h1>
-<form action="/game" method="post">
-    <input name="guessYear"
-           type="range"
-           min="1900" max="2024"
-           value="2024"
-           class="slider"
-           id="yearSlider" >
-    <p>Year: <span id="yearValue">2024</span></p>
-    </form>
+<footer>
+    <div class="expandable" id="expandable">
+        <div class="expandable__content">
+            <div class="mapSearch" id="googleMap"></div>
 
-<script src="/js/SliderScript.js"></script>
-
-
+            <div class="form">
+                <form action="/game" method="post">
+                    <input name="guessYear"
+                           type="range"
+                           min="1900" max="2024"
+                           value="2024"
+                           class="slider"
+                           id="yearSlider">
+                    <p>Year: <span id="yearValue">2024</span></p>
+                    <button class="button" id="fetchButton">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</footer>
 </body>
 </html>

@@ -12,11 +12,15 @@ body, html {
     height: 100%;
 }
 
-#resultMap {
-    width: 80%; /* Adjust the width of the map as needed */
-    height: 400px; /* Set the height of the map */
-    margin-bottom: 20px; /* Adjust spacing between the map and the button */
+.mapSearch{
+    position: absolute;
+    z-index: 999;
+    overflow: hidden;
+    width: 200px;
+    height: 200px;
+    transition: width 0.5s, height 0.5s;
 }
+
 
 #nextButton {
     padding: 10px 20px;

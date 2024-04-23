@@ -7,3 +7,4 @@ yearValue.textContent = yearSlider.value;
 yearSlider.addEventListener("input", function() {
     yearValue.textContent = this.value;
 });
+

@@ -1,0 +1,78 @@
+<!--<!doctype html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport"-->
+<!--          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">-->
+<!--    <meta http-equiv="X-UA-Compatible" content="ie=edge">-->
+<!--    <title>Document</title>-->
+<!--    <link rel="stylesheet" href="/css/test.css">-->
+
+
+<!--    <script>-->
+<!--        (g => {-->
+<!--            var h, a, k, p = "The Google Maps JavaScript API",-->
+<!--                c = "google",-->
+<!--                l = "importLibrary",-->
+<!--                q = "__ib__",-->
+<!--                m = document,-->
+<!--                b = window;-->
+<!--            b = b[c] || (b[c] = {});-->
+<!--            var d = b.maps || (b.maps = {}),-->
+<!--                r = new Set(['maps']),-->
+<!--                e = new URLSearchParams,-->
+<!--                u = () => h || (h = new Promise(async (f, n) => {-->
+<!--                    await (a = m.createElement("script"));-->
+<!--                    e.set("libraries", [...r] + "");-->
+<!--                    for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]);-->
+<!--                    e.set("callback", c + ".maps." + q);-->
+<!--                    a.src = `https://maps.${c}apis.com/maps/api/js?` + e;-->
+<!--                    d[q] = f;-->
+<!--                    a.onerror = () => h = n(Error(p + " could not load."));-->
+<!--                    a.nonce = m.querySelector("script[nonce]")?.nonce || "";-->
+<!--                    m.head.append(a)-->
+<!--                }));-->
+<!--            d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n))-->
+<!--        })({-->
+<!--            key: "AIzaSyBGKsKXscB_mbOmJt6K866Xshpw2Olq24Q",-->
+<!--            v: "weekly",-->
+<!--        });-->
+<!--    </script>-->
+
+<!--</head>-->
+<!--<body>-->
+<!--<div class="mainContainer" id="mainContainer">-->
+<!--    <div class="header">-->
+<!--        <h1>Make your guess!</h1>-->
+<!--        <p>Image description</p>-->
+<!--    </div>-->
+<!--    <div class="gameContainer">-->
+<!--        <div class="imageContainer" id="pictureContainer">-->
+<!--            <img class="zoom" id="searchedPicture" src="https://www.travelandleisure.com/thmb/SPUPzO88ZXq6P4Sm4mC5Xuinoik=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/eiffel-tower-paris-france-EIFFEL0217-6ccc3553e98946f18c893018d5b42bde.jpg">-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+<!--<script src="/js/SliderScript.js"></script>-->
+
+
+<!--</body>-->
+<!--<footer>-->
+<!--    <div class="expand">-->
+<!--        <div class="mapSearch" id="googleMap"></div>-->
+<!--        <script type="module" src="/js/googleMap.js"></script>-->
+<!--        <form action="/game" method="post">-->
+<!--            <input name="guessYear"-->
+<!--                   type="range"-->
+<!--                   min="1900" max="2024"-->
+<!--                   value="2024"-->
+<!--                   class="slider"-->
+<!--                   id="yearSlider">-->
+<!--            <p>Year: <span id="yearValue">2024</span></p>-->
+<!--        </form>-->
+<!--        <button class="button" id="fetchButton">Submit</button>-->
+
+<!--    </div>-->
+<!--</footer>-->
+<!--</html>-->
