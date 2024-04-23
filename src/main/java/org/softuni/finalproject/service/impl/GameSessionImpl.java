@@ -54,6 +54,11 @@ public class GameSessionImpl implements GameSession {
         System.out.println("ROUND SCORE: " + roundScore);
     }
 
+    @Override
+    public String getLocation() {
+        return this.currentGame.getPictureLocation().getImgUrl();
+    }
+
     private int calculateYearDifference() {
         int guessYear = this.currentGame.getUserGuess().getGuessYear();
         int actualYear = this.currentGame.getPictureLocation().getYear();

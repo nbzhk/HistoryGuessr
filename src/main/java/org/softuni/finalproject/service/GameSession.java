@@ -11,4 +11,6 @@ public interface GameSession {
     CurrentGame getGameSession();
 
     void calculateResult();
+
+    String getLocation();
 }

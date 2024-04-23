@@ -32,13 +32,19 @@ public class GameController {
         ClassPathResource resource = new ClassPathResource("templates/game.html");
         String htmlContent = new String(Objects.requireNonNull(resource.getInputStream().readAllBytes()), StandardCharsets.UTF_8);
 
+        String imageUrl = this.gameSession.getLocation();
+        htmlContent = htmlContent.replace("<img src=\"\" alt=\"image\">", "<img src=\"" + imageUrl + "\" alt=\"image\"/>");
+
         return ResponseEntity.ok()
                 .contentType(MediaType.TEXT_HTML)
                 .body(htmlContent);
     }
 
+
+
     @PostMapping("/game")
     public ResponseEntity<Void> getUserGuess(@RequestBody UserGuess userGuess) {
+
 
         this.gameSession.setUserGuess(userGuess);
         this.gameSession.calculateResult();

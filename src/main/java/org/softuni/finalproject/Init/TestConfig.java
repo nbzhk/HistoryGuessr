@@ -37,7 +37,7 @@ public class TestConfig {
 
     public PictureLocation pictureLocation() {
         PictureLocation pictureLocation = new PictureLocation();
-        pictureLocation.setImgUrl("C:\\Users\\Nikolay Bozhkov\\IdeaProjects\\demo\\src\\main\\resources\\static\\img\\Eiffel.jpeg");
+        pictureLocation.setImgUrl("images/Eiffel.jpeg");
         pictureLocation.setLatitude(48.858093);
         pictureLocation.setLongitude(2.294694);
         pictureLocation.setYear(2024);

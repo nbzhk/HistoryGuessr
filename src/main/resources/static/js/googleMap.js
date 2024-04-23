@@ -78,34 +78,37 @@ const expandable = document.getElementById("expandable");
 expandable.addEventListener("mouseenter", enlargeFunc);
 
 function enlargeFunc() {
-    console.log("start!");
-    expandable.style.width = "800px";
-    expandable.style.height = "800px";
+    expandable.style.width = "700px";
+    expandable.style.height = "700px";
 }
 
 expandable.addEventListener("mouseleave", decrementFunc);
 
 function decrementFunc() {
-    console.log("end!");
     expandable.style.width = "150px";
     expandable.style.height = "150px";
 }
 
-// document.addEventListener("DOMContentLoaded", function () {
-//     console.log("DOMContentLoaded event fired");
-//     const expandable = document.querySelector(".expandable");
-//     console.log(expandable);
-//
-//     expandable.addEventListener("mouseenter", function () {
-//         console.log("mouse in");
-//         this.classList.add("expanded");
-//     });
-//
-//     expandable.addEventListener("mouseleave", function () {
-//         console.log("mouse out");
-//         this.classList.remove("expanded");
-//     });
-// });
+const container = document.getElementById("container");
+const imageZoom = document.getElementById("image-zoom");
+let scale = 1;
+
+container.addEventListener("wheel", zoomFunc);
+function zoomFunc(event) {
+    console.log("zoooooom!");
+    event.preventDefault();
+
+    const delta = Math.max(-1, Math.min(1, event.deltaY))
+
+    if (delta > 0) {
+        scale -= 0.1;
+    } else {
+        scale += 0.1;
+    }
+
+    imageZoom.style.transform = `scale(${scale})`;
+}
+
 
 
 
