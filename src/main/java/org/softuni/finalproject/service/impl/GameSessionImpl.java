@@ -21,10 +21,6 @@ public class GameSessionImpl implements GameSession {
     public void setUserGuess(UserGuess userGuess) {
         this.currentGame.setUserGuess(userGuess);
 
-        System.out.println(userGuess);
-
-        System.out.println();
-
     }
 
     @Override

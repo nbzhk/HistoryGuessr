@@ -1,29 +1,33 @@
-body, html {
+body {
     margin: 0;
     padding: 0;
-    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 #container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+    text-align: center;
 }
 
-.mapSearch{
-    position: absolute;
-    z-index: 999;
-    overflow: hidden;
-    width: 200px;
-    height: 200px;
-    transition: width 0.5s, height 0.5s;
+#resultMap {
+    width: 400px; /* Adjust the width of the map container as needed */
+    height: 400px; /* Adjust the height of the map container as needed */
+    margin-bottom: 20px; /* Adjust the margin between the map and the button */
 }
-
 
 #nextButton {
     padding: 10px 20px;
     font-size: 16px;
+    background-color: #007bff; /* Adjust the button's background color */
+    color: #fff; /* Adjust the button's text color */
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#nextButton:hover {
+    background-color: #0056b3; /* Adjust the button's background color on hover */
 }

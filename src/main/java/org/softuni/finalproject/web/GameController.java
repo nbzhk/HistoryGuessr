@@ -43,21 +43,14 @@ public class GameController {
 
 
     @PostMapping("/game")
-    public ResponseEntity<Void> getUserGuess(@RequestBody UserGuess userGuess) {
+    public ResponseEntity<UserGuess> getUserGuess(@RequestBody UserGuess userGuess) {
 
 
         this.gameSession.setUserGuess(userGuess);
-        this.gameSession.calculateResult();
 
-        URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/result")
-                .build()
-                .toUri();
+        System.out.println(userGuess.toString());
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(location);
-
-        return new ResponseEntity<>(headers, HttpStatus.FOUND);
+        return ResponseEntity.ok().body(userGuess);
     }
 
 }

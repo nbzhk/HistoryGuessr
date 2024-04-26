@@ -1,5 +1,5 @@
 const {Map} = await google.maps.importLibrary("maps");
-const {LatLng} = await google.maps.importLibrary("core");
+const {LatLng} = google.maps.importLibrary("core");
 const yearSlider = document.getElementById("yearSlider");
 const yearValue = document.getElementById("yearValue");
 
@@ -38,12 +38,13 @@ map.addListener("click", (mapsMouseEvent) => {
 
 yearValue.textContent = yearSlider.value;
 
-yearSlider.addEventListener("input", function() {
+yearSlider.addEventListener("input", function () {
     yearValue.textContent = this.value;
 });
 
 let guessLat;
 let guessLng;
+let guessYear;
 
 function position(mapsMouseEvent) {
     guessLat = mapsMouseEvent.latLng.lat();
@@ -53,7 +54,7 @@ function position(mapsMouseEvent) {
 map.addListener("click", position);
 
 function fetchCoordinates() {
-    let guessYear = yearSlider.value;
+    guessYear = yearSlider.value;
     fetch("/game", {
         method: 'post',
         headers: {
@@ -62,9 +63,13 @@ function fetchCoordinates() {
         body: JSON.stringify({guessLat, guessLng, guessYear})
 
     }).then(response => {
-
-        window.location.href = response.url;
-    });
+        if (response.ok) {
+            console.log("ok!!!")
+            window.location.href = "/result";
+        } else {
+            console.log("not redirecting")
+        }
+    })
 }
 
 
@@ -94,6 +99,7 @@ const imageZoom = document.getElementById("image-zoom");
 let scale = 1;
 
 container.addEventListener("wheel", zoomFunc);
+
 function zoomFunc(event) {
     console.log("zoooooom!");
     event.preventDefault();

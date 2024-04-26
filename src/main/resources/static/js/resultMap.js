@@ -18,12 +18,6 @@ const map = new Map(document.getElementById("resultMap"), {
     },
 });
 
-// const actualLocationLatLng = new LatLng(48.858093, 2.294694);
-// new google.maps.Marker({
-//     position: actualLocationLatLng,
-//     map: map
-// });
-
 
 fetch("/result", {
     method: "POST"
