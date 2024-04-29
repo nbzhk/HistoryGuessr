@@ -9,7 +9,7 @@ public class UserGuess {
         return guessLat;
     }
 
-    public void setGuessLat(Double guessLat) {
+    public void setGuessLat(double guessLat) {
         this.guessLat = guessLat;
     }
 
@@ -17,7 +17,7 @@ public class UserGuess {
         return guessLng;
     }
 
-    public void setGuessLng(Double guessLng) {
+    public void setGuessLng(double guessLng) {
         this.guessLng = guessLng;
     }
 

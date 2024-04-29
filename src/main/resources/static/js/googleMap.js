@@ -1,4 +1,5 @@
 const {Map} = await google.maps.importLibrary("maps");
+console.log("importLibrary MAPS")
 const {LatLng} = google.maps.importLibrary("core");
 const yearSlider = document.getElementById("yearSlider");
 const yearValue = document.getElementById("yearValue");
@@ -19,7 +20,7 @@ const map = new Map(document.getElementById("googleMap"), {
             west: -180,
             east: 180,
         }
-    },
+    }
 });
 let guessMarker = null;
 
@@ -33,6 +34,7 @@ map.addListener("click", (mapsMouseEvent) => {
             title: "My Guess!"
         });
     }
+    console.log("marker SET")
 });
 
 
@@ -40,6 +42,7 @@ yearValue.textContent = yearSlider.value;
 
 yearSlider.addEventListener("input", function () {
     yearValue.textContent = this.value;
+    console.log("year Value change")
 });
 
 let guessLat;
@@ -49,12 +52,14 @@ let guessYear;
 function position(mapsMouseEvent) {
     guessLat = mapsMouseEvent.latLng.lat();
     guessLng = mapsMouseEvent.latLng.lng();
+    console.log("set LAt and Lng")
 }
 
 map.addListener("click", position);
 
 function fetchCoordinates() {
     guessYear = yearSlider.value;
+
     fetch("/game", {
         method: 'post',
         headers: {
@@ -77,6 +82,7 @@ const fetchButton = document.getElementById("fetchButton");
 
 fetchButton.addEventListener("click", () => {
     fetchCoordinates();
+    console.log("fetched")
 });
 
 const expandable = document.getElementById("expandable");
@@ -114,12 +120,3 @@ function zoomFunc(event) {
 
     imageZoom.style.transform = `scale(${scale})`;
 }
-
-
-
-
-
-
-
-
-

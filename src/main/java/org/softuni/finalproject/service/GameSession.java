@@ -1,16 +1,17 @@
 package org.softuni.finalproject.service;
 
+import org.softuni.finalproject.model.PictureLocation;
 import org.softuni.finalproject.model.UserGuess;
-import org.softuni.finalproject.model.dto.CurrentGame;
+import org.softuni.finalproject.model.dto.CurrentGameDTO;
 
 public interface GameSession {
 
     void setUserGuess(UserGuess userGuess);
     UserGuess getUserGuess();
 
-    CurrentGame getGameSession();
+    CurrentGameDTO getGameSession();
 
     void calculateResult();
 
-    String getLocation();
+    PictureLocation getCurrentLocation();
 }

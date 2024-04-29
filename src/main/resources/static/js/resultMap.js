@@ -18,6 +18,7 @@ const map = new Map(document.getElementById("resultMap"), {
     },
 });
 
+let currentRound;
 
 fetch("/result", {
     method: "POST"
@@ -25,17 +26,18 @@ fetch("/result", {
     .then(response => response.json())
     .then(data => {
         console.log(data);
-
-        const actualCoordinates = new LatLng(data.pictureLocation.latitude, data.pictureLocation.longitude);
+         currentRound = data.round;
+        const actualCoordinates = new LatLng(data.pictureLocations[currentRound].latitude,
+            data.pictureLocations[currentRound].longitude);
 
         new google.maps.Marker({
             position: actualCoordinates,
             map: map
         });
 
-
-        if (data.userGuess.guessLat != null && data.userGuess.guessLng != null) {
-            const guessCoordinates = new LatLng(data.userGuess.guessLat, data.userGuess.guessLng);
+        //TODO: make round number update just before the round starts
+        if (data.userGuesses[currentRound - 1].guessLat != null && data.userGuesses[currentRound - 1].guessLng != null) {
+            const guessCoordinates = new LatLng(data.userGuesses[currentRound - 1].guessLat, data.userGuesses[currentRound - 1].guessLng);
             new google.maps.Marker({
                 position: guessCoordinates,
                 map: map
@@ -69,5 +71,13 @@ fetch("/result", {
 
 
 const nextButton = document.getElementById("nextButton");
+
+nextButton.addEventListener("click", () => {
+    if (currentRound !== 5) {
+        window.location.href = "/game";
+    } else {
+        window.location.href = "/summary"
+    }
+});
 
 

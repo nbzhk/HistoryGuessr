@@ -38,4 +38,5 @@ public class PictureLocation {
     public void setYear(int year) {
         this.year = year;
     }
+
 }
