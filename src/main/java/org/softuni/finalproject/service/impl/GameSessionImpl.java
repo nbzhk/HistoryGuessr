@@ -2,7 +2,7 @@ package org.softuni.finalproject.service.impl;
 
 import org.softuni.finalproject.model.PictureLocation;
 import org.softuni.finalproject.model.UserGuess;
-import org.softuni.finalproject.model.dto.CurrentGameDTO;
+import org.softuni.finalproject.model.dto.GameDTO;
 import org.softuni.finalproject.service.GameSession;
 import org.springframework.stereotype.Service;
 
@@ -12,38 +12,38 @@ public class GameSessionImpl implements GameSession {
     private static final double EARTH_RADIUS = 6371;
     private static final int MAX_YEAR_DIFFERENCE = 124;
     private static final double MAX_DISTANCE_KM = 20037.5;
-    private final CurrentGameDTO currentGameDTO;
+    private final GameDTO gameDTO;
 
-    public GameSessionImpl(CurrentGameDTO currentGameDTO) {
-        this.currentGameDTO = currentGameDTO;
+    public GameSessionImpl(GameDTO gameDTO) {
+        this.gameDTO = gameDTO;
     }
 
     @Override
     public void setUserGuess(UserGuess userGuess) {
-        this.currentGameDTO.setUserGuess(userGuess);
+        this.gameDTO.setUserGuess(userGuess);
 
     }
 
     @Override
     public UserGuess getUserGuess() {
-        return this.currentGameDTO.getUserGuesses()[this.currentGameDTO.getRound() - 1];
+        return this.gameDTO.getUserGuesses()[this.gameDTO.getRound() - 1];
     }
 
     @Override
-    public CurrentGameDTO getGameSession() {
-        return this.currentGameDTO;
+    public GameDTO getGameSession() {
+        return this.gameDTO;
     }
 
     @Override
     public PictureLocation getCurrentLocation() {
-        return this.currentGameDTO.getPictureLocations()[this.currentGameDTO.getRound()];
+        return this.gameDTO.getPictureLocations()[this.gameDTO.getRound()];
     }
 
     @Override
     public void calculateResult() {
         int roundScore = 0;
-        int yearDiff = calculateYearDifference(this.currentGameDTO.getRound());
-        Double distanceInKm = calculateDistanceInKm(this.currentGameDTO.getRound());
+        int yearDiff = calculateYearDifference(this.gameDTO.getRound());
+        Double distanceInKm = calculateDistanceInKm(this.gameDTO.getRound());
 
         double yearRatio = (double) yearDiff / MAX_YEAR_DIFFERENCE;
         roundScore += (int) (2500 * (1- yearRatio));
@@ -53,25 +53,25 @@ public class GameSessionImpl implements GameSession {
             roundScore += (int) (2500 * (1 - distanceRatio));
         }
 
-        this.currentGameDTO.addRoundScore(roundScore);
+        this.gameDTO.addRoundScore(roundScore);
         System.out.println("ROUND SCORE: " + roundScore);
-        this.currentGameDTO.nextRound();
+        this.gameDTO.nextRound();
     }
 
 
     private int calculateYearDifference(int round) {
 
-        int guessYear = this.currentGameDTO.getUserGuesses()[round].getGuessYear();
-        int actualYear = this.currentGameDTO.getPictureLocations()[round].getYear();
+        int guessYear = this.gameDTO.getUserGuesses()[round].getGuessYear();
+        int actualYear = this.gameDTO.getPictureLocations()[round].getYear();
 
         return Math.abs(guessYear - actualYear);
     }
 
     private Double calculateDistanceInKm(int round) {
-        double actualLatitude = this.currentGameDTO.getPictureLocations()[round].getLatitude();
-        double actualLongitude = this.currentGameDTO.getPictureLocations()[round].getLongitude();
-        Double guessLat = this.currentGameDTO.getUserGuesses()[round].getGuessLat();
-        Double guessLng = this.currentGameDTO.getUserGuesses()[round].getGuessLng();
+        double actualLatitude = this.gameDTO.getPictureLocations()[round].getLatitude();
+        double actualLongitude = this.gameDTO.getPictureLocations()[round].getLongitude();
+        Double guessLat = this.gameDTO.getUserGuesses()[round].getGuessLat();
+        Double guessLng = this.gameDTO.getUserGuesses()[round].getGuessLng();
 
         if (guessLat != null && guessLng != null) {
             double actualLatRad = Math.toRadians(actualLatitude);

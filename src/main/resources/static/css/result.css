@@ -11,7 +11,8 @@ body {
     text-align: center;
 }
 
-#resultMap {
+#resultMap,
+#summeryMap {
     width: 400px; /* Adjust the width of the map container as needed */
     height: 400px; /* Adjust the height of the map container as needed */
     margin-bottom: 20px; /* Adjust the margin between the map and the button */

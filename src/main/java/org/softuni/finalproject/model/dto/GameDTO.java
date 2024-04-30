@@ -4,7 +4,7 @@ import org.softuni.finalproject.model.CurrentUser;
 import org.softuni.finalproject.model.PictureLocation;
 import org.softuni.finalproject.model.UserGuess;
 
-public class CurrentGameDTO {
+public class GameDTO {
     private CurrentUser user;
     private UserGuess[] userGuesses = new UserGuess[5];
     private PictureLocation[] pictureLocations;
@@ -51,6 +51,8 @@ public class CurrentGameDTO {
     public void nextRound() {
         if (round != 5) {
             round++;
+        } else {
+            round = 0;
         }
 
     }

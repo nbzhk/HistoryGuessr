@@ -3,7 +3,7 @@ package org.softuni.finalproject.Init;
 import org.softuni.finalproject.model.CurrentUser;
 import org.softuni.finalproject.model.PictureLocation;
 import org.softuni.finalproject.model.UserGuess;
-import org.softuni.finalproject.model.dto.CurrentGameDTO;
+import org.softuni.finalproject.model.dto.GameDTO;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,17 +11,17 @@ import org.springframework.context.annotation.Configuration;
 public class TestConfig {
 
     @Bean
-    public CurrentGameDTO currentGame() {
+    public GameDTO currentGame() {
         CurrentUser currentUser = currentUser();
         PictureLocation[] pictureLocations = pictureLocations();
         UserGuess userGuess = userGuess();
 
-        CurrentGameDTO currentGameDTO = new CurrentGameDTO();
-        currentGameDTO.setUser(currentUser);
-        currentGameDTO.setPictureLocations(pictureLocations);
-        currentGameDTO.setUserGuess(userGuess);
+        GameDTO gameDTO = new GameDTO();
+        gameDTO.setUser(currentUser);
+        gameDTO.setPictureLocations(pictureLocations);
+        gameDTO.setUserGuess(userGuess);
 
-        return currentGameDTO;
+        return gameDTO;
     }
 
     public CurrentUser currentUser() {

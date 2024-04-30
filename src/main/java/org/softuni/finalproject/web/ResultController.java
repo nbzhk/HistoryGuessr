@@ -1,7 +1,7 @@
 package org.softuni.finalproject.web;
 
 import org.softuni.finalproject.model.UserGuess;
-import org.softuni.finalproject.model.dto.CurrentGameDTO;
+import org.softuni.finalproject.model.dto.GameDTO;
 import org.softuni.finalproject.service.GameSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +20,7 @@ public class ResultController {
 
     @PostMapping("/result")
     @ResponseBody
-    public CurrentGameDTO result()  {
+    public GameDTO result()  {
         UserGuess currentGuess = gameSession.getUserGuess();
         if (currentGuess.getGuessLat() != null && currentGuess.getGuessLng() != null) {
             double guessLat = currentGuess.getGuessLat();

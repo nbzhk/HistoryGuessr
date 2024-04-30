@@ -27,8 +27,8 @@ fetch("/result", {
     .then(data => {
         console.log(data);
          currentRound = data.round;
-        const actualCoordinates = new LatLng(data.pictureLocations[currentRound].latitude,
-            data.pictureLocations[currentRound].longitude);
+        const actualCoordinates = new LatLng(data.pictureLocations[currentRound - 1].latitude,
+            data.pictureLocations[currentRound - 1].longitude);
 
         new google.maps.Marker({
             position: actualCoordinates,
