@@ -1,7 +1,7 @@
 package org.softuni.finalproject.web;
 
 import org.softuni.finalproject.model.dto.GameDTO;
-import org.softuni.finalproject.service.GameSession;
+import org.softuni.finalproject.service.GameService;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +14,10 @@ import java.util.Objects;
 @RestController
 public class SummaryController {
 
-    private final GameSession gameSession;
+    private final GameService gameService;
 
-    public SummaryController(GameSession gameSession) {
-        this.gameSession = gameSession;
+    public SummaryController(GameService gameService) {
+        this.gameService = gameService;
     }
 
     @GetMapping("/summary")
@@ -35,9 +35,9 @@ public class SummaryController {
     @ResponseBody
     public GameDTO summary() {
 
-        System.out.println(gameSession);
+        System.out.println(gameService);
 
-        return this.gameSession.getGameSession();
+        return this.gameService.getGameSession();
     }
 
 }

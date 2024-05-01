@@ -4,7 +4,7 @@ import org.softuni.finalproject.model.PictureLocation;
 import org.softuni.finalproject.model.UserGuess;
 import org.softuni.finalproject.model.dto.GameDTO;
 
-public interface GameSession {
+public interface GameService {
 
     void setUserGuess(UserGuess userGuess);
     UserGuess getUserGuess();

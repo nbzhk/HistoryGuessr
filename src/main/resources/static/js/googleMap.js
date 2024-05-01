@@ -20,7 +20,10 @@ const map = new Map(document.getElementById("googleMap"), {
             west: -180,
             east: 180,
         }
-    }
+    },
+    styles: [
+        {elementType: 'geometry', stylers: [{color: 'transparent'}]}
+    ]
 });
 let guessMarker = null;
 

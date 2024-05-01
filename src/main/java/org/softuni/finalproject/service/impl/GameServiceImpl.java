@@ -3,18 +3,18 @@ package org.softuni.finalproject.service.impl;
 import org.softuni.finalproject.model.PictureLocation;
 import org.softuni.finalproject.model.UserGuess;
 import org.softuni.finalproject.model.dto.GameDTO;
-import org.softuni.finalproject.service.GameSession;
+import org.softuni.finalproject.service.GameService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GameSessionImpl implements GameSession {
+public class GameServiceImpl implements GameService {
 
     private static final double EARTH_RADIUS = 6371;
     private static final int MAX_YEAR_DIFFERENCE = 124;
     private static final double MAX_DISTANCE_KM = 20037.5;
     private final GameDTO gameDTO;
 
-    public GameSessionImpl(GameDTO gameDTO) {
+    public GameServiceImpl(GameDTO gameDTO) {
         this.gameDTO = gameDTO;
     }
 

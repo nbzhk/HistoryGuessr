@@ -2,7 +2,7 @@ package org.softuni.finalproject.web;
 
 import org.softuni.finalproject.model.UserGuess;
 import org.softuni.finalproject.model.dto.GameDTO;
-import org.softuni.finalproject.service.GameSession;
+import org.softuni.finalproject.service.GameService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class ResultController {
 
-    private final GameSession gameSession;
+    private final GameService gameService;
 
-    public ResultController(GameSession gameSession) {
-        this.gameSession = gameSession;
+    public ResultController(GameService gameService) {
+        this.gameService = gameService;
     }
 
 
     @PostMapping("/result")
     @ResponseBody
     public GameDTO result()  {
-        UserGuess currentGuess = gameSession.getUserGuess();
+        UserGuess currentGuess = gameService.getUserGuess();
         if (currentGuess.getGuessLat() != null && currentGuess.getGuessLng() != null) {
             double guessLat = currentGuess.getGuessLat();
             double guessLng = currentGuess.getGuessLng();
@@ -31,7 +31,7 @@ public class ResultController {
             System.out.println(guessLat + " " + guessLng + " " + guessYear);
         }
 
-        return this.gameSession.getGameSession();
+        return this.gameService.getGameSession();
     }
 
     @GetMapping("/result")

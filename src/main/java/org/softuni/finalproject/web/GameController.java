@@ -1,7 +1,7 @@
 package org.softuni.finalproject.web;
 
 import org.softuni.finalproject.model.UserGuess;
-import org.softuni.finalproject.service.GameSession;
+import org.softuni.finalproject.service.GameService;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +17,11 @@ import java.util.Objects;
 @RestController
 public class GameController {
 
-    private final GameSession gameSession;
+    private final GameService gameService;
 
 
-    public GameController(GameSession gameSession) {
-        this.gameSession = gameSession;
+    public GameController(GameService gameService) {
+        this.gameService = gameService;
     }
 
     @GetMapping("/game")
@@ -29,7 +29,7 @@ public class GameController {
         ClassPathResource resource = new ClassPathResource("templates/game.html");
         String htmlContent = new String(Objects.requireNonNull(resource.getInputStream().readAllBytes()), StandardCharsets.UTF_8);
 
-        String imageUrl = this.gameSession.getCurrentLocation().getImgUrl();
+        String imageUrl = this.gameService.getCurrentLocation().getImgUrl();
         htmlContent = htmlContent.replace("<img src=\"\" alt=\"image\">", "<img src=\"" + imageUrl + "\" alt=\"image\"/>");
 
         return ResponseEntity.ok()
@@ -43,8 +43,8 @@ public class GameController {
 
 
 
-        this.gameSession.setUserGuess(userGuess);
-        this.gameSession.calculateResult();
+        this.gameService.setUserGuess(userGuess);
+        this.gameService.calculateResult();
 
 
         return ResponseEntity.ok().body(userGuess);

@@ -1,78 +1,78 @@
-<!--<!doctype html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <meta name="viewport"-->
-<!--          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">-->
-<!--    <meta http-equiv="X-UA-Compatible" content="ie=edge">-->
-<!--    <title>Document</title>-->
-<!--    <link rel="stylesheet" href="/css/test.css">-->
-
-
-<!--    <script>-->
-<!--        (g => {-->
-<!--            var h, a, k, p = "The Google Maps JavaScript API",-->
-<!--                c = "google",-->
-<!--                l = "importLibrary",-->
-<!--                q = "__ib__",-->
-<!--                m = document,-->
-<!--                b = window;-->
-<!--            b = b[c] || (b[c] = {});-->
-<!--            var d = b.maps || (b.maps = {}),-->
-<!--                r = new Set(['maps']),-->
-<!--                e = new URLSearchParams,-->
-<!--                u = () => h || (h = new Promise(async (f, n) => {-->
-<!--                    await (a = m.createElement("script"));-->
-<!--                    e.set("libraries", [...r] + "");-->
-<!--                    for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]);-->
-<!--                    e.set("callback", c + ".maps." + q);-->
-<!--                    a.src = `https://maps.${c}apis.com/maps/api/js?` + e;-->
-<!--                    d[q] = f;-->
-<!--                    a.onerror = () => h = n(Error(p + " could not load."));-->
-<!--                    a.nonce = m.querySelector("script[nonce]")?.nonce || "";-->
-<!--                    m.head.append(a)-->
-<!--                }));-->
-<!--            d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n))-->
-<!--        })({-->
-<!--            key: "AIzaSyBGKsKXscB_mbOmJt6K866Xshpw2Olq24Q",-->
-<!--            v: "weekly",-->
-<!--        });-->
-<!--    </script>-->
-
-<!--</head>-->
-<!--<body>-->
-<!--<div class="mainContainer" id="mainContainer">-->
-<!--    <div class="header">-->
-<!--        <h1>Make your guess!</h1>-->
-<!--        <p>Image description</p>-->
-<!--    </div>-->
-<!--    <div class="gameContainer">-->
-<!--        <div class="imageContainer" id="pictureContainer">-->
-<!--            <img class="zoom" id="searchedPicture" src="https://www.travelandleisure.com/thmb/SPUPzO88ZXq6P4Sm4mC5Xuinoik=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/eiffel-tower-paris-france-EIFFEL0217-6ccc3553e98946f18c893018d5b42bde.jpg">-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-
-
-<!--<script src="/js/SliderScript.js"></script>-->
-
-
-<!--</body>-->
-<!--<footer>-->
-<!--    <div class="expand">-->
-<!--        <div class="mapSearch" id="googleMap"></div>-->
-<!--        <script type="module" src="/js/googleMap.js"></script>-->
-<!--        <form action="/game" method="post">-->
-<!--            <input name="guessYear"-->
-<!--                   type="range"-->
-<!--                   min="1900" max="2024"-->
-<!--                   value="2024"-->
-<!--                   class="slider"-->
-<!--                   id="yearSlider">-->
-<!--            <p>Year: <span id="yearValue">2024</span></p>-->
-<!--        </form>-->
-<!--        <button class="button" id="fetchButton">Submit</button>-->
-
-<!--    </div>-->
-<!--</footer>-->
-<!--</html>-->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Game</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Your custom CSS -->
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div class="container">
+    <div id="container" class="d-flex justify-content-center align-items-center"
+         style="height: 98vh; overflow: scroll;">
+        <div id="image-zoom">
+            <img src="" alt="image" style="max-width: 100%; max-height: 100%;">
+        </div>
+    </div>
+</div>
+<footer>
+    <div class="expandable" id="expandable"
+         style="position: fixed; bottom: 50px; left: 50px; width: 150px; height: 150px; --xy-padding: 7px; --border-radius: 6px; margin: 1em 0; transition: 0.5s;">
+        <div class="expandable__content"
+             style="position: relative; padding: var(--xy-padding); width: calc(100% - 12px); height: calc(100% - 12px);">
+            <div class="map-slider-button-group">
+                <div class="mapSearch" id="googleMap"
+                     style="position: absolute !important; top: -100px; left: 0; width: 100%; height: 100%; border: 6px solid darkcyan; border-radius: var(--border-radius);"></div>
+                <!-- Include your JavaScript file -->
+                <script type="module" src="/js/googleMap.js"></script>
+                <div class="form" style="position: absolute; bottom: -20px; left: 0; width: 100%;">
+                    <form action="/result" method="post">
+                        <label for="yearSlider">Year input</label>
+                        <input name="guessYear" type="range" min="1900" max="2024" value="2024" class="slider"
+                               id="yearSlider">
+                        <p>Year: <span id="yearValue">2024</span></p>
+                    </form>
+                    <button class="btn btn-primary" id="fetchButton">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Bootstrap JS and jQuery (required for Bootstrap JS) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    (g => {
+        var h, a, k, p = "The Google Maps JavaScript API",
+            c = "google",
+            l = "importLibrary",
+            q = "__ib__",
+            m = document,
+            b = window;
+        b = b[c] || (b[c] = {});
+        var d = b.maps || (b.maps = {}),
+            r = new Set(['maps']),
+            e = new URLSearchParams,
+            u = () => h || (h = new Promise(async (f, n) => {
+                await (a = m.createElement("script"));
+                e.set("libraries", [...r] + "");
+                for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]);
+                e.set("callback", c + ".maps." + q);
+                a.src = `https://maps.${c}apis.com/maps/api/js?` + e;
+                d[q] = f;
+                a.onerror = () => h = n(Error(p + " could not load."));
+                a.nonce = m.querySelector("script[nonce]")?.nonce || "";
+                m.head.append(a)
+            }));
+        d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n))
+    })({
+        key: "AIzaSyBGKsKXscB_mbOmJt6K866Xshpw2Olq24Q",
+        v: "weekly",
+    });
+</script>
+</body>
+</html>
