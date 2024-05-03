@@ -6,12 +6,16 @@ import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfiguration {
 
     @Bean
@@ -31,9 +35,18 @@ public class SecurityConfiguration {
                 )
                 .logout((logout) -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/")
+                        .logoutSuccessUrl("/home")
                         .invalidateHttpSession(true)
-                );
+                )
+                .csrf(csrf -> csrf
+                        .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
+//                //TODO: add protection for these
+//                .csrf(csrf -> csrf
+//                        .ignoringRequestMatchers(new AntPathRequestMatcher("/game", "POST"))
+//                        .ignoringRequestMatchers(new AntPathRequestMatcher("/result", "POST"))
+//                        .ignoringRequestMatchers(new AntPathRequestMatcher("/summary", "POST")));
+
+
 
         return http.build();
     }
@@ -48,4 +61,6 @@ public class SecurityConfiguration {
     public PasswordEncoder passwordEncoder() {
         return Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8();
     }
+
+
 }

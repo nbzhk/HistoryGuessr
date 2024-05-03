@@ -60,25 +60,36 @@ function position(mapsMouseEvent) {
 
 map.addListener("click", position);
 
-function fetchCoordinates() {
+
+async function fetchCoordinates() {
+
+    const csrfToken = document.querySelector('meta[name="_csrf"]');
+
+    console.log(csrfToken.getAttribute("content"));
+
     guessYear = yearSlider.value;
 
     fetch("/game", {
         method: 'post',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken.getAttribute("content")
         },
         body: JSON.stringify({guessLat, guessLng, guessYear})
 
     }).then(response => {
         if (response.ok) {
-            console.log("ok!!!")
+            console.log(response.headers)
             window.location.href = "/result";
         } else {
-            console.log("not redirecting")
+            console.log(response);
+            console.log(response.headers.get("X-XSRF-TOKEN"))
+            console.log("not redirecting");
         }
     })
 }
+
+
 
 
 const fetchButton = document.getElementById("fetchButton");

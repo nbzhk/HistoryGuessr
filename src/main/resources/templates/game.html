@@ -1,10 +1,12 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="_csrf" th:content="${csrfToken}"/>
     <title>Game</title>
     <link rel="stylesheet" href="/css/styles.css">
 
@@ -13,16 +15,19 @@
 <body>
 <div id="container">
     <div id="image-zoom">
-        <img src="" alt="image">
+        <img th:src="${imageUrl}" alt="image">
     </div>
 </div>
 <footer>
     <div class="expandable" id="expandable">
         <div class="expandable__content">
             <div class="mapSearch" id="googleMap"></div>
+
+
             <script type="module" src="/js/googleMap.js"></script>
             <div class="form">
-                <form action="/result" method="post">
+
+                <form th:method = "post" th:action="@{/game}">
                     <label for="yearSlider"></label>
                     <input name="guessYear"
                            type="range"

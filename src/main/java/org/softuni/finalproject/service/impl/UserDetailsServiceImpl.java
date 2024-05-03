@@ -28,9 +28,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     private UserDetails map(UserEntity userEntity) {
-       return User.withUsername(userEntity.getUsername())
-               .password(userEntity.getPassword())
-               .authorities(List.of())
-               .build();
+        UserDetails build = User.withUsername(userEntity.getUsername())
+                .password(userEntity.getPassword())
+                .authorities(List.of())
+                .build();
+
+        System.out.println(build);
+
+        return build;
     }
 }
