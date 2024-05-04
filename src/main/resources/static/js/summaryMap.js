@@ -18,8 +18,15 @@ const map = new Map(document.getElementById("summeryMap"), {
     },
 });
 
+const csrfToken = document.querySelector('meta[name="_csrf"]');
+
+const token = csrfToken.getAttribute("content");
+
 fetch("/summary", {
-    method: "POST"
+    method: "POST",
+    headers: {
+        'X-CSRF-TOKEN': token
+    }
 })
     .then(response => response.json())
     .then(data => {

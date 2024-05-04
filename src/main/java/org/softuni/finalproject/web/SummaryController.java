@@ -2,16 +2,12 @@ package org.softuni.finalproject.web;
 
 import org.softuni.finalproject.model.dto.GameDTO;
 import org.softuni.finalproject.service.GameService;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.Objects;
-
-@RestController
+@Controller
 public class SummaryController {
 
     private final GameService gameService;
@@ -21,15 +17,23 @@ public class SummaryController {
     }
 
     @GetMapping("/summary")
-    public ResponseEntity<String> showSummary() throws IOException {
-        ClassPathResource resource = new ClassPathResource("templates/summary.html");
-        String htmlContent = new String(Objects.requireNonNull(resource.getInputStream().readAllBytes()), StandardCharsets.UTF_8);
+    public String summary(Model model, CsrfToken csrfToken) {
 
+        model.addAttribute("csrfToken", csrfToken.getToken());
 
-        return ResponseEntity.ok()
-                .contentType(MediaType.TEXT_HTML)
-                .body(htmlContent);
+        return "summary";
     }
+
+//    @GetMapping("/summary")
+//    public ResponseEntity<String> showSummary() throws IOException {
+//        ClassPathResource resource = new ClassPathResource("templates/summary.html");
+//        String htmlContent = new String(Objects.requireNonNull(resource.getInputStream().readAllBytes()), StandardCharsets.UTF_8);
+//
+//
+//        return ResponseEntity.ok()
+//                .contentType(MediaType.TEXT_HTML)
+//                .body(htmlContent);
+//    }
 
     @PostMapping("/summary")
     @ResponseBody

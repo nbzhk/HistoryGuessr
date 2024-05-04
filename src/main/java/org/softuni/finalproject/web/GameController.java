@@ -30,11 +30,10 @@ public class GameController {
     }
 
     @GetMapping("/game")
-    public String game(Model model, CsrfToken token) {
-        String csrfToken = token.getToken();
+    public String game(Model model) {
+
         String imageUrl = gameService.getCurrentLocation().getImgUrl();
 
-        model.addAttribute("csrfToken", csrfToken);
         model.addAttribute("imageUrl", imageUrl);
 
         return "game";

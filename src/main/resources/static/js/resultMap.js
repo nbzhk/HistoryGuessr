@@ -20,8 +20,17 @@ const map = new Map(document.getElementById("resultMap"), {
 
 let currentRound;
 
+const csrfToken = document.querySelector('meta[name="_csrf"]');
+const token = csrfToken.getAttribute("content");
+
+console.log(token);
+
 fetch("/result", {
-    method: "POST"
+    method: "POST",
+    headers: {
+        'X-CSRF-TOKEN': token
+    }
+
 })
     .then(response => response.json())
     .then(data => {

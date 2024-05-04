@@ -65,7 +65,7 @@ async function fetchCoordinates() {
 
     const csrfToken = document.querySelector('meta[name="_csrf"]');
 
-    console.log(csrfToken.getAttribute("content"));
+    const token = csrfToken.getAttribute("content");
 
     guessYear = yearSlider.value;
 
@@ -73,7 +73,7 @@ async function fetchCoordinates() {
         method: 'post',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': csrfToken.getAttribute("content")
+            'X-CSRF-TOKEN': token
         },
         body: JSON.stringify({guessLat, guessLng, guessYear})
 
