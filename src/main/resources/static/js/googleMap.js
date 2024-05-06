@@ -134,3 +134,4 @@ function zoomFunc(event) {
 
     imageZoom.style.transform = `scale(${scale})`;
 }
+

@@ -1,26 +1,19 @@
 package org.softuni.finalproject.web;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.softuni.finalproject.model.UserGuess;
+import org.softuni.finalproject.model.dto.GameDTO;
 import org.softuni.finalproject.service.GameService;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.Objects;
 
 @Controller
 public class GameController {
+    private static final int MAX_GAME_ROUNDS = 5;
 
     private final GameService gameService;
 
@@ -30,7 +23,16 @@ public class GameController {
     }
 
     @GetMapping("/game")
-    public String game(Model model) {
+    public String game(Model model, HttpSession session) {
+        GameDTO currentGame = (GameDTO) session.getAttribute("GAME_SESSION");
+
+        if (currentGame == null || currentGame.getRound() > MAX_GAME_ROUNDS) {
+            this.gameService.startGame();
+            currentGame = this.gameService.getGameSession();
+        }
+
+        session.setAttribute("GAME_SESSION", currentGame);
+
 
         String imageUrl = gameService.getCurrentLocation().getImgUrl();
 

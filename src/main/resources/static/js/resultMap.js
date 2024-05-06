@@ -35,7 +35,7 @@ fetch("/result", {
     .then(response => response.json())
     .then(data => {
         console.log(data);
-         currentRound = data.round;
+         currentRound = data.round - 1;
         const actualCoordinates = new LatLng(data.pictureLocations[currentRound - 1].latitude,
             data.pictureLocations[currentRound - 1].longitude);
 

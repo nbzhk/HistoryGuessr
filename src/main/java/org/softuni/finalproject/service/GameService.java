@@ -14,4 +14,8 @@ public interface GameService {
     void calculateResult();
 
     PictureLocation getCurrentLocation();
+
+    void startGame();
+
+    void nextRound();
 }

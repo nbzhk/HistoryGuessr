@@ -79,7 +79,7 @@ function setPictureLocationGuessPairMarker(location, guess){
 let newGameButton = document.getElementById("newGameButton");
 
 newGameButton.addEventListener("click", () => {
-    window.location.href = "redirect:/game";
+    window.location.href = "/game";
 });
 
 

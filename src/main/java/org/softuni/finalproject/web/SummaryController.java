@@ -17,9 +17,7 @@ public class SummaryController {
     }
 
     @GetMapping("/summary")
-    public String summary(Model model, CsrfToken csrfToken) {
-
-        model.addAttribute("csrfToken", csrfToken.getToken());
+    public String showSummary() {
 
         return "summary";
     }

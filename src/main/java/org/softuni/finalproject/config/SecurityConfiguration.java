@@ -40,11 +40,6 @@ public class SecurityConfiguration {
                 )
                 .csrf(csrf -> csrf
                         .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
-//                //TODO: add protection for these
-//                .csrf(csrf -> csrf
-//                        .ignoringRequestMatchers(new AntPathRequestMatcher("/game", "POST"))
-//                        .ignoringRequestMatchers(new AntPathRequestMatcher("/result", "POST"))
-//                        .ignoringRequestMatchers(new AntPathRequestMatcher("/summary", "POST")));
 
 
 

@@ -1,9 +1,14 @@
 package org.softuni.finalproject.service.impl;
 
+
+import org.softuni.finalproject.model.CurrentUser;
 import org.softuni.finalproject.model.PictureLocation;
 import org.softuni.finalproject.model.UserGuess;
 import org.softuni.finalproject.model.dto.GameDTO;
 import org.softuni.finalproject.service.GameService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,10 +17,34 @@ public class GameServiceImpl implements GameService {
     private static final double EARTH_RADIUS = 6371;
     private static final int MAX_YEAR_DIFFERENCE = 124;
     private static final double MAX_DISTANCE_KM = 20037.5;
-    private final GameDTO gameDTO;
 
-    public GameServiceImpl(GameDTO gameDTO) {
-        this.gameDTO = gameDTO;
+    private GameDTO gameDTO;
+
+    @Override
+    public void startGame() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        this.gameDTO = new GameDTO(user, pictureLocations());
+    }
+
+
+    //TODO: set the locations from the data base, this is just a test
+
+    public PictureLocation[] pictureLocations() {
+
+        PictureLocation[] pictureLocations = new PictureLocation[5];
+        for (int i = 0; i < pictureLocations.length; i++) {
+
+            PictureLocation pictureLocation = new PictureLocation();
+            pictureLocation.setImgUrl("images/Eiffel.jpeg");
+            pictureLocation.setLatitude(48.858093);
+            pictureLocation.setLongitude(2.294694);
+            pictureLocation.setYear(2024);
+
+            pictureLocations[i] = pictureLocation;
+        }
+
+        return pictureLocations;
     }
 
     @Override
@@ -36,7 +65,7 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public PictureLocation getCurrentLocation() {
-        return this.gameDTO.getPictureLocations()[this.gameDTO.getRound()];
+        return this.gameDTO.getPictureLocations()[this.gameDTO.getRound() - 1];
     }
 
     @Override
@@ -55,23 +84,22 @@ public class GameServiceImpl implements GameService {
 
         this.gameDTO.addRoundScore(roundScore);
         System.out.println("ROUND SCORE: " + roundScore);
-        this.gameDTO.nextRound();
     }
 
 
     private int calculateYearDifference(int round) {
 
-        int guessYear = this.gameDTO.getUserGuesses()[round].getGuessYear();
-        int actualYear = this.gameDTO.getPictureLocations()[round].getYear();
+        int guessYear = this.gameDTO.getUserGuesses()[round - 1].getGuessYear();
+        int actualYear = this.gameDTO.getPictureLocations()[round - 1].getYear();
 
         return Math.abs(guessYear - actualYear);
     }
 
     private Double calculateDistanceInKm(int round) {
-        double actualLatitude = this.gameDTO.getPictureLocations()[round].getLatitude();
-        double actualLongitude = this.gameDTO.getPictureLocations()[round].getLongitude();
-        Double guessLat = this.gameDTO.getUserGuesses()[round].getGuessLat();
-        Double guessLng = this.gameDTO.getUserGuesses()[round].getGuessLng();
+        double actualLatitude = this.gameDTO.getPictureLocations()[round - 1].getLatitude();
+        double actualLongitude = this.gameDTO.getPictureLocations()[round - 1].getLongitude();
+        Double guessLat = this.gameDTO.getUserGuesses()[round - 1].getGuessLat();
+        Double guessLng = this.gameDTO.getUserGuesses()[round - 1].getGuessLng();
 
         if (guessLat != null && guessLng != null) {
             double actualLatRad = Math.toRadians(actualLatitude);
@@ -91,6 +119,11 @@ public class GameServiceImpl implements GameService {
         }
 
         return null;
+    }
+
+    @Override
+    public void nextRound() {
+        this.gameDTO.nextRound();
     }
 
 

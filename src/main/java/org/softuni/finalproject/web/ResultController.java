@@ -1,5 +1,8 @@
 package org.softuni.finalproject.web;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.softuni.finalproject.model.UserGuess;
 import org.softuni.finalproject.model.dto.GameDTO;
 import org.softuni.finalproject.service.GameService;
@@ -23,16 +26,8 @@ public class ResultController {
     @PostMapping("/result")
     @ResponseBody
     public GameDTO result()  {
-        UserGuess currentGuess = gameService.getUserGuess();
-        if (currentGuess.getGuessLat() != null && currentGuess.getGuessLng() != null) {
-            double guessLat = currentGuess.getGuessLat();
-            double guessLng = currentGuess.getGuessLng();
-            int guessYear = currentGuess.getGuessYear();
 
-
-            System.out.println(guessLat + " " + guessLng + " " + guessYear);
-        }
-
+        this.gameService.getGameSession().nextRound();
         return this.gameService.getGameSession();
     }
 
