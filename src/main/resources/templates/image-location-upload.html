@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Add Image</title>
+</head>
+<body>
+    <h2>Image Upload</h2>
+    <form th:action="@{/admin/upload}" th:method="POST" enctype="multipart/form-data">
+        <div>
+            <label for="file">Upload Image:</label><br>
+            <input th:type="file" id="file" name="file" accept="image/*" required>
+        </div>
+        <div>
+            <label for="latitude">Year:</label><br>
+            <input th:type="number" id="year" name="year" required>
+        </div>
+        <div>
+            <label for="description">Description:</label><br>
+            <textarea th:type="text" id="description" name="description" rows="4" cols="50"  required></textarea>
+        </div>
+        <div>
+            <label for="latitude">Latitude:</label><br>
+            <input th:type="number" id="latitude" name="latitude" step="0.0001" required>
+        </div>
+        <div>
+            <label for="longitude">Longitude:</label><br>
+            <input th:type="number" id="longitude" name="longitude" step="0.0001" required>
+        </div>
+        <button th:type="submit">Upload Image</button>
+    </form>
+
+</body>
+</html>

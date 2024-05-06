@@ -1,31 +1,16 @@
 package org.softuni.finalproject.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "locations")
 public class LocationEntity extends BaseEntity {
 
-    @Column
-    private String name;
     @Column(nullable = false)
     private double latitude;
     @Column(nullable = false)
     private double longitude;
-    @Column
-    private String country;
-    @Column
-    private String city;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public double getLatitude() {
         return latitude;
@@ -43,19 +28,5 @@ public class LocationEntity extends BaseEntity {
         this.longitude = longitude;
     }
 
-    public String getCountry() {
-        return country;
-    }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
 }
