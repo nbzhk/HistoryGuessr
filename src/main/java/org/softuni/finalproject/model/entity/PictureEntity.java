@@ -12,7 +12,7 @@ public class PictureEntity extends BaseEntity {
     private int year;
     @Column
     private String description;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "location_id")
     private LocationEntity location;
 
