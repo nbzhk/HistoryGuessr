@@ -1,10 +1,13 @@
 package org.softuni.finalproject.service.impl;
 
 
+import org.modelmapper.ModelMapper;
 import org.softuni.finalproject.model.CurrentUser;
 import org.softuni.finalproject.model.PictureLocation;
 import org.softuni.finalproject.model.UserGuess;
 import org.softuni.finalproject.model.dto.GameDTO;
+import org.softuni.finalproject.model.entity.PictureEntity;
+import org.softuni.finalproject.repository.PictureRepository;
 import org.softuni.finalproject.service.GameService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +22,11 @@ public class GameServiceImpl implements GameService {
     private static final double MAX_DISTANCE_KM = 20037.5;
 
     private GameDTO gameDTO;
+    private final PictureRepository pictureRepository;
+
+    public GameServiceImpl(PictureRepository pictureRepository) {
+        this.pictureRepository = pictureRepository;
+    }
 
     @Override
     public void startGame() {
@@ -30,16 +38,17 @@ public class GameServiceImpl implements GameService {
 
     //TODO: set the locations from the data base, this is just a test
 
-    public PictureLocation[] pictureLocations() {
+    private PictureLocation[] pictureLocations() {
+        PictureEntity picture = this.pictureRepository.getReferenceById(Long.parseLong("1"));
 
         PictureLocation[] pictureLocations = new PictureLocation[5];
         for (int i = 0; i < pictureLocations.length; i++) {
 
             PictureLocation pictureLocation = new PictureLocation();
-            pictureLocation.setImgUrl("images/Eiffel.jpeg");
-            pictureLocation.setLatitude(48.858093);
-            pictureLocation.setLongitude(2.294694);
-            pictureLocation.setYear(2024);
+            pictureLocation.setImgUrl(picture.getUrl());
+            pictureLocation.setLatitude(picture.getLocation().getLatitude());
+            pictureLocation.setLongitude(picture.getLocation().getLongitude());
+            pictureLocation.setYear(picture.getYear());
 
             pictureLocations[i] = pictureLocation;
         }

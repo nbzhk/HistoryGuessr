@@ -6,6 +6,8 @@
 }
 
 #image-zoom{
+    max-height: 2000px;
+    max-width: 2000px;
     transform-origin: center;
 }
 
