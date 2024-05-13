@@ -1,9 +1,13 @@
 package org.softuni.finalproject.model.dto;
 
+
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 
 public class UserRegistrationDTO {
 
+    @Size
     private String username;
     private String password;
     private String email;
