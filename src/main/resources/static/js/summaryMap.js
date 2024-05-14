@@ -82,4 +82,10 @@ newGameButton.addEventListener("click", () => {
     window.location.href = "/game";
 });
 
+let homeButton = document.getElementById("homeButton");
+
+homeButton.addEventListener("click", () => {
+    window.location.href = "/";
+});
+
 

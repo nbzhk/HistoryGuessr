@@ -30,7 +30,7 @@ label {
 
 input[type="text"],
 input[type="password"] {
-    width: 100%;
+    width: 94%;
     margin-bottom: 10px;
     padding: 10px;
     background: rgba(255, 255, 255, 0.1);
@@ -62,4 +62,17 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
     background: #3762bc;
+}
+
+.invalid-feedback{
+    border: 3px solid red;
+    border-radius: 6px;
+    color: red;
+}
+
+.invalid-feedback.errors {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }

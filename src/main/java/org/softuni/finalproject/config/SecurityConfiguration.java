@@ -2,7 +2,6 @@ package org.softuni.finalproject.config;
 
 import org.softuni.finalproject.repository.UserRepository;
 import org.softuni.finalproject.service.impl.UserDetailsServiceImpl;
-import org.springframework.boot.autoconfigure.security.StaticResourceLocation;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +22,7 @@ public class SecurityConfiguration {
         http
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                        .requestMatchers("/", "/users/login", "/users/register").permitAll()
+                        .requestMatchers("/", "/users/login", "/users/register", "/users/login-error").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
@@ -31,7 +30,7 @@ public class SecurityConfiguration {
                         .usernameParameter("username")
                         .passwordParameter("password")
                         .defaultSuccessUrl("/")
-                        .failureForwardUrl("/error")
+                        .failureForwardUrl("/users/login-error")
                 )
                 .logout((logout) -> logout
                         .logoutUrl("/logout")
