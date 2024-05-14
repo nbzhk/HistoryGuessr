@@ -1,15 +1,20 @@
 package org.softuni.finalproject.model.dto;
 
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
+import org.softuni.finalproject.validation.UniqueUsername;
 
 import java.time.LocalDate;
 
 public class UserRegistrationDTO {
 
-    @Size
+    @Size(min = 4, max = 20, message = "Username should be between 4 and 20 symbols")
+    @UniqueUsername
     private String username;
+    @Size(min = 5, message = "Password should have at least 5 symbols")
     private String password;
+    @Email
     private String email;
     private LocalDate registrationDate;
 
@@ -44,4 +49,5 @@ public class UserRegistrationDTO {
     public void setRegistrationDate(LocalDate registrationDate) {
         this.registrationDate = registrationDate;
     }
+
 }

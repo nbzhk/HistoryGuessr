@@ -1,10 +1,10 @@
 package org.softuni.finalproject.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -17,6 +17,14 @@ public class UserEntity extends BaseEntity {
     private String email;
     @Column(name = "registration_date", nullable = false)
     private LocalDate registrationDate;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_roles",
+                joinColumns = @JoinColumn(
+                        name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                        name = "role_id", referencedColumnName = "id"))
+    private List<UserRoleEntity> userRoles = new ArrayList<>();
+
 
     public String getUsername() {
         return username;
@@ -48,5 +56,13 @@ public class UserEntity extends BaseEntity {
 
     public void setRegistrationDate(LocalDate registrationDate) {
         this.registrationDate = registrationDate;
+    }
+
+    public List<UserRoleEntity> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(List<UserRoleEntity> userRoles) {
+        this.userRoles = userRoles;
     }
 }

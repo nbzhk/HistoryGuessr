@@ -35,7 +35,7 @@ public class SecurityConfiguration {
                 )
                 .logout((logout) -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/home")
+                        .logoutSuccessUrl("/")
                         .invalidateHttpSession(true)
                 )
                 .csrf(csrf -> csrf

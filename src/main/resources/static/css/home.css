@@ -46,7 +46,17 @@ nav li a {
     color: #b2fcfb;
 }
 
-/* Dropdown menu styling */
+button{
+    text-decoration: none;
+    color: #b2fcfb;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+
+
 .dropdown {
     position: relative;
 }
