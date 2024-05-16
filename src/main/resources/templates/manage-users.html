@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Manage Users</title>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>Username</th>
+        <th>Registration date</th>
+        <th>User Roles</th>
+        <th>Make Admin</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody id="users-container">
+    <tr th:each="user : ${users}">
+        <td th:text="${user.getUsername()}"></td>
+        <td th:text="${user.getRegistrationDate()}"></td>
+        <td th:text="${user.getUserRoles()}">
+        <td>
+            <form id="promoteToAdminForm"
+                    th:method="PATCH"
+                    th:action="@{/users/make-admin/{username}(username=*{user.getUsername()})}">
+
+                <input type="submit" value="Promote">
+
+            </form>
+        </td>
+        <td>
+            <form   id="deleteForm"
+                    th:method="DELETE"
+                    th:action="@{/users/delete/{username}(username=*{user.getUsername()})}"
+            >
+                <input id="delete"
+                       name="delete"
+                       type="submit"
+                       value="Delete">
+            </form>
+        </td>
+
+
+    </tr>
+    </tbody>
+</table>
+
+
+
+</body>
+</html>
