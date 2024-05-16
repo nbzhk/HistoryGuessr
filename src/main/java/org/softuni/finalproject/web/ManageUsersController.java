@@ -24,9 +24,9 @@ public class ManageUsersController {
     }
 
     @PatchMapping("/users/make-admin/{username}")
-    public String updateUser(@ModelAttribute("user") UserInfoDTO user,
-                             @PathVariable String username) {
+    public String updateUser(@PathVariable String username) {
 
+        this.userService.promoteUserToAdmin(username);
 
         return "redirect:/admin/manage-users";
     }

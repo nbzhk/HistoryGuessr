@@ -12,4 +12,6 @@ public interface UserService {
     List<UserInfoDTO> getAllUsers();
 
     void deleteUser(String username);
+
+    void promoteUserToAdmin(String username);
 }

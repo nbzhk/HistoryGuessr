@@ -73,4 +73,17 @@ public class UserServiceImpl implements UserService {
         Optional<UserEntity> userToDelete = this.userRepository.findByUsername(username);
         userToDelete.ifPresent(this.userRepository::delete);
     }
+
+    @Override
+    public void promoteUserToAdmin(String username) {
+        Optional<UserEntity> user = this.userRepository.findByUsername(username);
+
+        if (user.isPresent()) {
+            UserEntity userEntity = user.get();
+            UserRoleEntity adminRole = rolesRepository.findByUserRole(UserRoleEnum.ADMIN);
+            userEntity.getUserRoles().add(adminRole);
+
+            this.userRepository.save(userEntity);
+        }
+    }
 }
