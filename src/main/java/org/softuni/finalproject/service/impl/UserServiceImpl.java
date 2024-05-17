@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -83,6 +82,17 @@ public class UserServiceImpl implements UserService {
             UserRoleEntity adminRole = rolesRepository.findByUserRole(UserRoleEnum.ADMIN);
             userEntity.getUserRoles().add(adminRole);
 
+            this.userRepository.save(userEntity);
+        }
+    }
+
+    @Override
+    public void demoteAdminToUser(String username) {
+        Optional<UserEntity> user = this.userRepository.findByUsername(username);
+
+        if (user.isPresent() && user.get().getUserRoles().get(0).getUserRole().equals(UserRoleEnum.ADMIN)) {
+            UserEntity userEntity = user.get();
+            userEntity.getUserRoles().remove(rolesRepository.findByUserRole(UserRoleEnum.ADMIN));
             this.userRepository.save(userEntity);
         }
     }

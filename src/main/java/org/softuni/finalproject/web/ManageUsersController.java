@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -28,10 +29,18 @@ public class ManageUsersController {
         return "manage-users";
     }
 
-    @PatchMapping("/users/make-admin/{username}")
+    @PatchMapping("/users/promote-admin/{username}")
     public String updateUser(@PathVariable String username) {
 
         this.userService.promoteUserToAdmin(username);
+
+        return "redirect:/admin/manage-users";
+    }
+
+    @PatchMapping("/users/demote-admin/{username}")
+    public String demoteAdmin(@PathVariable String username) {
+
+        this.userService.demoteAdminToUser(username);
 
         return "redirect:/admin/manage-users";
     }

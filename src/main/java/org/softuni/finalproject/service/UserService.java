@@ -14,4 +14,6 @@ public interface UserService {
     void deleteUser(String username);
 
     void promoteUserToAdmin(String username);
+
+    void demoteAdminToUser(String username);
 }

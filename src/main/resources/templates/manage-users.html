@@ -6,10 +6,18 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/users-manage.css">
+    <link rel="stylesheet" href="/css/home.css">
+
     <title>Manage Users</title>
 </head>
 <body>
-<table>
+<div th:replace="~{fragments/navbar}">Navbar</div>
+
+<label for="inputSearch">
+    <input id="inputSearch" type="search" onkeyup="searchFunction()" placeholder="Search username">
+</label>
+<table id="table">
     <thead>
     <tr>
         <th>Username</th>
@@ -25,32 +33,48 @@
         <td th:text="${user.getRegistrationDate()}"></td>
         <td th:text="${user.getUserRoles()}">
         <td>
-            <form id="promoteToAdminForm"
-                    th:method="PATCH"
-                    th:action="@{/users/make-admin/{username}(username=*{user.getUsername()})}">
+            <form class="promote-form"
+                  th:if="${!user.getUserRoles().get(0).name().contains('ADMIN')}"
+                  th:method="PATCH"
+                  th:action="@{/users/promote-admin/{username}(username=*{user.getUsername()})}">
 
-                <input type="submit" value="Promote">
+                <input type="hidden" class="username-field" th:value="${user.getUsername()}">
+                <input th:if="${#authentication.principal.username != user.getUsername()}"
+                       class="promote-button"
+                       type="submit"
+                       value="Promote">
 
+            </form>
+
+            <form class="demote-form"
+                  th:if="${user.getUserRoles().get(0).name().contains('ADMIN')}"
+                  th:method="PATCH"
+                  th:action="@{/users/demote-admin/{username}(username=*{user.getUsername()})}">
+
+                <input type="hidden" class="username-field" th:value="${user.getUsername()}">
+                <input  th:if="${#authentication.principal.username != user.getUsername()}"
+                        class="demote-button"
+                        type="submit"
+                        value="Demote">
             </form>
         </td>
         <td>
-            <form   id="deleteForm"
-                    th:method="DELETE"
-                    th:action="@{/users/delete/{username}(username=*{user.getUsername()})}"
+            <form class="deleteForm"
+                  th:method="DELETE"
+                  th:action="@{/users/delete/{username}(username=*{user.getUsername()})}"
             >
-                <input id="delete"
-                       name="delete"
-                       type="submit"
-                       value="Delete">
+                <input type="hidden" class="username-field" th:value="${user.getUsername()}">
+                <input  th:if="${#authentication.principal.username != user.getUsername()}"
+                        class="delete-button"
+                        type="submit"
+                        value="Delete">
             </form>
         </td>
-
-
     </tr>
     </tbody>
 </table>
 
-
+<script type="module" src="/js/manageUsers.js"></script>
 
 </body>
 </html>
