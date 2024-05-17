@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class UserLoginController {
 
 
-
     @GetMapping("/users/login")
     public String login() {
         return "test-login";
@@ -21,9 +20,10 @@ public class UserLoginController {
             @ModelAttribute("username") String username,
             Model model) {
 
-       model.addAttribute("username", username);
-       model.addAttribute("badCredentials", "true");
+        model.addAttribute("username", username);
+        model.addAttribute("badCredentials", true);
 
-        return "redirect:/users/login";
+
+        return "test-login";
     }
 }

@@ -6,24 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="/css/home.css">
 </head>
 <body>
-<form th:action="@{/users/login}" th:method="POST">  <h2>Login</h2>
+<div th:replace="~{fragments/navbar}">Navbar</div>
+
+<form
+        th:method="POST"
+        th:action="@{/users/login}">
+    <h2>Login</h2>
     <label for="username">Username:</label>
-    <input  type="text"
-            id="username"
-            th:value="@{username}"
-            name="username"
-            placeholder="Username" required>
+    <input type="text"
+           id="username"
+           th:value="${username}"
+           name="username"
+           placeholder="Username" required>
 
     <label for="password">Password:</label>
-    <input  type="password"
-            id="password"
-            name="password"
-            placeholder="Password" required>
+    <input type="password"
+           id="password"
+           name="password"
+           placeholder="Password" required>
 
 
-    <p th:if="@{badCredentials}" class="invalid-feedback errors">Invalid username or password</p>
+    <p th:if="${badCredentials}" class="invalid-feedback errors">Invalid username or password</p>
 
     <button type="submit">Login</button>
 </form>

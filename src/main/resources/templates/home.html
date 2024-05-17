@@ -8,41 +8,10 @@
     <link rel="stylesheet" href="/css/home.css">
     <title>Home</title>
 </head>
-<body>
-<header>
-    <a href="/">
-        <h1>History Guessr</h1></a>
-    <nav>
-        <ul>
+<body class="home">
 
+    <div th:replace="~{fragments/navbar}">Navbar</div>
 
-            <th:block sec:authorize="!isAuthenticated()">
-                <li><a th:href="@{/users/login}">Login</a></li>
-                <li><a th:href="@{/users/register}">Register</a></li>
-            </th:block>
-            <th:block
-                    sec:authorize="isAuthenticated()">
-                <li><a th:href="@{/game}">Start</a></li>
-                <li>
-                    <form th:action="@{/logout}" th:method="POST">
-                        <button type="submit">Logout</button>
-                    </form>
-                </li>
-
-            </th:block>
-            <th:block
-                    sec:authorize="hasRole('ADMIN')">
-                <li class="dropdown">
-                    <a href="/admin" class="dropdown-toggle">Admin</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/admin/upload">Upload</a></li>
-                        <li><a href="/admin/manage-users">Settings</a></li>
-                    </ul>
-                </li>
-            </th:block>
-        </ul>
-    </nav>
-</header>
 
 <main>
     <h2>Welcome,

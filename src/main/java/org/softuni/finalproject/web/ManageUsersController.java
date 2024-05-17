@@ -16,6 +16,11 @@ public class ManageUsersController {
         this.userService = userService;
     }
 
+    @GetMapping("/admin")
+    public String adminPage() {
+        return "admin";
+    }
+
     @GetMapping("/admin/manage-users")
     public String manageUsers(Model model) {
         List<UserInfoDTO> users = this.userService.getAllUsers();
