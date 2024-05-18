@@ -12,7 +12,7 @@ public class UserLoginController {
 
     @GetMapping("/users/login")
     public String login() {
-        return "test-login";
+        return "login";
     }
 
     @PostMapping("/users/login-error")
@@ -24,6 +24,6 @@ public class UserLoginController {
         model.addAttribute("badCredentials", true);
 
 
-        return "test-login";
+        return "login";
     }
 }

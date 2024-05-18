@@ -18,6 +18,8 @@ function searchFunction() {
     }
 }
 
+document.getElementById('inputSearch').onkeyup = searchFunction;
+
 document.querySelectorAll('.promote-button, .demote-button, .delete-button').forEach(button => {
    button.addEventListener("click", evt => {
        evt.preventDefault();
