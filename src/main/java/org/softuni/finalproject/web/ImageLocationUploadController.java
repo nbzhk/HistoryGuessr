@@ -30,6 +30,9 @@ public class ImageLocationUploadController {
 
     @GetMapping("/upload")
     public String imageLocationUpload() throws DbxException {
+        if (this.dropboxService.getClient() == null){
+            return "redirect:/dropbox/auth";
+        }
         this.dropboxService.getFullAccountInfo();
         return "image-location-upload";
     }

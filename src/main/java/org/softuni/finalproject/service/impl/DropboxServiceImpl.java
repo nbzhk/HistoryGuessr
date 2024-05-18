@@ -1,6 +1,7 @@
 package org.softuni.finalproject.service.impl;
 
 import com.dropbox.core.DbxException;
+import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.sharing.SharedLinkMetadata;
 import com.dropbox.core.v2.users.FullAccount;
@@ -17,11 +18,30 @@ public class DropboxServiceImpl implements DropboxService {
 
     private static final String RAW_IMAGE = "&raw=1";
 
-    private final DbxClientV2 client;
+    private final DropboxAuthService dropboxAuthService;
+    private DbxClientV2 client;
+    
 
-    public DropboxServiceImpl(DbxClientV2 client) {
-        this.client = client;
+    public DropboxServiceImpl(DropboxAuthService dropboxAuthService) {
+        this.dropboxAuthService = dropboxAuthService;
+    }
 
+    public DbxClientV2 getClient() {
+        if (client == null) {
+            this.dbxClientV2();
+        }
+        return this.client;
+    }
+
+    private void dbxClientV2() {
+        String accessToken = this.dropboxAuthService.getAccessToken();
+        if (accessToken == null) {
+            return;
+        }
+        String appKey = this.dropboxAuthService.getAppKey();
+        DbxRequestConfig config = DbxRequestConfig.newBuilder(appKey).build();
+
+        this.client =  new DbxClientV2(config, accessToken);
     }
 
     @Override
