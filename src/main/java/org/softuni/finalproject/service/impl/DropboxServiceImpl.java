@@ -4,14 +4,17 @@ import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.sharing.SharedLinkMetadata;
-import com.dropbox.core.v2.users.FullAccount;
-import org.softuni.finalproject.service.DropboxService;
+import org.softuni.finalproject.model.entity.DropboxTokenEntity;
+import org.softuni.finalproject.model.entity.UserEntity;
+import org.softuni.finalproject.service.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.ZoneId;
+import java.util.Optional;
 
 @Service
 public class DropboxServiceImpl implements DropboxService {
@@ -19,37 +22,71 @@ public class DropboxServiceImpl implements DropboxService {
     private static final String RAW_IMAGE = "&raw=1";
 
     private final DropboxAuthService dropboxAuthService;
+    private final DropboxTokenService dropboxTokenService;
+    private final UserAuthService authService;
+    private final UserService userService;
     private DbxClientV2 client;
-    
 
-    public DropboxServiceImpl(DropboxAuthService dropboxAuthService) {
+
+    public DropboxServiceImpl(DropboxAuthService dropboxAuthService, DropboxTokenService dropboxTokenService, UserAuthService authService, UserService userService) {
         this.dropboxAuthService = dropboxAuthService;
+        this.dropboxTokenService = dropboxTokenService;
+        this.authService = authService;
+        this.userService = userService;
+        this.client = initializeClient();
     }
 
-    public DbxClientV2 getClient() {
-        if (client == null) {
-            this.dbxClientV2();
+
+    @Override
+    public String getToken() {
+        String currentUsername = this.authService.getCurrentUsername();
+        Optional<UserEntity> user = this.userService.findByUsername(currentUsername);
+
+        if (user.isPresent()) {
+            UserEntity userEntity = user.get();
+            DropboxTokenEntity dropboxToken = userEntity.getDropboxToken();
+
+            if (dropboxToken != null &&
+                    dropboxToken.getToken() != null &&
+                    dropboxToken.getCreationTime() != null &&
+                    !tokenIsExpired(dropboxToken)) {
+
+                return dropboxToken.getToken();
+            } else {
+                String accessToken = this.dropboxAuthService.getAccessToken();
+                if (accessToken != null) {
+                    Long expiresIn = this.dropboxAuthService.getExpiresIn();
+                    this.dropboxTokenService.setAccessTokenToAdmin(accessToken, expiresIn);
+                    return accessToken;
+                }
+            }
         }
-        return this.client;
+        return null;
     }
 
-    private void dbxClientV2() {
+    private boolean tokenIsExpired(DropboxTokenEntity dropboxToken) {
+        long currentTimeInSeconds = System.currentTimeMillis() / 1000;
+        long expirationTimeInSeconds = dropboxToken.getCreationTime()
+                .plusSeconds(dropboxToken.getExpiresIn())
+                .atZone(ZoneId.systemDefault())
+                .toEpochSecond();
+        return expirationTimeInSeconds < currentTimeInSeconds;
+    }
+
+    private DbxClientV2 initializeClient() {
+
         String accessToken = this.dropboxAuthService.getAccessToken();
-        if (accessToken == null) {
-            return;
-        }
         String appKey = this.dropboxAuthService.getAppKey();
         DbxRequestConfig config = DbxRequestConfig.newBuilder(appKey).build();
 
-        this.client =  new DbxClientV2(config, accessToken);
+        if (accessToken == null) {
+            return this.client = null;
+        }
+        return this.client = new DbxClientV2(config, accessToken);
     }
 
-    @Override
-    public void getFullAccountInfo() throws DbxException {
-        FullAccount account = this.client.users().getCurrentAccount();
-        System.out.println(account);
-    }
 
+    //Uploads the picture to Dropbox and saves the raw url in the database
     @Override
     public String uploadFile(MultipartFile file, String fileName) throws DbxException, IOException {
         InputStream stream = new ByteArrayInputStream(file.getBytes());
@@ -58,7 +95,7 @@ public class DropboxServiceImpl implements DropboxService {
                 .uploadAndFinish(stream);
 
         SharedLinkMetadata sharedLinkMetadata = client.sharing()
-                .createSharedLinkWithSettings("/Pictures/" + fileName );
+                .createSharedLinkWithSettings("/Pictures/" + fileName);
 
         return sharedLinkMetadata.getUrl() + RAW_IMAGE;
     }

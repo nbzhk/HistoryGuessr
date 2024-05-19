@@ -23,7 +23,8 @@ document.getElementById('inputSearch').onkeyup = searchFunction;
 document.querySelectorAll('.promote-button, .demote-button, .delete-button').forEach(button => {
    button.addEventListener("click", evt => {
        evt.preventDefault();
-       const username = document.querySelector('.username-field').value;
+       const usernameField = button.closest('form').querySelector('.username-field');
+       const username = usernameField.value;
        let confirmMessage = "";
        if (button.classList.contains("promote-button")) {
             confirmMessage = "Are you sure you want to promote USER: " + username + " to ADMIN?"
@@ -32,8 +33,36 @@ document.querySelectorAll('.promote-button, .demote-button, .delete-button').for
        } else if (button.classList.contains("delete-button")) {
             confirmMessage = "Are you sure you want to delete USER: " + username + "?"
        }
-       if (confirm(confirmMessage)){
-           button.parentElement.submit();
-       }
+
+       const confirmationPopup = document.createElement('div');
+       confirmationPopup.classList.add('confirmation-popup');
+
+       const messageElement = document.createElement('p');
+       messageElement.textContent = confirmMessage;
+       confirmationPopup.appendChild(messageElement);
+
+       const buttonContainer = document.createElement('div');
+       buttonContainer.classList.add('button-container');
+
+       const confirmButton = document.createElement('button');
+       confirmButton.textContent = "Confirm";
+       confirmButton.classList.add('admin-button')
+       confirmButton.addEventListener("click", () => {
+            button.parentElement.submit();
+            confirmationPopup.remove();
+       });
+
+       const cancelButton = document.createElement('button');
+       cancelButton.textContent = "Cancel";
+       cancelButton.classList.add('admin-button');
+       cancelButton.addEventListener("click", () => {
+          confirmationPopup.remove();
+       });
+
+       buttonContainer.appendChild(confirmButton);
+       buttonContainer.appendChild(cancelButton);
+       confirmationPopup.appendChild(buttonContainer);
+
+       document.body.appendChild(confirmationPopup);
    })
 });

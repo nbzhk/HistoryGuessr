@@ -1,7 +1,8 @@
 package org.softuni.finalproject.config;
 
 import com.dropbox.core.DbxRequestConfig;
-import org.softuni.finalproject.service.impl.DropboxAuthService;
+import org.softuni.finalproject.service.DropboxAuthService;
+import org.softuni.finalproject.service.impl.DropboxAuthServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +25,6 @@ public class DropboxConfiguration {
 
     @Bean
     public DropboxAuthService dropboxAuthService() {
-        return new DropboxAuthService(dbxRequestConfig(), appKey, appSecret);
+        return new DropboxAuthServiceImpl(dbxRequestConfig(), appKey, appSecret);
     }
 }

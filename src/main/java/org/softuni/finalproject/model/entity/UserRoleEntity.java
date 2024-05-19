@@ -5,10 +5,7 @@ import org.softuni.finalproject.model.enums.UserRoleEnum;
 
 @Table(name = "roles")
 @Entity
-public class UserRoleEntity  {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class UserRoleEntity extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "user_role")

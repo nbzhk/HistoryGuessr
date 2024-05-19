@@ -4,7 +4,7 @@ import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxWebAuth;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.softuni.finalproject.service.impl.DropboxAuthService;
+import org.softuni.finalproject.service.DropboxAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 

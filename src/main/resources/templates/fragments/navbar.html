@@ -18,12 +18,6 @@
             <th:block
                     sec:authorize="isAuthenticated()">
                 <li><a th:href="@{/game}">Start</a></li>
-                <li>
-                    <form th:action="@{/logout}" th:method="POST">
-                        <button type="submit">Logout</button>
-                    </form>
-                </li>
-
             </th:block>
             <th:block
                     sec:authorize="hasRole('ADMIN')">
@@ -33,6 +27,13 @@
                         <li><a href="/admin/upload">Upload</a></li>
                         <li><a href="/admin/manage-users">Settings</a></li>
                     </ul>
+                </li>
+            </th:block>
+            <th:block sec:authorize="isAuthenticated()">
+                <li>
+                    <form th:action="@{/logout}" th:method="POST">
+                        <button type="submit">Logout</button>
+                    </form>
                 </li>
             </th:block>
         </ul>

@@ -4,11 +4,14 @@ import com.dropbox.core.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.softuni.finalproject.service.DropboxAuthService;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
-
-public class DropboxAuthService {
+@Service
+public class DropboxAuthServiceImpl implements DropboxAuthService {
 
     private static final String REDIRECT_URI_AUTH_FINISH = "http://localhost:8080/dropbox-auth-finish";
     private static final String REDIRECT_URI_UPLOAD_PAGE = "http://localhost:8080/admin/upload";
@@ -19,15 +22,18 @@ public class DropboxAuthService {
     private final String appKey;
     private final String appSecret;
     private String accessToken;
+    private Long expiresIn;
 
 
-    public DropboxAuthService(DbxRequestConfig dbxRequestConfig, String appKey, String appSecret) {
+    public DropboxAuthServiceImpl(DbxRequestConfig dbxRequestConfig,
+                                  @Value("${dropbox.appKey}") String appKey,
+                                  @Value("${dropbox.appSecret}") String appSecret) {
         this.dbxRequestConfig = dbxRequestConfig;
         this.appKey = appKey;
         this.appSecret = appSecret;
 
     }
-
+    @Override
     public void authoriseUrl(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession(true);
         DbxSessionStore csrfTokenStore = new DbxStandardSessionStore(session, SESSION_KEY);
@@ -45,7 +51,7 @@ public class DropboxAuthService {
 
 
     }
-
+    @Override
     public void getAccessToken(HttpServletRequest request, HttpServletResponse response) throws DbxException, DbxWebAuth.ProviderException, DbxWebAuth.NotApprovedException, DbxWebAuth.BadRequestException, DbxWebAuth.BadStateException, DbxWebAuth.CsrfException, IOException {
         HttpSession session = request.getSession(true);
         DbxSessionStore csrfTokenStore = new DbxStandardSessionStore(session, SESSION_KEY);
@@ -53,22 +59,29 @@ public class DropboxAuthService {
         DbxAppInfo appInfo = new DbxAppInfo(appKey, appSecret);
         DbxWebAuth auth = new DbxWebAuth(dbxRequestConfig, appInfo);
 
-        DbxAuthFinish finish = auth.finishFromRedirect(REDIRECT_URI_AUTH_FINISH, csrfTokenStore, request.getParameterMap());
+        DbxAuthFinish finish = auth
+                .finishFromRedirect(REDIRECT_URI_AUTH_FINISH, csrfTokenStore, request.getParameterMap());
 
         setAccessToken(finish.getAccessToken());
+        this.expiresIn = finish.getExpiresAt();
 
         response.sendRedirect(REDIRECT_URI_UPLOAD_PAGE);
     }
 
-    public void setAccessToken(String token) {
+
+    private void setAccessToken(String token) {
         this.accessToken = token;
     }
-
+    @Override
     public String getAccessToken() {
         return this.accessToken;
     }
-
+    @Override
     public String getAppKey(){
         return this.appKey;
+    }
+    @Override
+    public Long getExpiresIn() {
+        return this.expiresIn;
     }
 }

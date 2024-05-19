@@ -24,6 +24,13 @@ public class UserEntity extends BaseEntity {
             inverseJoinColumns = @JoinColumn(
                         name = "role_id", referencedColumnName = "id"))
     private List<UserRoleEntity> userRoles = new ArrayList<>();
+    @OneToOne
+    @JoinTable(name = "admin_dropbox_access_token",
+                joinColumns = @JoinColumn(
+                        name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                        name = "dropbox_token_id", referencedColumnName = "id"))
+    private DropboxTokenEntity dropboxToken;
 
 
     public String getUsername() {
@@ -64,5 +71,13 @@ public class UserEntity extends BaseEntity {
 
     public void setUserRoles(List<UserRoleEntity> userRoles) {
         this.userRoles = userRoles;
+    }
+
+    public DropboxTokenEntity getDropboxToken() {
+        return dropboxToken;
+    }
+
+    public void setDropboxToken(DropboxTokenEntity dropboxToken) {
+        this.dropboxToken = dropboxToken;
     }
 }

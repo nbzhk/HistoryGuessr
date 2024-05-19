@@ -96,4 +96,15 @@ public class UserServiceImpl implements UserService {
             this.userRepository.save(userEntity);
         }
     }
+
+    @Override
+    public Optional<UserEntity> findByUsername(String currentUsername) {
+        return this.userRepository.findByUsername(currentUsername);
+    }
+
+    @Override
+    public void saveUser(UserEntity userEntity) {
+        this.userRepository.save(userEntity);
+    }
 }
+
