@@ -1,16 +1,14 @@
 package org.softuni.finalproject.service.impl;
 
 import com.dropbox.core.*;
+import com.dropbox.core.oauth.DbxCredential;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.softuni.finalproject.service.DropboxAuthService;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
-@Service
 public class DropboxAuthServiceImpl implements DropboxAuthService {
 
     private static final String REDIRECT_URI_AUTH_FINISH = "http://localhost:8080/dropbox-auth-finish";
@@ -21,18 +19,15 @@ public class DropboxAuthServiceImpl implements DropboxAuthService {
     private final DbxRequestConfig dbxRequestConfig;
     private final String appKey;
     private final String appSecret;
-    private String accessToken;
-    private Long expiresIn;
+    private DbxCredential credential;
 
 
-    public DropboxAuthServiceImpl(DbxRequestConfig dbxRequestConfig,
-                                  @Value("${dropbox.appKey}") String appKey,
-                                  @Value("${dropbox.appSecret}") String appSecret) {
+    public DropboxAuthServiceImpl(DbxRequestConfig dbxRequestConfig, String appKey, String appSecret) {
         this.dbxRequestConfig = dbxRequestConfig;
         this.appKey = appKey;
         this.appSecret = appSecret;
-
     }
+
     @Override
     public void authoriseUrl(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession(true);
@@ -40,6 +35,7 @@ public class DropboxAuthServiceImpl implements DropboxAuthService {
 
         DbxWebAuth.Request authRequest = DbxWebAuth.newRequestBuilder()
                 .withRedirectUri(REDIRECT_URI_AUTH_FINISH, csrfTokenStore)
+                .withTokenAccessType(TokenAccessType.OFFLINE)
                 .build();
 
         DbxAppInfo appInfo = new DbxAppInfo(appKey, appSecret);
@@ -51,10 +47,12 @@ public class DropboxAuthServiceImpl implements DropboxAuthService {
 
 
     }
+
     @Override
-    public void getAccessToken(HttpServletRequest request, HttpServletResponse response) throws DbxException, DbxWebAuth.ProviderException, DbxWebAuth.NotApprovedException, DbxWebAuth.BadRequestException, DbxWebAuth.BadStateException, DbxWebAuth.CsrfException, IOException {
+    public void setCredentials(HttpServletRequest request, HttpServletResponse response) throws DbxException, DbxWebAuth.ProviderException, DbxWebAuth.NotApprovedException, DbxWebAuth.BadRequestException, DbxWebAuth.BadStateException, DbxWebAuth.CsrfException, IOException {
         HttpSession session = request.getSession(true);
         DbxSessionStore csrfTokenStore = new DbxStandardSessionStore(session, SESSION_KEY);
+
 
         DbxAppInfo appInfo = new DbxAppInfo(appKey, appSecret);
         DbxWebAuth auth = new DbxWebAuth(dbxRequestConfig, appInfo);
@@ -62,26 +60,20 @@ public class DropboxAuthServiceImpl implements DropboxAuthService {
         DbxAuthFinish finish = auth
                 .finishFromRedirect(REDIRECT_URI_AUTH_FINISH, csrfTokenStore, request.getParameterMap());
 
-        setAccessToken(finish.getAccessToken());
-        this.expiresIn = finish.getExpiresAt();
+        this.credential = new DbxCredential(finish.getAccessToken(),
+                finish.getExpiresAt(),
+                finish.getRefreshToken(),
+                this.appKey, this.appSecret);
+
+
 
         response.sendRedirect(REDIRECT_URI_UPLOAD_PAGE);
     }
 
+    @Override
+    public DbxCredential getCredentials() {
+        return this.credential;
+    }
 
-    private void setAccessToken(String token) {
-        this.accessToken = token;
-    }
-    @Override
-    public String getAccessToken() {
-        return this.accessToken;
-    }
-    @Override
-    public String getAppKey(){
-        return this.appKey;
-    }
-    @Override
-    public Long getExpiresIn() {
-        return this.expiresIn;
-    }
+
 }

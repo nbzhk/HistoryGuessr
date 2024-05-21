@@ -30,7 +30,7 @@ public class UserEntity extends BaseEntity {
                         name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
                         name = "dropbox_token_id", referencedColumnName = "id"))
-    private DropboxTokenEntity dropboxToken;
+    private DropboxCredentialEntity dropboxCredentialEntity;
 
 
     public String getUsername() {
@@ -73,11 +73,11 @@ public class UserEntity extends BaseEntity {
         this.userRoles = userRoles;
     }
 
-    public DropboxTokenEntity getDropboxToken() {
-        return dropboxToken;
+    public DropboxCredentialEntity getDropboxCredential() {
+        return dropboxCredentialEntity;
     }
 
-    public void setDropboxToken(DropboxTokenEntity dropboxToken) {
-        this.dropboxToken = dropboxToken;
+    public void setDropboxCredential(DropboxCredentialEntity dropboxCredentialEntity) {
+        this.dropboxCredentialEntity = dropboxCredentialEntity;
     }
 }

@@ -13,9 +13,19 @@ public class DropboxConfiguration {
     @Value("${dropbox.appKey}")
     private String appKey;
 
-    //TODO:change to token
     @Value("${dropbox.appSecret}")
     private String appSecret;
+
+
+    @Bean
+    public String appKey() {
+        return appKey;
+    }
+
+    @Bean
+    public String appSecret() {
+        return appSecret;
+    }
 
 
     @Bean
@@ -23,8 +33,9 @@ public class DropboxConfiguration {
         return DbxRequestConfig.newBuilder(appKey).build();
     }
 
+
     @Bean
     public DropboxAuthService dropboxAuthService() {
-        return new DropboxAuthServiceImpl(dbxRequestConfig(), appKey, appSecret);
+        return new DropboxAuthServiceImpl(dbxRequestConfig(),appKey, appSecret);
     }
 }
