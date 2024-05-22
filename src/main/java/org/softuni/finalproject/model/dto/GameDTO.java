@@ -1,13 +1,14 @@
 package org.softuni.finalproject.model.dto;
 
-import org.softuni.finalproject.model.CurrentUser;
 import org.softuni.finalproject.model.PictureLocation;
 import org.softuni.finalproject.model.UserGuess;
 import org.springframework.security.core.userdetails.User;
 
+import java.util.Arrays;
+
 public class GameDTO {
     private User user;
-    private UserGuess[] userGuesses = new UserGuess[5];
+    private final UserGuess[] userGuesses;
     private PictureLocation[] pictureLocations;
     private final int[] score;
     private int round;
@@ -59,5 +60,9 @@ public class GameDTO {
 
     public void nextRound() {
         round++;
+    }
+
+    public int getTotalScore(){
+      return Arrays.stream(this.score).sum();
     }
 }

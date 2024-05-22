@@ -114,11 +114,17 @@ function decrementFunc() {
     expandable.style.height = "150px";
 }
 
-const container = document.getElementById("container");
-const imageZoom = document.getElementById("image-zoom");
-let scale = 1;
 
-container.addEventListener("wheel", zoomFunc);
+
+
+const zoomImage = document.getElementById("zoomImage");
+let container = document.getElementById("image-zoom");
+let scale = 1;
+let isDragging = false;
+let startX, startY;
+let currentX = 0, currentY = 0;
+
+zoomImage.addEventListener("wheel", zoomFunc);
 
 function zoomFunc(event) {
     console.log("zoooooom!");
@@ -132,6 +138,45 @@ function zoomFunc(event) {
         scale += 0.1;
     }
 
-    imageZoom.style.transform = `scale(${scale})`;
+    updateTransform();
+
 }
+
+function updateTransform() {
+   zoomImage.style.transform = `translate(${currentX}px, ${currentY}px) scale(${scale})`
+}
+
+zoomImage.addEventListener("mousedown", (event) =>{
+    isDragging = true;
+    startX = event.pageX - zoomImage.offsetLeft;
+    startY = event.pageY - zoomImage.offsetTop;
+    zoomImage.style.cursor = "grabbing";
+});
+zoomImage.addEventListener("mousemove", (event) =>{
+    if (isDragging) {
+        event.preventDefault();
+        const x = event.pageX - startX;
+        const y = event.pageY - startY;
+
+        const rect = container.getBoundingClientRect();
+        const imageRect = zoomImage.getBoundingClientRect();
+        const maxX = (imageRect.width - rect.width) / 2;
+        const maxY = (imageRect.height - rect.height) / 2;
+
+        currentX = Math.min(maxX, Math.max(-maxX, x));
+        currentY = Math.min(maxY, Math.max(-maxY, y));
+
+        updateTransform();
+    }
+});
+
+zoomImage.addEventListener("mouseup", () => {
+    isDragging = false;
+    zoomImage.style.cursor = 'grab';
+});
+
+zoomImage.addEventListener("mouseleave", () => {
+   isDragging = false;
+   zoomImage.style.cursor = "grab";
+});
 

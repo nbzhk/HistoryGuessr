@@ -37,6 +37,8 @@ public class GameController {
         String imageUrl = gameService.getCurrentLocation().getImgUrl();
 
         model.addAttribute("imageUrl", imageUrl);
+        model.addAttribute("roundNumber", gameService.getGameSession().getRound());
+        model.addAttribute("score", gameService.getGameSession().getTotalScore());
 
         return "game";
     }
