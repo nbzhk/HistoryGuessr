@@ -1,7 +1,7 @@
 package org.softuni.finalproject.web;
 
 import com.dropbox.core.DbxException;
-import com.dropbox.core.oauth.DbxCredential;
+import org.softuni.finalproject.model.dto.DropboxCredentialDTO;
 import org.softuni.finalproject.service.DropboxService;
 import org.softuni.finalproject.service.LocationService;
 import org.softuni.finalproject.service.PictureService;
@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.IOException;
-
 @Controller
 @RequestMapping("/admin")
 public class ImageLocationUploadController {
@@ -22,7 +20,7 @@ public class ImageLocationUploadController {
     private final DropboxService dropboxService;
     private final LocationService locationService;
     private final PictureService pictureService;
-    private DbxCredential currentUserCredential;
+    private DropboxCredentialDTO currentUserCredential;
 
 
     public ImageLocationUploadController(DropboxService dropboxService, LocationService locationService, PictureService pictureService) {
@@ -48,15 +46,15 @@ public class ImageLocationUploadController {
                                       @RequestParam("longitude") Double longitude,
                                       @RequestParam("latitude") Double latitude,
                                       @RequestParam("year") Integer year,
-                                      RedirectAttributes redirectAttributes) throws IOException, DbxException {
+                                      RedirectAttributes redirectAttributes) {
         try {
             String url = this.dropboxService.uploadFile(file, file.getOriginalFilename());
             Long locationId = this.locationService.saveLocation(latitude, longitude);
             this.pictureService.savePicture(url, description, year, locationId);
             redirectAttributes.addFlashAttribute("success", "Image uploaded successfully");
-            return "redirect:/admin/upload";
+
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            redirectAttributes.addFlashAttribute("error", "Image upload failed");
         }
 
         return "redirect:/admin/upload";

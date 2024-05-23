@@ -3,9 +3,9 @@ package org.softuni.finalproject.config;
 import com.dropbox.core.oauth.DbxCredential;
 import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
-import org.softuni.finalproject.model.entity.DropboxCredentialEntity;
+import org.softuni.finalproject.model.dto.DropboxCredentialDTO;
 
-public class DropboxCredentialConverter implements Converter<DropboxCredentialEntity, DbxCredential> {
+public class DropboxCredentialConverter implements Converter<DropboxCredentialDTO, DbxCredential> {
 
 
     private final String appKey;
@@ -17,8 +17,8 @@ public class DropboxCredentialConverter implements Converter<DropboxCredentialEn
     }
 
     @Override
-    public DbxCredential convert(MappingContext<DropboxCredentialEntity, DbxCredential> context) {
-        DropboxCredentialEntity source = context.getSource();
+    public DbxCredential convert(MappingContext<DropboxCredentialDTO, DbxCredential> context) {
+        DropboxCredentialDTO source = context.getSource();
         return new DbxCredential(
                 source.getAccessToken(),
                 source.getExpiresAt(),

@@ -6,6 +6,7 @@ import com.dropbox.core.oauth.DbxCredential;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.sharing.SharedLinkMetadata;
 import org.modelmapper.ModelMapper;
+import org.softuni.finalproject.model.dto.DropboxCredentialDTO;
 import org.softuni.finalproject.model.entity.UserEntity;
 import org.softuni.finalproject.service.DropboxCredentialService;
 import org.softuni.finalproject.service.DropboxService;
@@ -47,7 +48,7 @@ public class DropboxServiceImpl implements DropboxService {
 
 
     @Override
-    public DbxCredential getUserDropboxCredential() {
+    public DropboxCredentialDTO getUserDropboxCredential() {
         String currentUsername = this.userAuthService.getCurrentUsername();
         Optional<UserEntity> user = this.userService.findByUsername(currentUsername);
 
@@ -56,7 +57,7 @@ public class DropboxServiceImpl implements DropboxService {
             UserEntity userEntity = user.get();
 
             if (userEntity.getDropboxCredential() != null) {
-                return this.modelMapper.map(userEntity.getDropboxCredential(), DbxCredential.class);
+                return this.modelMapper.map(userEntity.getDropboxCredential(), DropboxCredentialDTO.class);
             }
         }
 
@@ -71,24 +72,27 @@ public class DropboxServiceImpl implements DropboxService {
             this.client = initializeClient();
         }
 
-        InputStream stream = new ByteArrayInputStream(file.getBytes());
-        //TODO: Check if image exists
-        client.files().uploadBuilder("/Pictures/" + fileName)
-                .uploadAndFinish(stream);
+        try (InputStream stream = new ByteArrayInputStream(file.getBytes())) {
+            client.files().uploadBuilder("/Pictures/" + fileName)
+                    .uploadAndFinish(stream);
 
-        SharedLinkMetadata sharedLinkMetadata = client.sharing()
-                .createSharedLinkWithSettings("/Pictures/" + fileName);
-
-        return sharedLinkMetadata.getUrl() + RAW_IMAGE;
+            SharedLinkMetadata sharedLinkMetadata = client.sharing()
+                    .createSharedLinkWithSettings("/Pictures/" + fileName);
+            return sharedLinkMetadata.getUrl() + RAW_IMAGE;
+        } catch (DbxException e) {
+            throw new DbxException(e.getMessage());
+        } catch (IOException e) {
+            throw new IOException(e.getMessage());
+        }
     }
 
 
     private DbxClientV2 initializeClient() throws DbxException {
-        DbxCredential credential = getUserDropboxCredential();
+        DbxCredential credential = this.modelMapper.map(getUserDropboxCredential(), DbxCredential.class);
         boolean tokenIsValid = this.credentialService.checkCredentialValidation(credential);
 
         if (!tokenIsValid) {
-            credential = getUserDropboxCredential();
+            credential = this.modelMapper.map(getUserDropboxCredential(), DbxCredential.class);
         }
 
         return this.client = new DbxClientV2(dbxRequestConfig, credential);

@@ -52,5 +52,11 @@
          <button th:type="submit">Upload Image</button>
     </form>
 
+    <div th:if="${success}" class="alert alert-success" role="alert" >
+        <span th:text="${success}"></span>
+    </div>
+    <div th:if="${error}" class="alert alert-danger" role="alert">
+        <span th:text="${error}"></span>
+    </div>
 </body>
 </html>
