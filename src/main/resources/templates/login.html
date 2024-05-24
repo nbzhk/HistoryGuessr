@@ -5,33 +5,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="/css/login.css">
-    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/reset-css.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+    <script src="/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
 </head>
 <body>
 <div th:replace="~{fragments/navbar}">Navbar</div>
 
-<form
-        th:method="POST"
-        th:action="@{/users/login}">
-    <h2>Login</h2>
-    <label for="username">Username:</label>
-    <input type="text"
-           id="username"
-           th:value="${username}"
-           name="username"
-           placeholder="Username" required>
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <form class="p-3 text-white rounded shadow "
+                  th:method="POST"
+                  th:action="@{/users/login}">
 
-    <label for="password">Password:</label>
-    <input type="password"
-           id="password"
-           name="password"
-           placeholder="Password" required>
+                <h2 class="mb-4">Login</h2>
 
+                <div class="mb-3">
+                    <label for="username">Username:</label>
+                    <input class="form-control text-lg-center"
+                           type="text"
+                           id="username"
+                           th:value="${username}"
+                           name="username"
+                           placeholder="Username" required>
+                </div>
 
-    <p th:if="${badCredentials}" class="invalid-feedback errors">Invalid username or password</p>
+                <div class="mb-3">
+                    <label for="password">Password:</label>
+                    <input class="form-control text-lg-center"
+                           type="password"
+                           id="password"
+                           name="password"
+                           placeholder="Password" required>
 
-    <button type="submit">Login</button>
-</form>
+                </div>
+                <p th:if="${badCredentials}" class="errors alert alert-danger">Invalid username or password</p>
+
+                <button type="submit" class="btn btn-primary w-100 mt-3">Login</button>
+            </form>
+        </div>
+    </div>
+</div>
 </body>
 </html>

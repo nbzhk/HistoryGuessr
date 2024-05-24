@@ -5,26 +5,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/reset-css.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+    <script src="/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
     <title>Home</title>
 </head>
 <body class="home">
 
-    <div th:replace="~{fragments/navbar}">Navbar</div>
+<div th:replace="~{fragments/navbar}" class="mb-4">Navbar</div>
 
 
-<main>
-    <h2>Welcome,
+<div class="container">
+
+    <h2 class="text-center text-white mt-2">Welcome,
         <span
-                sec:authorize="isAuthenticated()"
-                th:text="${#authentication.principal.getUsername()}">
+              sec:authorize="isAuthenticated()"
+              th:text="${#authentication.principal.getUsername()}">
         </span>
         <span
-                sec:authorize="!isAuthenticated()">
+            sec:authorize="!isAuthenticated()">
             Anonymous
         </span>
     </h2>
-</main>
-
+</div>
 </body>
 </html>
