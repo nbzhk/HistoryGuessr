@@ -4,6 +4,7 @@ const {LatLng} = google.maps.importLibrary("core");
 const yearSlider = document.getElementById("yearSlider");
 const yearValue = document.getElementById("yearValue");
 
+
 const map = new Map(document.getElementById("googleMap"), {
     zoom: 0,
     center: {lat: 0, lng: 0},
@@ -90,8 +91,6 @@ async function fetchCoordinates() {
 }
 
 
-
-
 const fetchButton = document.getElementById("fetchButton");
 
 fetchButton.addEventListener("click", () => {
@@ -100,83 +99,78 @@ fetchButton.addEventListener("click", () => {
 });
 
 const expandable = document.getElementById("expandable");
+const googleMap = document.getElementById("googleMap");
 expandable.addEventListener("mouseenter", enlargeFunc);
 
 function enlargeFunc() {
-    expandable.style.width = "700px";
-    expandable.style.height = "700px";
+    expandable.style.width = "45vw"
+    googleMap.style.height = "50vh"
 }
 
 expandable.addEventListener("mouseleave", decrementFunc);
 
 function decrementFunc() {
-    expandable.style.width = "150px";
-    expandable.style.height = "150px";
+    expandable.style.width = "17vw"
+    googleMap.style.height = "23vh"
 }
 
+let photoContainer = document.getElementById('photoContainer');
+let backgroundSize = 100;
 
+photoContainer.addEventListener("wheel", (event) => {
 
-
-const zoomImage = document.getElementById("zoomImage");
-let container = document.getElementById("image-zoom");
-let scale = 1;
-let isDragging = false;
-let startX, startY;
-let currentX = 0, currentY = 0;
-
-zoomImage.addEventListener("wheel", zoomFunc);
-
-function zoomFunc(event) {
-    console.log("zoooooom!");
-    event.preventDefault();
-
-    const delta = Math.max(-1, Math.min(1, event.deltaY))
-
-    if (delta > 0) {
-        scale -= 0.1;
+    if (event.deltaY < 0) {
+        backgroundSize += 2;
     } else {
-        scale += 0.1;
+        if (backgroundSize > 100) {
+            backgroundSize -= 2;
+        } else {
+            return;
+        }
     }
 
-    updateTransform();
+    backgroundSize = Math.max(backgroundSize, 100);
 
-}
+    if (backgroundSize === 100 && photoContainer.style.backgroundSize !== 'contain') {
+        photoContainer.style.removeProperty('background-size');
+        photoContainer.style.backgroundSize = `contain`;
+    } else {
+        photoContainer.style.backgroundSize = `${backgroundSize}%`;
 
-function updateTransform() {
-   zoomImage.style.transform = `translate(${currentX}px, ${currentY}px) scale(${scale})`
-}
+    }
 
-zoomImage.addEventListener("mousedown", (event) =>{
+});
+
+
+let isDragging = false;
+let x = 0;
+let y = 0;
+
+photoContainer.addEventListener("mousedown", (event) => {
     isDragging = true;
-    startX = event.pageX - zoomImage.offsetLeft;
-    startY = event.pageY - zoomImage.offsetTop;
-    zoomImage.style.cursor = "grabbing";
+    x = event.clientX;
+    y = event.clientY;
 });
-zoomImage.addEventListener("mousemove", (event) =>{
+
+photoContainer.addEventListener("mousemove", (event) => {
     if (isDragging) {
-        event.preventDefault();
-        const x = event.pageX - startX;
-        const y = event.pageY - startY;
+        const deltaX = event.clientX - x;
+        const deltaY = event.clientY - y;
 
-        const rect = container.getBoundingClientRect();
-        const imageRect = zoomImage.getBoundingClientRect();
-        const maxX = (imageRect.width - rect.width) / 2;
-        const maxY = (imageRect.height - rect.height) / 2;
 
-        currentX = Math.min(maxX, Math.max(-maxX, x));
-        currentY = Math.min(maxY, Math.max(-maxY, y));
+        const backgroundPositionX = parseInt(photoContainer.style.backgroundPositionX) || 0;
+        const backgroundPositionY = parseInt(photoContainer.style.backgroundPositionY) || 0;
 
-        updateTransform();
+        photoContainer.style.backgroundPositionX = `${backgroundPositionX + deltaX}px`;
+        photoContainer.style.backgroundPositionY = `${backgroundPositionY + deltaY}px`;
+
+        x = event.clientX;
+        y = event.clientY;
+
     }
 });
 
-zoomImage.addEventListener("mouseup", () => {
+photoContainer.addEventListener("mouseup", () => {
     isDragging = false;
-    zoomImage.style.cursor = 'grab';
-});
-
-zoomImage.addEventListener("mouseleave", () => {
-   isDragging = false;
-   zoomImage.style.cursor = "grab";
 });
 
