@@ -18,4 +18,10 @@ public interface GameService {
     void startGame();
 
     void nextRound();
+
+    boolean lastRound();
+
+    int getRoundYearDifference();
+
+    double getRoundDistance();
 }

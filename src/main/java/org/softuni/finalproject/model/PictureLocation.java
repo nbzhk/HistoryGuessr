@@ -6,6 +6,7 @@ public class PictureLocation {
     private double latitude;
     private double longitude;
     private int year;
+    private String description;
 
     public String getImgUrl() {
         return imgUrl;
@@ -39,4 +40,11 @@ public class PictureLocation {
         this.year = year;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

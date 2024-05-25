@@ -1,8 +1,6 @@
 package org.softuni.finalproject.service.impl;
 
 
-import org.modelmapper.ModelMapper;
-import org.softuni.finalproject.model.CurrentUser;
 import org.softuni.finalproject.model.PictureLocation;
 import org.softuni.finalproject.model.UserGuess;
 import org.softuni.finalproject.model.dto.GameDTO;
@@ -23,6 +21,9 @@ public class GameServiceImpl implements GameService {
 
     private GameDTO gameDTO;
     private final PictureRepository pictureRepository;
+    private int roundYearDifference;
+    private double roundDistance;
+
 
     public GameServiceImpl(PictureRepository pictureRepository) {
         this.pictureRepository = pictureRepository;
@@ -49,6 +50,7 @@ public class GameServiceImpl implements GameService {
             pictureLocation.setLatitude(picture.getLocation().getLatitude());
             pictureLocation.setLongitude(picture.getLocation().getLongitude());
             pictureLocation.setYear(picture.getYear());
+            pictureLocation.setDescription(picture.getDescription());
 
             pictureLocations[i] = pictureLocation;
         }
@@ -81,6 +83,7 @@ public class GameServiceImpl implements GameService {
     public void calculateResult() {
         int roundScore = 0;
         int yearDiff = calculateYearDifference(this.gameDTO.getRound());
+
         Double distanceInKm = calculateDistanceInKm(this.gameDTO.getRound());
 
         double yearRatio = (double) yearDiff / MAX_YEAR_DIFFERENCE;
@@ -88,8 +91,11 @@ public class GameServiceImpl implements GameService {
 
         if (distanceInKm != null) {
             double distanceRatio =  distanceInKm / MAX_DISTANCE_KM;
-            roundScore += (int) (2500 * (1 - distanceRatio));
+            int locationScore = (int) (2500 * (1 - distanceRatio));
+            roundScore += locationScore;
+
         }
+
 
         this.gameDTO.addRoundScore(roundScore);
         System.out.println("ROUND SCORE: " + roundScore);
@@ -100,7 +106,7 @@ public class GameServiceImpl implements GameService {
 
         int guessYear = this.gameDTO.getUserGuesses()[round - 1].getGuessYear();
         int actualYear = this.gameDTO.getPictureLocations()[round - 1].getYear();
-
+        this.setRoundYearDifference(Math.abs(guessYear - actualYear));
         return Math.abs(guessYear - actualYear);
     }
 
@@ -124,6 +130,7 @@ public class GameServiceImpl implements GameService {
                     Math.cos(actualLatRad) * Math.cos(guessLatRad) *
                             Math.pow(Math.sin(diffLng / 2), 2);
             double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            this.setRoundDistance(EARTH_RADIUS * c);
             return EARTH_RADIUS * c;
         }
 
@@ -135,5 +142,26 @@ public class GameServiceImpl implements GameService {
         this.gameDTO.nextRound();
     }
 
+    @Override
+    public boolean lastRound() {
+        return this.gameDTO.getRound() == 5;
+    }
 
+    @Override
+    public int getRoundYearDifference() {
+        return roundYearDifference;
+    }
+
+    public void setRoundYearDifference(int roundYearDifference) {
+        this.roundYearDifference = roundYearDifference;
+    }
+
+    @Override
+    public double getRoundDistance() {
+        return roundDistance;
+    }
+
+    public void setRoundDistance(double roundDistance) {
+        this.roundDistance = roundDistance;
+    }
 }

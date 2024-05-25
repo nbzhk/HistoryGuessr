@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
+
 @Controller
 @RequestMapping("/admin")
 public class ImageLocationUploadController {
@@ -53,8 +55,10 @@ public class ImageLocationUploadController {
             this.pictureService.savePicture(url, description, year, locationId);
             redirectAttributes.addFlashAttribute("success", "Image uploaded successfully");
 
-        } catch (Exception e) {
+        } catch (DbxException e) {
             redirectAttributes.addFlashAttribute("error", "Image upload failed");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
         return "redirect:/admin/upload";
