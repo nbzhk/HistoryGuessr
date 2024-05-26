@@ -39,6 +39,8 @@ map.addListener("click", (mapsMouseEvent) => {
         });
     }
     console.log("marker SET")
+    fetchButton.disabled = false;
+    fetchButton.textContent = "Submit"
 });
 
 
@@ -104,7 +106,7 @@ expandable.addEventListener("mouseenter", enlargeFunc);
 
 function enlargeFunc() {
     expandable.style.width = "45vw"
-    googleMap.style.height = "50vh"
+    googleMap.style.height = "47vh"
 }
 
 expandable.addEventListener("mouseleave", decrementFunc);

@@ -17,8 +17,9 @@ public class SummaryController {
     }
 
     @GetMapping("/summary")
-    public String showSummary() {
-
+    public String showSummary(Model model) {
+        model.addAttribute("totalScore", this.gameService.getGameSession().getTotalScore());
+        model.addAttribute("game", this.gameService.getGameSession());
         return "summary";
     }
 

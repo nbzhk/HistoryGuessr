@@ -10,7 +10,7 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/main.css">
 </head>
-<body class="game d-flex flex-column min-vh-100">
+<body class="game d-flex flex-column">
 <div class="container flex-grow-1 d-flex flex-column justify-content-between">
     <div class="row">
         <div id="progressBar" class="d-flex justify-content-between align-items-center text-white rounded-pill">
@@ -30,7 +30,7 @@
     </div>
 
     <div class="row justify-content-center">
-        <div class="col-12 col-md-8">
+        <div class="col-12 col-md-8 photoBackground">
             <div class="photoContainer justify-content-center align-items-center"
                  id="photoContainer"
                  th:style="'background-image: url(\'' + ${imageUrl} + '\')'">
@@ -53,7 +53,7 @@
                            class="form-range"
                            id="yearSlider">
                     <p>Year: <span id="yearValue">2024</span></p>
-                    <button type="button" class="btn btn-primary" id="fetchButton">Submit</button>
+                    <button type="button" class="btn btn-primary" id="fetchButton" disabled>Put your marker on the map</button>
                 </div>
             </form>
         </div>

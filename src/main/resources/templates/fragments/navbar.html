@@ -30,6 +30,9 @@
                 <li class="nav-item active" sec:authorize="isAuthenticated()">
                     <a class="nav-link" th:href="@{/game}">Start</a>
                 </li>
+                <li class="nav-item active" sec:authorize="isAuthenticated() && ${#ctx.session}">
+                    <a class="nav-link" th:href="@{/game}"></a>
+                </li>
                 <li>
                     <div class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
                         <a class="nav-link dropdown-toggle" href="/admin/" id="navbarDropdownMenuLink" role="button"
