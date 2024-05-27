@@ -1,5 +1,6 @@
 package org.softuni.finalproject.web;
 
+import jakarta.servlet.http.HttpSession;
 import org.softuni.finalproject.model.dto.GameDTO;
 import org.softuni.finalproject.service.GameService;
 import org.springframework.stereotype.Controller;
@@ -27,7 +28,13 @@ public class ResultController {
     }
 
     @GetMapping("/result")
-    public String getResult(Model model) {
+    public String getResult(Model model, HttpSession session) {
+
+        if(session.getAttribute("gameSession") == null ||
+                this.gameService.getGameSession().getUserGuesses()[this.gameService.getGameSession().getRound() - 1] == null) {
+            return "redirect:/game";
+        }
+
 
         model.addAttribute("currentLocation", this.gameService.getCurrentLocation());
         model.addAttribute("game", this.gameService);

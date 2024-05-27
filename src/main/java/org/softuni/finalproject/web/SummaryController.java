@@ -1,11 +1,16 @@
 package org.softuni.finalproject.web;
 
+import jakarta.servlet.http.HttpSession;
 import org.softuni.finalproject.model.dto.GameDTO;
 import org.softuni.finalproject.service.GameService;
-import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Arrays;
+import java.util.Objects;
 
 @Controller
 public class SummaryController {
@@ -17,9 +22,20 @@ public class SummaryController {
     }
 
     @GetMapping("/summary")
-    public String showSummary(Model model) {
+    public String showSummary(Model model, HttpSession session) {
+
+        if(session.getAttribute("gameSession") == null
+        || Arrays.stream(this.gameService.getGameSession().getUserGuesses()).anyMatch(Objects::isNull)) {
+            return "redirect:/game";
+        }
+
+
         model.addAttribute("totalScore", this.gameService.getGameSession().getTotalScore());
         model.addAttribute("game", this.gameService.getGameSession());
+
+        //TODO: save session in DB
+        this.gameService.saveSession();
+        session.setAttribute("gameSession", null);
         return "summary";
     }
 

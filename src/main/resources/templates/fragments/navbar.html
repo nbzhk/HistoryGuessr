@@ -28,10 +28,15 @@
                     <a class="nav-link" th:href="@{/users/register}">Register</a>
                 </li>
                 <li class="nav-item active" sec:authorize="isAuthenticated()">
-                    <a class="nav-link" th:href="@{/game}">Start</a>
+                    <form  th:action="@{/game/start-new-game}"
+                           th:method="POST">
+                    <button class="btn btn-block">New Game</button>
+                    </form>
                 </li>
-                <li class="nav-item active" sec:authorize="isAuthenticated() && ${#ctx.session}">
-                    <a class="nav-link" th:href="@{/game}"></a>
+                <li class="nav-item active" sec:authorize="isAuthenticated()">
+                    <div th:if="${session.gameSession != null}">
+                        <a class="nav-link" th:href="@{/game}">Resume</a>
+                    </div>
                 </li>
                 <li>
                     <div class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">

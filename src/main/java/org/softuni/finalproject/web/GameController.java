@@ -24,15 +24,10 @@ public class GameController {
 
     @GetMapping("/game")
     public String game(Model model, HttpSession session) {
-        GameDTO currentGame = (GameDTO) session.getAttribute("GAME_SESSION");
 
-        if (currentGame == null || currentGame.getRound() > MAX_GAME_ROUNDS) {
-            this.gameService.startGame();
-            currentGame = this.gameService.getGameSession();
+        if (this.gameService.getGameSession() == null) {
+            startNewGame(session);
         }
-
-        session.setAttribute("GAME_SESSION", currentGame);
-
 
         String imageUrl = gameService.getCurrentLocation().getImgUrl();
 
@@ -43,23 +38,13 @@ public class GameController {
         return "game";
     }
 
-//    @GetMapping("/game")
-//    public ResponseEntity<String> showGameWindow(CsrfToken csrfToken) throws IOException {
-//
-//
-//        ClassPathResource resource = new ClassPathResource("templates/game.html");
-//        String htmlContent = new String(Objects.requireNonNull(resource.getInputStream().readAllBytes()), StandardCharsets.UTF_8);
-//
-//        String imageUrl = this.gameService.getCurrentLocation().getImgUrl();
-//        htmlContent = htmlContent.replace("<img src=\"\" alt=\"image\">", "<img src=\"" + imageUrl + "\" alt=\"image\"/>");
-//        htmlContent = htmlContent.replace("<meta name=\"_csrf\" content=\"${_csrf.token}\"/>",
-//                "<meta name=\"_csrf\" content=" + csrfToken.getToken() + ">");
-//
-//        return ResponseEntity.ok()
-//                .contentType(MediaType.TEXT_HTML)
-//                .body(htmlContent);
-//    }
+    @PostMapping("/game/start-new-game")
+    public String startNewGame(HttpSession session) {
+        GameDTO newGame = this.gameService.startGame();
+        session.setAttribute("gameSession", newGame);
 
+        return "redirect:/game";
+    }
 
     @PostMapping("/game")
     public ResponseEntity<UserGuess> getUserGuess(@RequestBody UserGuess userGuess) {
