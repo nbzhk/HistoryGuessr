@@ -1,12 +1,13 @@
 package org.softuni.finalproject.service.impl;
 
 
-import org.softuni.finalproject.model.PictureLocation;
+import org.softuni.finalproject.model.dto.PictureLocationDTO;
 import org.softuni.finalproject.model.UserGuess;
 import org.softuni.finalproject.model.dto.GameDTO;
 import org.softuni.finalproject.model.entity.PictureEntity;
 import org.softuni.finalproject.repository.PictureRepository;
 import org.softuni.finalproject.service.GameService;
+import org.softuni.finalproject.service.GameSessionService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -21,41 +22,43 @@ public class GameServiceImpl implements GameService {
 
     private GameDTO gameDTO;
     private final PictureRepository pictureRepository;
+    private final GameSessionService gameSessionService;
     private int roundYearDifference;
     private double roundDistance;
 
 
-    public GameServiceImpl(PictureRepository pictureRepository) {
+    public GameServiceImpl(PictureRepository pictureRepository, GameSessionService gameSessionService) {
         this.pictureRepository = pictureRepository;
+        this.gameSessionService = gameSessionService;
     }
 
     @Override
-    public void startGame() {
+    public GameDTO startGame() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
-        this.gameDTO = new GameDTO(user, pictureLocations());
+        return this.gameDTO = new GameDTO(user, pictureLocations());
     }
 
 
     //TODO: set the locations from the data base, this is just a test
 
-    private PictureLocation[] pictureLocations() {
+    private PictureLocationDTO[] pictureLocations() {
         PictureEntity picture = this.pictureRepository.getReferenceById(Long.parseLong("1"));
 
-        PictureLocation[] pictureLocations = new PictureLocation[5];
-        for (int i = 0; i < pictureLocations.length; i++) {
+        PictureLocationDTO[] pictureLocationDTOS = new PictureLocationDTO[5];
+        for (int i = 0; i < pictureLocationDTOS.length; i++) {
 
-            PictureLocation pictureLocation = new PictureLocation();
-            pictureLocation.setImgUrl(picture.getUrl());
-            pictureLocation.setLatitude(picture.getLocation().getLatitude());
-            pictureLocation.setLongitude(picture.getLocation().getLongitude());
-            pictureLocation.setYear(picture.getYear());
-            pictureLocation.setDescription(picture.getDescription());
+            PictureLocationDTO pictureLocationDTO = new PictureLocationDTO();
+            pictureLocationDTO.setImgUrl(picture.getUrl());
+            pictureLocationDTO.setLatitude(picture.getLatitude());
+            pictureLocationDTO.setLongitude(picture.getLongitude());
+            pictureLocationDTO.setYear(picture.getYear());
+            pictureLocationDTO.setDescription(picture.getDescription());
 
-            pictureLocations[i] = pictureLocation;
+            pictureLocationDTOS[i] = pictureLocationDTO;
         }
 
-        return pictureLocations;
+        return pictureLocationDTOS;
     }
 
     @Override
@@ -75,7 +78,7 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public PictureLocation getCurrentLocation() {
+    public PictureLocationDTO getCurrentLocation() {
         return this.gameDTO.getPictureLocations()[this.gameDTO.getRound() - 1];
     }
 
@@ -159,6 +162,12 @@ public class GameServiceImpl implements GameService {
     @Override
     public double getRoundDistance() {
         return roundDistance;
+    }
+
+    @Override
+    public void saveSession(GameDTO gameDTO) {
+        this.gameSessionService.saveGameSession(this.gameDTO);
+        this.gameDTO = null;
     }
 
     public void setRoundDistance(double roundDistance) {

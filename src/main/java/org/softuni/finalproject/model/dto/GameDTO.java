@@ -1,22 +1,22 @@
 package org.softuni.finalproject.model.dto;
 
-import org.softuni.finalproject.model.PictureLocation;
 import org.softuni.finalproject.model.UserGuess;
 import org.springframework.security.core.userdetails.User;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class GameDTO {
+public class GameDTO implements Serializable {
     private User user;
     private final UserGuess[] userGuesses;
-    private PictureLocation[] pictureLocations;
+    private PictureLocationDTO[] pictureLocationDTOS;
     private final int[] score;
     private int round;
 
-    public GameDTO(User user, PictureLocation[] pictureLocations) {
+    public GameDTO(User user, PictureLocationDTO[] pictureLocationDTOS) {
         this.user = user;
         this.userGuesses = new UserGuess[5];
-        this.pictureLocations = pictureLocations;
+        this.pictureLocationDTOS = pictureLocationDTOS;
         this.score = new int[5];
         this.round = 1;
     }
@@ -37,12 +37,12 @@ public class GameDTO {
         this.userGuesses[round - 1] = userGuess;
     }
 
-    public PictureLocation[] getPictureLocations() {
-        return this.pictureLocations;
+    public PictureLocationDTO[] getPictureLocations() {
+        return this.pictureLocationDTOS;
     }
 
-    public void setPictureLocations(PictureLocation[] pictureLocations) {
-        this.pictureLocations = pictureLocations;
+    public void setPictureLocations(PictureLocationDTO[] pictureLocationDTOS) {
+        this.pictureLocationDTOS = pictureLocationDTOS;
     }
 
 

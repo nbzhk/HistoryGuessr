@@ -3,7 +3,6 @@ package org.softuni.finalproject.web;
 import com.dropbox.core.DbxException;
 import org.softuni.finalproject.model.dto.DropboxCredentialDTO;
 import org.softuni.finalproject.service.DropboxService;
-import org.softuni.finalproject.service.LocationService;
 import org.softuni.finalproject.service.PictureService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,14 +19,12 @@ import java.io.IOException;
 public class ImageLocationUploadController {
 
     private final DropboxService dropboxService;
-    private final LocationService locationService;
     private final PictureService pictureService;
     private DropboxCredentialDTO currentUserCredential;
 
 
-    public ImageLocationUploadController(DropboxService dropboxService, LocationService locationService, PictureService pictureService) {
+    public ImageLocationUploadController(DropboxService dropboxService, PictureService pictureService) {
         this.dropboxService = dropboxService;
-        this.locationService = locationService;
         this.pictureService = pictureService;
     }
 
@@ -51,8 +48,7 @@ public class ImageLocationUploadController {
                                       RedirectAttributes redirectAttributes) {
         try {
             String url = this.dropboxService.uploadFile(file, file.getOriginalFilename());
-            Long locationId = this.locationService.saveLocation(latitude, longitude);
-            this.pictureService.savePicture(url, description, year, locationId);
+            this.pictureService.savePicture(url, description, year, latitude, longitude);
             redirectAttributes.addFlashAttribute("success", "Image uploaded successfully");
 
         } catch (DbxException e) {

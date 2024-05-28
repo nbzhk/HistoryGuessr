@@ -1,6 +1,6 @@
 package org.softuni.finalproject.service;
 
-import org.softuni.finalproject.model.PictureLocation;
+import org.softuni.finalproject.model.dto.PictureLocationDTO;
 import org.softuni.finalproject.model.UserGuess;
 import org.softuni.finalproject.model.dto.GameDTO;
 
@@ -13,9 +13,9 @@ public interface GameService {
 
     void calculateResult();
 
-    PictureLocation getCurrentLocation();
+    PictureLocationDTO getCurrentLocation();
 
-    void startGame();
+    GameDTO startGame();
 
     void nextRound();
 
@@ -24,4 +24,6 @@ public interface GameService {
     int getRoundYearDifference();
 
     double getRoundDistance();
+
+    void saveSession(GameDTO gameDTO);
 }

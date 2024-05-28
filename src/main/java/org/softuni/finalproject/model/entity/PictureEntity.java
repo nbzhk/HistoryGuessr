@@ -12,9 +12,10 @@ public class PictureEntity extends BaseEntity {
     private int year;
     @Column
     private String description;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "location_id")
-    private LocationEntity location;
+    @Column(nullable = false)
+    private double latitude;
+    @Column(nullable = false)
+    private double longitude;
 
     public String getUrl() {
         return url;
@@ -40,11 +41,19 @@ public class PictureEntity extends BaseEntity {
         this.description = description;
     }
 
-    public LocationEntity getLocation() {
-        return location;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setLocation(LocationEntity location) {
-        this.location = location;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 }
