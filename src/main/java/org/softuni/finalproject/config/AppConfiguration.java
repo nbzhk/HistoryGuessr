@@ -20,6 +20,7 @@ public class AppConfiguration {
 
         modelMapper.addConverter(new UserRoleConverter());
         modelMapper.addConverter(new DropboxCredentialConverter(appKey, appSecret));
+        modelMapper.addConverter(new ScoreConverter());
 
         return modelMapper;
     }

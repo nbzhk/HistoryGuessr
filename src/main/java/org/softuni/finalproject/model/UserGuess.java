@@ -1,5 +1,8 @@
 package org.softuni.finalproject.model;
 
+import jakarta.persistence.Embeddable;
+
+@Embeddable
 public class UserGuess {
     private Double guessLat;
     private Double guessLng;

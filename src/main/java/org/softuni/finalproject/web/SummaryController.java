@@ -33,8 +33,7 @@ public class SummaryController {
         model.addAttribute("totalScore", this.gameService.getGameSession().getTotalScore());
         model.addAttribute("game", this.gameService.getGameSession());
 
-        //TODO: save session in DB
-        this.gameService.saveSession();
+        this.gameService.saveSession(this.gameService.getGameSession());
         session.setAttribute("gameSession", null);
         return "summary";
     }

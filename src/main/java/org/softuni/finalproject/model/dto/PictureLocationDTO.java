@@ -1,6 +1,6 @@
-package org.softuni.finalproject.model;
+package org.softuni.finalproject.model.dto;
 
-public class PictureLocation {
+public class PictureLocationDTO {
 
     private String imgUrl;
     private double latitude;
