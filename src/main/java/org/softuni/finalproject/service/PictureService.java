@@ -10,4 +10,6 @@ public interface PictureService {
     void savePicture(String url, String description, int year, double latitude, double longitude);
 
     List<PictureEntity> getCurrentGamePictures(PictureLocationDTO[] pictures);
+
+    PictureLocationDTO[] createPictureLocations();
 }

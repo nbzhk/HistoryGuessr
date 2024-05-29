@@ -1,13 +1,12 @@
 package org.softuni.finalproject.service.impl;
 
 
-import org.softuni.finalproject.model.dto.PictureLocationDTO;
 import org.softuni.finalproject.model.UserGuess;
 import org.softuni.finalproject.model.dto.GameDTO;
-import org.softuni.finalproject.model.entity.PictureEntity;
-import org.softuni.finalproject.repository.PictureRepository;
+import org.softuni.finalproject.model.dto.PictureLocationDTO;
 import org.softuni.finalproject.service.GameService;
 import org.softuni.finalproject.service.GameSessionService;
+import org.softuni.finalproject.service.PictureService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -21,14 +20,14 @@ public class GameServiceImpl implements GameService {
     private static final double MAX_DISTANCE_KM = 20037.5;
 
     private GameDTO gameDTO;
-    private final PictureRepository pictureRepository;
+    private final PictureService pictureService;
     private final GameSessionService gameSessionService;
     private int roundYearDifference;
     private double roundDistance;
 
 
-    public GameServiceImpl(PictureRepository pictureRepository, GameSessionService gameSessionService) {
-        this.pictureRepository = pictureRepository;
+    public GameServiceImpl(PictureService pictureService, GameSessionService gameSessionService) {
+        this.pictureService = pictureService;
         this.gameSessionService = gameSessionService;
     }
 
@@ -40,25 +39,8 @@ public class GameServiceImpl implements GameService {
     }
 
 
-    //TODO: set the locations from the data base, this is just a test
-
     private PictureLocationDTO[] pictureLocations() {
-        PictureEntity picture = this.pictureRepository.getReferenceById(Long.parseLong("1"));
-
-        PictureLocationDTO[] pictureLocationDTOS = new PictureLocationDTO[5];
-        for (int i = 0; i < pictureLocationDTOS.length; i++) {
-
-            PictureLocationDTO pictureLocationDTO = new PictureLocationDTO();
-            pictureLocationDTO.setImgUrl(picture.getUrl());
-            pictureLocationDTO.setLatitude(picture.getLatitude());
-            pictureLocationDTO.setLongitude(picture.getLongitude());
-            pictureLocationDTO.setYear(picture.getYear());
-            pictureLocationDTO.setDescription(picture.getDescription());
-
-            pictureLocationDTOS[i] = pictureLocationDTO;
-        }
-
-        return pictureLocationDTOS;
+       return this.pictureService.createPictureLocations();
     }
 
     @Override
@@ -140,10 +122,6 @@ public class GameServiceImpl implements GameService {
         return null;
     }
 
-    @Override
-    public void nextRound() {
-        this.gameDTO.nextRound();
-    }
 
     @Override
     public boolean lastRound() {

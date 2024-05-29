@@ -57,7 +57,7 @@
         <div class="col-md-6 results-left">
 
             <div class="photoResultContainer">
-                <img class="result-img" th:src="${currentLocation.getImgUrl()}" alt="image">
+                <img class="result-img" th:src="${currentLocation.getUrl()}" alt="image">
             </div>
             <div class="photoDescription roundBox">
                 <p class="text-primary" th:text="${currentLocation.getDescription()}"></p>

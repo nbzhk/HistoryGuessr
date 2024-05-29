@@ -29,7 +29,7 @@ public class GameController {
             startNewGame(session);
         }
 
-        String imageUrl = gameService.getCurrentLocation().getImgUrl();
+        String imageUrl = gameService.getCurrentLocation().getUrl();
 
         model.addAttribute("imageUrl", imageUrl);
         model.addAttribute("roundNumber", gameService.getGameSession().getRound());

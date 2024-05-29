@@ -10,7 +10,7 @@ public class PictureEntity extends BaseEntity {
     private String url;
     @Column(nullable = false)
     private int year;
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String description;
     @Column(nullable = false)
     private double latitude;

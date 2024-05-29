@@ -17,8 +17,6 @@ public interface GameService {
 
     GameDTO startGame();
 
-    void nextRound();
-
     boolean lastRound();
 
     int getRoundYearDifference();

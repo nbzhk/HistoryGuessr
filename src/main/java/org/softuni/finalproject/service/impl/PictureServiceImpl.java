@@ -13,6 +13,8 @@ import java.util.List;
 @Service
 public class PictureServiceImpl implements PictureService {
 
+    private static final Integer MAX_ROUNDS = 5;
+
     private final PictureRepository pictureRepository;
     private final ModelMapper modelMapper;
 
@@ -24,7 +26,7 @@ public class PictureServiceImpl implements PictureService {
     @Override
     public void savePicture(String url, String description, int year, double latitude, double longitude) {
         PictureLocationDTO pictureLocationDTO = new PictureLocationDTO();
-        pictureLocationDTO.setImgUrl(url);
+        pictureLocationDTO.setUrl(url);
         pictureLocationDTO.setDescription(description);
         pictureLocationDTO.setYear(year);
         pictureLocationDTO.setLatitude(latitude);
@@ -44,7 +46,22 @@ public class PictureServiceImpl implements PictureService {
     @Override
     public List<PictureEntity> getCurrentGamePictures(PictureLocationDTO[] pictures) {
         return Arrays.stream(pictures)
-                .map(pic -> getPictureByUrl(pic.getImgUrl()))
+                .map(pic -> getPictureByUrl(pic.getUrl()))
                 .toList();
     }
+
+    @Override
+    public PictureLocationDTO[] createPictureLocations() {
+        List<PictureEntity> randomPictures = this.pictureRepository.findRandomPictures(MAX_ROUNDS);
+
+        return randomPictures.stream()
+                .map(this::map)
+                .toArray(PictureLocationDTO[]::new);
+
+    }
+
+    private PictureLocationDTO map(PictureEntity pictureEntity) {
+        return this.modelMapper.map(pictureEntity, PictureLocationDTO.class);
+    }
+
 }

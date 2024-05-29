@@ -2,18 +2,18 @@ package org.softuni.finalproject.model.dto;
 
 public class PictureLocationDTO {
 
-    private String imgUrl;
+    private String url;
     private double latitude;
     private double longitude;
     private int year;
     private String description;
 
-    public String getImgUrl() {
-        return imgUrl;
+    public String getUrl() {
+        return url;
     }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public double getLatitude() {
