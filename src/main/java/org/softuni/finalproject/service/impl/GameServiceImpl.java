@@ -6,7 +6,6 @@ import org.softuni.finalproject.model.UserGuess;
 import org.softuni.finalproject.model.dto.GameSessionDTO;
 import org.softuni.finalproject.model.dto.PictureLocationDTO;
 import org.softuni.finalproject.service.GameService;
-import org.softuni.finalproject.service.GameSessionService;
 import org.softuni.finalproject.service.PictureService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,17 +17,16 @@ import org.springframework.web.context.annotation.SessionScope;
 @SessionScope
 public class GameServiceImpl implements GameService {
 
+    private static final String GAME_SESSION_ATTR = "gameSession";
     private static final double EARTH_RADIUS = 6371;
     private static final int MAX_YEAR_DIFFERENCE = 124;
     private static final double MAX_DISTANCE_KM = 20037.5;
 
     private final PictureService pictureService;
-    private final GameSessionService gameSessionService;
 
 
-    public GameServiceImpl(PictureService pictureService, GameSessionService gameSessionService) {
+    public GameServiceImpl(PictureService pictureService) {
         this.pictureService = pictureService;
-        this.gameSessionService = gameSessionService;
     }
 
     @Override
@@ -36,7 +34,7 @@ public class GameServiceImpl implements GameService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         GameSessionDTO gameSession = new GameSessionDTO(user, pictureLocations());
-        session.setAttribute("gameSession", gameSession);
+        session.setAttribute(GAME_SESSION_ATTR, gameSession);
         return gameSession;
     }
 
@@ -44,27 +42,21 @@ public class GameServiceImpl implements GameService {
         return this.pictureService.createPictureLocations();
     }
 
-    @Override
-    public void calculateResult(GameSessionDTO gameSessionDTO) {
-        int roundScore = calculateRoundScore(gameSessionDTO);
-        gameSessionDTO.setRoundScore(roundScore);
-        System.out.println("ROUND SCORE: " + roundScore);
-    }
 
-    private int calculateRoundScore(GameSessionDTO gameSessionDTO) {
+
+    @Override
+    public void calculateRoundScore(GameSessionDTO gameSessionDTO) {
         int yearDiff = calculateYearDifference(gameSessionDTO);
         double distanceInKm = calculateDistanceInKm(gameSessionDTO);
 
-        double yearRatio = Math.min(yearDiff / MAX_YEAR_DIFFERENCE, 1);
-        int roundScore = (int) (5000 * (1 - yearRatio));
+        int yearScore = 5000 * (1 - (yearDiff / MAX_YEAR_DIFFERENCE));
 
+        int distanceScore = (int) (5000 * (1 - (distanceInKm / MAX_DISTANCE_KM)));
 
-        double distanceRatio = distanceInKm / MAX_DISTANCE_KM;
-        int locationScore = (int) (5000 * (1 - distanceRatio));
-        roundScore += locationScore;
+        int roundScore = yearScore + distanceScore;
 
+        setRoundScore(roundScore, gameSessionDTO);
 
-        return roundScore;
     }
 
     private int calculateYearDifference(GameSessionDTO gameSessionDTO) {
@@ -117,6 +109,14 @@ public class GameServiceImpl implements GameService {
         return gameSessionDTO.getPictureLocations()[gameSessionDTO.getRound() - 1];
     }
 
+
+
+    @Override
+    public GameSessionDTO getCurrentGame(HttpSession session) {
+        return (GameSessionDTO) session.getAttribute(GAME_SESSION_ATTR);
+    }
+
+
     private void setRoundYearDifference(int roundYearDifference, GameSessionDTO gameSessionDTO) {
         gameSessionDTO.setRoundYearDifference(roundYearDifference);
     }
@@ -126,8 +126,7 @@ public class GameServiceImpl implements GameService {
         gameSessionDTO.setRoundDistanceDifference(roundDistance);
     }
 
-    @Override
-    public void saveSession(GameSessionDTO gameSessionDTO) {
-        this.gameSessionService.saveGameSession(gameSessionDTO);
+    private void setRoundScore(int roundScore, GameSessionDTO gameSessionDTO) {
+        gameSessionDTO.setRoundScore(roundScore);
     }
 }

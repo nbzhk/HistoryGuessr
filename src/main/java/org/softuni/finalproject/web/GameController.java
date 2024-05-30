@@ -23,7 +23,7 @@ public class GameController {
 
     @GetMapping("/game")
     public String game(Model model, HttpSession session) {
-        GameSessionDTO gameSession = (GameSessionDTO) session.getAttribute("gameSession");
+        GameSessionDTO gameSession = this.gameService.getCurrentGame(session);
 
         if (gameSession == null) {
             this.startNewGame(session);
@@ -53,7 +53,7 @@ public class GameController {
 
 
         this.gameService.setUserGuess(userGuess,(GameSessionDTO) session.getAttribute("gameSession"));
-        this.gameService.calculateResult((GameSessionDTO) session.getAttribute("gameSession"));
+        this.gameService.calculateRoundScore((GameSessionDTO) session.getAttribute("gameSession"));
 
 
         return ResponseEntity.ok().body(userGuess);

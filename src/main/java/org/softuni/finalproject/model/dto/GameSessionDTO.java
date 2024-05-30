@@ -12,7 +12,7 @@ public class GameSessionDTO implements Serializable {
     private User user;
     private final UserGuess[] userGuesses;
     private PictureLocationDTO[] pictureLocationDTOS;
-    private final int[] score;
+    private final int[] roundScores;
     private final int[] yearDifferences;
     private final double[] distanceDifferences;
     private int round;
@@ -21,7 +21,7 @@ public class GameSessionDTO implements Serializable {
         this.user = user;
         this.userGuesses = new UserGuess[ROUNDS_PER_GAME];
         this.pictureLocationDTOS = pictureLocationDTOS;
-        this.score = new int[ROUNDS_PER_GAME];
+        this.roundScores = new int[ROUNDS_PER_GAME];
         this.yearDifferences = new int[ROUNDS_PER_GAME];
         this.distanceDifferences = new double[ROUNDS_PER_GAME];
         this.round = 0;
@@ -53,15 +53,15 @@ public class GameSessionDTO implements Serializable {
 
 
     public int[] getScores() {
-        return score;
+        return roundScores;
     }
 
     public int getRoundScore(){
-        return this.score[round - 1];
+        return this.roundScores[round - 1];
     }
 
     public void setRoundScore(int roundScore) {
-        this.score[round - 1] = roundScore;
+        this.roundScores[round - 1] = roundScore;
     }
 
     public int getRound() {
@@ -75,7 +75,7 @@ public class GameSessionDTO implements Serializable {
     }
 
     public int getTotalScore(){
-      return Arrays.stream(this.score).sum();
+      return Arrays.stream(this.roundScores).sum();
     }
 
     public void setRoundYearDifference(int roundYearDifference){

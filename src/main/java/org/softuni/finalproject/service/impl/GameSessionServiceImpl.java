@@ -13,7 +13,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,12 +38,9 @@ public class GameSessionServiceImpl implements GameSessionService {
         UserEntity user = getUser(gameSessionDTO);
         List<PictureEntity> currentGamePictures = this.pictureService.getCurrentGamePictures(gameSessionDTO.getPictureLocations());
         GameSessionEntity gameSession = map(gameSessionDTO);
+
         gameSession.setPlayer(user);
         gameSession.setPictures(currentGamePictures);
-        gameSession.setGuesses(Arrays.stream(gameSessionDTO.getUserGuesses()).toList());
-        gameSession.setRoundsScores(Arrays.stream(gameSessionDTO.getScores()).boxed().toList());
-        gameSession.setYearDifferences(Arrays.stream(gameSessionDTO.getYearDifferences()).boxed().toList());
-        gameSession.setDistanceDifferences(Arrays.stream(gameSessionDTO.getDistanceDifferences()).boxed().toList());
         gameSession.setTimestamp(LocalDateTime.now());
         this.gameSessionRepository.save(gameSession);
 

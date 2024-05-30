@@ -11,11 +11,10 @@ public interface GameService {
 
     void setUserGuess(UserGuess userGuess, GameSessionDTO gameSessionDTO);
 
-
-    void calculateResult(GameSessionDTO gameSessionDTO);
+    void calculateRoundScore(GameSessionDTO gameSessionDTO);
 
     PictureLocationDTO getCurrentLocation(GameSessionDTO gameSessionDTO);
 
+    GameSessionDTO getCurrentGame(HttpSession session);
 
-    void saveSession(GameSessionDTO gameSessionDTO);
 }

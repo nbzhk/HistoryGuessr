@@ -25,8 +25,7 @@ public class GameSessionEntity extends BaseEntity {
     @ElementCollection
     @CollectionTable(name = "game_data",
                      joinColumns = @JoinColumn(name = "game_session_id"))
-    private List<Integer> roundsScores;
-
+    private List<Integer> roundScores;
     @ElementCollection
     @CollectionTable(name = "game_data",
                     joinColumns = @JoinColumn(name = "game_session_id"))
@@ -64,12 +63,12 @@ public class GameSessionEntity extends BaseEntity {
         this.guesses = guesses;
     }
 
-    public List<Integer> getRoundsScores() {
-        return roundsScores;
+    public List<Integer> getRoundScores() {
+        return roundScores;
     }
 
-    public void setRoundsScores(List<Integer> scores) {
-        this.roundsScores = scores;
+    public void setRoundScores(List<Integer> scores) {
+        this.roundScores = scores;
     }
 
     public LocalDateTime getTimestamp() {

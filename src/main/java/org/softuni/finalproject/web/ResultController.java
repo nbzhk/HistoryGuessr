@@ -18,14 +18,6 @@ public class ResultController {
         this.gameService = gameService;
     }
 
-
-    @PostMapping("/result")
-    @ResponseBody
-    public GameSessionDTO result(HttpSession session)  {
-        return  (GameSessionDTO) session.getAttribute("gameSession");
-
-    }
-
     @GetMapping("/result")
     public String getResult(Model model, HttpSession session) {
         GameSessionDTO gameSession = (GameSessionDTO) session.getAttribute("gameSession");
@@ -33,11 +25,16 @@ public class ResultController {
             return "redirect:/game";
         }
 
-
         model.addAttribute("currentLocation", this.gameService.getCurrentLocation(gameSession));
         model.addAttribute("currentGame", gameSession);
 
-
         return "result";
+    }
+
+    @PostMapping("/result")
+    @ResponseBody
+    public GameSessionDTO result(HttpSession session)  {
+        return (GameSessionDTO) session.getAttribute("gameSession");
+
     }
 }

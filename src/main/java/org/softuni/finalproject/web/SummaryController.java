@@ -2,7 +2,7 @@ package org.softuni.finalproject.web;
 
 import jakarta.servlet.http.HttpSession;
 import org.softuni.finalproject.model.dto.GameSessionDTO;
-import org.softuni.finalproject.service.GameService;
+import org.softuni.finalproject.service.GameSessionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,10 +15,10 @@ import java.util.Objects;
 @Controller
 public class SummaryController {
 
-    private final GameService gameService;
+    private final GameSessionService gameSessionService;
 
-    public SummaryController(GameService gameService) {
-        this.gameService = gameService;
+    public SummaryController(GameSessionService gameSessionService) {
+        this.gameSessionService = gameSessionService;
     }
 
     @GetMapping("/summary")
@@ -32,20 +32,9 @@ public class SummaryController {
         model.addAttribute("totalScore", gameSession.getTotalScore());
         model.addAttribute("game", gameSession);
 
-        this.gameService.saveSession(gameSession);
+        this.gameSessionService.saveGameSession(gameSession);
         return "summary";
     }
-
-//    @GetMapping("/summary")
-//    public ResponseEntity<String> showSummary() throws IOException {
-//        ClassPathResource resource = new ClassPathResource("templates/summary.html");
-//        String htmlContent = new String(Objects.requireNonNull(resource.getInputStream().readAllBytes()), StandardCharsets.UTF_8);
-//
-//
-//        return ResponseEntity.ok()
-//                .contentType(MediaType.TEXT_HTML)
-//                .body(htmlContent);
-//    }
 
     @PostMapping("/summary")
     @ResponseBody
