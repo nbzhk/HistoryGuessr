@@ -1,8 +1,8 @@
 package org.softuni.finalproject.service;
 
-import org.softuni.finalproject.model.dto.GameDTO;
+import org.softuni.finalproject.model.dto.GameSessionDTO;
 
 public interface GameSessionService {
 
-    void saveGameSession(GameDTO gameDTO);
+    void saveGameSession(GameSessionDTO gameSessionDTO);
 }

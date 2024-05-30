@@ -1,27 +1,21 @@
 package org.softuni.finalproject.service;
 
+import jakarta.servlet.http.HttpSession;
 import org.softuni.finalproject.model.dto.PictureLocationDTO;
 import org.softuni.finalproject.model.UserGuess;
-import org.softuni.finalproject.model.dto.GameDTO;
+import org.softuni.finalproject.model.dto.GameSessionDTO;
 
 public interface GameService {
 
-    void setUserGuess(UserGuess userGuess);
-    UserGuess getUserGuess();
+    GameSessionDTO startGame(HttpSession session);
 
-    GameDTO getGameSession();
+    void setUserGuess(UserGuess userGuess, GameSessionDTO gameSessionDTO);
 
-    void calculateResult();
 
-    PictureLocationDTO getCurrentLocation();
+    void calculateResult(GameSessionDTO gameSessionDTO);
 
-    GameDTO startGame();
+    PictureLocationDTO getCurrentLocation(GameSessionDTO gameSessionDTO);
 
-    boolean lastRound();
 
-    int getRoundYearDifference();
-
-    double getRoundDistance();
-
-    void saveSession(GameDTO gameDTO);
+    void saveSession(GameSessionDTO gameSessionDTO);
 }

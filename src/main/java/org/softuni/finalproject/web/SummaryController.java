@@ -1,7 +1,7 @@
 package org.softuni.finalproject.web;
 
 import jakarta.servlet.http.HttpSession;
-import org.softuni.finalproject.model.dto.GameDTO;
+import org.softuni.finalproject.model.dto.GameSessionDTO;
 import org.softuni.finalproject.service.GameService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,18 +23,16 @@ public class SummaryController {
 
     @GetMapping("/summary")
     public String showSummary(Model model, HttpSession session) {
-
-        if(session.getAttribute("gameSession") == null
-        || Arrays.stream(this.gameService.getGameSession().getUserGuesses()).anyMatch(Objects::isNull)) {
+        GameSessionDTO gameSession = (GameSessionDTO) session.getAttribute("gameSession");
+        if(gameSession == null || Arrays.stream(gameSession.getUserGuesses()).anyMatch(Objects::isNull)) {
             return "redirect:/game";
         }
 
 
-        model.addAttribute("totalScore", this.gameService.getGameSession().getTotalScore());
-        model.addAttribute("game", this.gameService.getGameSession());
+        model.addAttribute("totalScore", gameSession.getTotalScore());
+        model.addAttribute("game", gameSession);
 
-        this.gameService.saveSession(this.gameService.getGameSession());
-        session.setAttribute("gameSession", null);
+        this.gameService.saveSession(gameSession);
         return "summary";
     }
 
@@ -51,11 +49,13 @@ public class SummaryController {
 
     @PostMapping("/summary")
     @ResponseBody
-    public GameDTO summary() {
+    public GameSessionDTO summary(HttpSession session) {
 
-        System.out.println(gameService);
+        GameSessionDTO currentGame = (GameSessionDTO) session.getAttribute("gameSession");
 
-        return this.gameService.getGameSession();
+        session.setAttribute("gameSession", null);
+
+        return currentGame;
     }
 
 }

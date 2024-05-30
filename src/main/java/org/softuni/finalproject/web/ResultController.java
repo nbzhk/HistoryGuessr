@@ -1,7 +1,7 @@
 package org.softuni.finalproject.web;
 
 import jakarta.servlet.http.HttpSession;
-import org.softuni.finalproject.model.dto.GameDTO;
+import org.softuni.finalproject.model.dto.GameSessionDTO;
 import org.softuni.finalproject.service.GameService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,23 +21,22 @@ public class ResultController {
 
     @PostMapping("/result")
     @ResponseBody
-    public GameDTO result()  {
+    public GameSessionDTO result(HttpSession session)  {
+        return  (GameSessionDTO) session.getAttribute("gameSession");
 
-        this.gameService.getGameSession().nextRound();
-        return this.gameService.getGameSession();
     }
 
     @GetMapping("/result")
     public String getResult(Model model, HttpSession session) {
-
-        if(session.getAttribute("gameSession") == null ||
-                this.gameService.getGameSession().getUserGuesses()[this.gameService.getGameSession().getRound() - 1] == null) {
+        GameSessionDTO gameSession = (GameSessionDTO) session.getAttribute("gameSession");
+        if(gameSession == null || gameSession.getUserGuesses()[gameSession.getRound() - 1] == null) {
             return "redirect:/game";
         }
 
 
-        model.addAttribute("currentLocation", this.gameService.getCurrentLocation());
-        model.addAttribute("game", this.gameService);
+        model.addAttribute("currentLocation", this.gameService.getCurrentLocation(gameSession));
+        model.addAttribute("currentGame", gameSession);
+
 
         return "result";
     }

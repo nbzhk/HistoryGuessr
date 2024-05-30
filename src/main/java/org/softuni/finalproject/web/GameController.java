@@ -2,7 +2,7 @@ package org.softuni.finalproject.web;
 
 import jakarta.servlet.http.HttpSession;
 import org.softuni.finalproject.model.UserGuess;
-import org.softuni.finalproject.model.dto.GameDTO;
+import org.softuni.finalproject.model.dto.GameSessionDTO;
 import org.softuni.finalproject.service.GameService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class GameController {
-    private static final int MAX_GAME_ROUNDS = 5;
 
     private final GameService gameService;
 
@@ -24,34 +23,37 @@ public class GameController {
 
     @GetMapping("/game")
     public String game(Model model, HttpSession session) {
+        GameSessionDTO gameSession = (GameSessionDTO) session.getAttribute("gameSession");
 
-        if (this.gameService.getGameSession() == null) {
-            startNewGame(session);
+        if (gameSession == null) {
+            this.startNewGame(session);
+            gameSession = (GameSessionDTO) session.getAttribute("gameSession");
         }
+        gameSession.nextRound();
 
-        String imageUrl = gameService.getCurrentLocation().getUrl();
+        String imageUrl = this.gameService.getCurrentLocation(gameSession).getUrl();
 
         model.addAttribute("imageUrl", imageUrl);
-        model.addAttribute("roundNumber", gameService.getGameSession().getRound());
-        model.addAttribute("score", gameService.getGameSession().getTotalScore());
+        model.addAttribute("roundNumber", gameSession.getRound());
+        model.addAttribute("score", gameSession.getTotalScore());
 
         return "game";
     }
 
     @PostMapping("/game/start-new-game")
     public String startNewGame(HttpSession session) {
-        GameDTO newGame = this.gameService.startGame();
+        GameSessionDTO newGame = this.gameService.startGame(session);
         session.setAttribute("gameSession", newGame);
 
         return "redirect:/game";
     }
 
     @PostMapping("/game")
-    public ResponseEntity<UserGuess> getUserGuess(@RequestBody UserGuess userGuess) {
+    public ResponseEntity<UserGuess> getUserGuess(@RequestBody UserGuess userGuess, HttpSession session) {
 
 
-        this.gameService.setUserGuess(userGuess);
-        this.gameService.calculateResult();
+        this.gameService.setUserGuess(userGuess,(GameSessionDTO) session.getAttribute("gameSession"));
+        this.gameService.calculateResult((GameSessionDTO) session.getAttribute("gameSession"));
 
 
         return ResponseEntity.ok().body(userGuess);

@@ -1,7 +1,7 @@
 package org.softuni.finalproject.service.impl;
 
 import org.modelmapper.ModelMapper;
-import org.softuni.finalproject.model.dto.GameDTO;
+import org.softuni.finalproject.model.dto.GameSessionDTO;
 import org.softuni.finalproject.model.entity.GameSessionEntity;
 import org.softuni.finalproject.model.entity.PictureEntity;
 import org.softuni.finalproject.model.entity.UserEntity;
@@ -35,27 +35,29 @@ public class GameSessionServiceImpl implements GameSessionService {
 
     //TODO: check mapping
     @Override
-    public void saveGameSession(GameDTO gameDTO) {
-        UserEntity user = getUser(gameDTO);
-        List<PictureEntity> currentGamePictures = this.pictureService.getCurrentGamePictures(gameDTO.getPictureLocations());
-        GameSessionEntity gameSession = map(gameDTO);
+    public void saveGameSession(GameSessionDTO gameSessionDTO) {
+        UserEntity user = getUser(gameSessionDTO);
+        List<PictureEntity> currentGamePictures = this.pictureService.getCurrentGamePictures(gameSessionDTO.getPictureLocations());
+        GameSessionEntity gameSession = map(gameSessionDTO);
         gameSession.setPlayer(user);
         gameSession.setPictures(currentGamePictures);
-        gameSession.setGuesses(Arrays.stream(gameDTO.getUserGuesses()).toList());
-        gameSession.setRoundsScores(Arrays.stream(gameDTO.getScore()).boxed().toList());
+        gameSession.setGuesses(Arrays.stream(gameSessionDTO.getUserGuesses()).toList());
+        gameSession.setRoundsScores(Arrays.stream(gameSessionDTO.getScores()).boxed().toList());
+        gameSession.setYearDifferences(Arrays.stream(gameSessionDTO.getYearDifferences()).boxed().toList());
+        gameSession.setDistanceDifferences(Arrays.stream(gameSessionDTO.getDistanceDifferences()).boxed().toList());
         gameSession.setTimestamp(LocalDateTime.now());
         this.gameSessionRepository.save(gameSession);
 
     }
 
-    private UserEntity getUser(GameDTO gameDTO) {
-        User user = gameDTO.getUser();
+    private UserEntity getUser(GameSessionDTO gameSessionDTO) {
+        User user = gameSessionDTO.getUser();
         Optional<UserEntity> userEntity = this.userService.findByUsername(user.getUsername());
 
         return userEntity.orElse(null);
     }
 
-    private GameSessionEntity map(GameDTO gameDTO) {
-        return this.modelMapper.map(gameDTO, GameSessionEntity.class);
+    private GameSessionEntity map(GameSessionDTO gameSessionDTO) {
+        return this.modelMapper.map(gameSessionDTO, GameSessionEntity.class);
     }
 }

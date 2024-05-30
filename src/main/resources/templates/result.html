@@ -69,26 +69,26 @@
                 <div class="text-center roundBox">
                     <p class="text-primary font-weight-bold">You were </p>
                     <p class="text-secondary">
-                        <th:block th:text="${game.getRoundYearDifference()} + ' years apart.'"></th:block>
+                        <th:block th:text="${currentGame.getRoundYearDifference()} + ' years apart.'"></th:block>
                     </p>
                 </div>
                 <div class="text-center roundBox">
                     <p class="text-primary font-weight-bold">You guessed</p>
                     <p class="text-secondary">
-                        <th:block th:text="${game.getRoundDistance()} + ' km away'"></th:block>
+                        <th:block th:text="${currentGame.getDistanceDifferences()} + ' km away'"></th:block>
                     </p>
                 </div>
                 <div id="scoreBox" class="text-center roundBox">
                     <p class="text-primary font-weight-bold">Total Score:</p>
                     <p class="text-secondary">
-                        <th:block th:text="${game.getGameSession().getScore()[game.getGameSession().getRound() - 1]} + '/5000'"></th:block>
+                        <th:block th:text="${currentGame.getRoundScore()} + '/10000'"></th:block>
                     </p>
                 </div>
             </div>
             <button class="btn btn-primary"
                     type="button"
                     id="nextButton"
-                    th:text="${game.lastRound()} ? 'Finish Game' : 'Next Round'">
+                    th:text="${currentGame.lastRound()} ? 'Finish Game' : 'Next Round'">
             </button>
         </div>
 

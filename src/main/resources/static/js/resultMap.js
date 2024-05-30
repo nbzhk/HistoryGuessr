@@ -35,7 +35,7 @@ fetch("/result", {
     .then(response => response.json())
     .then(data => {
         console.log(data);
-         currentRound = data.round - 1;
+         currentRound = data.round;
         const actualCoordinates = new LatLng(data.pictureLocations[currentRound - 1].latitude,
             data.pictureLocations[currentRound - 1].longitude);
 
@@ -44,7 +44,6 @@ fetch("/result", {
             map: map
         });
 
-        //TODO: make round number update just before the round starts
         if (data.userGuesses[currentRound - 1].guessLat != null && data.userGuesses[currentRound - 1].guessLng != null) {
             const guessCoordinates = new LatLng(data.userGuesses[currentRound - 1].guessLat, data.userGuesses[currentRound - 1].guessLng);
             new google.maps.Marker({
@@ -82,7 +81,7 @@ fetch("/result", {
 const nextButton = document.getElementById("nextButton");
 
 nextButton.addEventListener("click", () => {
-    if (currentRound !== 5) {
+    if (nextButton.value === 'Next Round') {
         window.location.href = "/game";
     } else {
         window.location.href = "/summary"

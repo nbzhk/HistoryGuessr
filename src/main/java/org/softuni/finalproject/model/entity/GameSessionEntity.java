@@ -14,18 +14,28 @@ public class GameSessionEntity extends BaseEntity {
 
     @ManyToMany
     @CollectionTable(name = "game_pictures",
-            joinColumns = @JoinColumn(name = "game_session_id"))
+                     joinColumns = @JoinColumn(name = "game_session_id"))
     private List<PictureEntity> pictures;
 
     @ElementCollection
-    @CollectionTable(name = "user_guesses",
+    @CollectionTable(name = "game_data",
                      joinColumns = @JoinColumn(name = "game_session_id"))
     private List<UserGuess> guesses;
 
     @ElementCollection
-    @CollectionTable(name = "game_scores",
-            joinColumns = @JoinColumn(name = "game_session_id"))
+    @CollectionTable(name = "game_data",
+                     joinColumns = @JoinColumn(name = "game_session_id"))
     private List<Integer> roundsScores;
+
+    @ElementCollection
+    @CollectionTable(name = "game_data",
+                    joinColumns = @JoinColumn(name = "game_session_id"))
+    private List<Integer> yearDifferences;
+
+    @ElementCollection
+    @CollectionTable(name = "game_data",
+                     joinColumns = @JoinColumn(name = "game_session_id"))
+    private List<Double> distanceDifferences;
 
     @Column
     private LocalDateTime timestamp;
@@ -68,5 +78,21 @@ public class GameSessionEntity extends BaseEntity {
 
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public void setYearDifferences(List<Integer> yearDifferences) {
+        this.yearDifferences = yearDifferences;
+    }
+
+    public void setDistanceDifferences(List<Double> distanceDifferences) {
+        this.distanceDifferences = distanceDifferences;
+    }
+
+    public List<Integer> getYearDifferences() {
+        return yearDifferences;
+    }
+
+    public List<Double> getDistanceDifferences() {
+        return distanceDifferences;
     }
 }
