@@ -70,6 +70,7 @@
         </div>
     </footer>
 </div>
+
 <script>
     (g => {
         var h, a, k, p = "The Google Maps JavaScript API",
@@ -95,7 +96,7 @@
             }));
         d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n))
     })({
-        key: "AIzaSyBGKsKXscB_mbOmJt6K866Xshpw2Olq24Q",
+        key: '[[${apiKey}]]',
         v: "weekly",
     });
 </script>

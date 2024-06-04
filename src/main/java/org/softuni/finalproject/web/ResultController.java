@@ -3,6 +3,7 @@ package org.softuni.finalproject.web;
 import jakarta.servlet.http.HttpSession;
 import org.softuni.finalproject.model.dto.GameSessionDTO;
 import org.softuni.finalproject.service.GameService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class ResultController {
 
     private final GameService gameService;
+    @Value("${google.maps.key}")
+    private String googleMapsKey;
 
     public ResultController(GameService gameService) {
         this.gameService = gameService;
@@ -27,6 +30,7 @@ public class ResultController {
 
         model.addAttribute("currentLocation", this.gameService.getCurrentLocation(gameSession));
         model.addAttribute("currentGame", gameSession);
+        model.addAttribute("apiKey", googleMapsKey);
 
         return "result";
     }

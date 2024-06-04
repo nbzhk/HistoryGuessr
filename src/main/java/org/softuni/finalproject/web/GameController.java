@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpSession;
 import org.softuni.finalproject.model.UserGuess;
 import org.softuni.finalproject.model.dto.GameSessionDTO;
 import org.softuni.finalproject.service.GameService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class GameController {
 
     private final GameService gameService;
-
+    @Value("${google.maps.key}")
+    private String googleMapsKey;
 
     public GameController(GameService gameService) {
         this.gameService = gameService;
@@ -36,6 +38,7 @@ public class GameController {
         model.addAttribute("imageUrl", imageUrl);
         model.addAttribute("roundNumber", gameSession.getRound());
         model.addAttribute("score", gameSession.getTotalScore());
+        model.addAttribute("apiKey", googleMapsKey);
 
         return "game";
     }

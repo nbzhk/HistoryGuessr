@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AppConfiguration {
 
+    @Value("${google.map.key}")
+    private String googleMapKey;
     @Value("${dropbox.appKey}")
     private String appKey;
     @Value("${dropbox.appSecret}")
@@ -31,4 +33,10 @@ public class AppConfiguration {
 
         return modelMapper;
     }
+
+    @Bean
+    public String getGoogleMapKey() {
+        return googleMapKey;
+    }
+
 }
