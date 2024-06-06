@@ -34,9 +34,5 @@ public class AppConfiguration {
         return modelMapper;
     }
 
-    @Bean
-    public String getGoogleMapKey() {
-        return googleMapKey;
-    }
 
 }

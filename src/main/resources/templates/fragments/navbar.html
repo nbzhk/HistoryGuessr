@@ -29,18 +29,19 @@
                 </li>
                 <li class="nav-item active" sec:authorize="isAuthenticated()">
                     <form  th:action="@{/game/start-new-game}"
-                           th:method="POST">
-                    <button class="btn btn-block">New Game</button>
+                           th:method="POST"
+                            class="navbar-form">
+                    <button class="btn btn-block btn-outline-light">New Game</button>
                     </form>
                 </li>
                 <li class="nav-item active" sec:authorize="isAuthenticated()">
                     <div th:if="${session.gameSession != null}">
-                        <a class="nav-link" th:href="@{/game}">Resume</a>
+                        <a class="nav-link btn-outline-warning" th:href="@{/game}">Resume</a>
                     </div>
                 </li>
                 <li>
                     <div class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
-                        <a class="nav-link dropdown-toggle" href="/admin/" id="navbarDropdownMenuLink" role="button"
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Admin
                         </a>
@@ -51,7 +52,12 @@
                     </div>
                 </li>
                 <li class="nav-item active" sec:authorize="isAuthenticated()">
-                    <form th:action="@{/logout}" th:method="POST">
+                    <a class="nav-link" th:href="@{/profile}">Profile</a>
+                </li>
+                <li class="nav-item active" sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}"
+                          th:method="POST"
+                          class="navbar-form">
                         <button class="btn btn-outline-danger" type="submit">Logout</button>
                     </form>
                 </li>
