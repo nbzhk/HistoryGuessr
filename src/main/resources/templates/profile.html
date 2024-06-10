@@ -29,7 +29,9 @@
                 <div class="card-body">
                     <h5 class="card-title">Profile Details</h5>
                     <ul class="list-group list-group-flush">
-                        <!--                        <li class="list-group-item"><strong>Email:</strong> <th:block th:text=""></th:block>li>-->
+                        <li class="list-group-item"><strong>Email:</strong>
+                            <p class="text-primary" th:text="${userInformation.getEmail()}"></p>
+                        <li>
                         <li class="list-group-item"><strong>User since:</strong>
                             <p class="text-info" th:text="${userInformation.getRegistrationDate()}"></p>
                         <li>

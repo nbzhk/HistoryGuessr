@@ -5,6 +5,7 @@ import java.time.LocalDate;
 public class LoggedUserDTO {
 
     private String username;
+    private String email;
     private LocalDate registrationDate;
 
     public String getUsername() {
@@ -13,6 +14,14 @@ public class LoggedUserDTO {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public LocalDate getRegistrationDate() {
