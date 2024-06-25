@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -48,7 +47,7 @@ public class ManageUsersController {
     @DeleteMapping("/users/delete/{username}")
     public String deleteUser(@PathVariable("username") String username) {
 
-        this.userService.deleteUser(username);
+        this.userService.delete(username);
         return "redirect:/admin/manage-users";
     }
 }

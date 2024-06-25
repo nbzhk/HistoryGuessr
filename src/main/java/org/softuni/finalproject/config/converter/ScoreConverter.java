@@ -1,4 +1,4 @@
-package org.softuni.finalproject.config;
+package org.softuni.finalproject.config.converter;
 
 import org.modelmapper.AbstractConverter;
 

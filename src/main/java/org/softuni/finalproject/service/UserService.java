@@ -9,11 +9,11 @@ import java.util.Optional;
 
 public interface UserService {
 
-    void registerUser(UserRegistrationDTO userRegistrationDTO);
+    void register(UserRegistrationDTO userRegistrationDTO);
 
     List<UserInfoDTO> getAllUsers();
 
-    void deleteUser(String username);
+    void delete(String username);
 
     void promoteUserToAdmin(String username);
 

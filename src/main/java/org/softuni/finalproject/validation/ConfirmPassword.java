@@ -1,4 +1,4 @@
-package org.softuni.finalproject.validation.password;
+package org.softuni.finalproject.validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -12,7 +12,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Constraint(validatedBy = ConfirmPasswordValidator.class)
 public @interface ConfirmPassword {
-    String message() default "Password does not match";
+
+    String message() default "Passwords don't match";
 
     Class<?>[] groups() default {};
 

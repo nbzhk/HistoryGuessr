@@ -9,7 +9,6 @@ import org.softuni.finalproject.model.enums.UserRoleEnum;
 import org.softuni.finalproject.repository.RolesRepository;
 import org.softuni.finalproject.repository.UserRepository;
 import org.softuni.finalproject.service.UserService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,27 +20,23 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
-    private final PasswordEncoder passwordEncoder;
     //TODO: check role assignment
     private final RolesRepository rolesRepository;
 
 
-    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder, RolesRepository rolesRepository) {
+    public UserServiceImpl(UserRepository userRepository,
+                           ModelMapper modelMapper,
+                           RolesRepository rolesRepository) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
-        this.passwordEncoder = passwordEncoder;
-
         this.rolesRepository = rolesRepository;
     }
 
     @Override
-    public void registerUser(UserRegistrationDTO userRegistrationDTO) {
+    public void register(UserRegistrationDTO userRegistrationDTO) {
 
         UserEntity user = this.modelMapper.map(userRegistrationDTO, UserEntity.class);
 
-        String encodedPassword = this.passwordEncoder.encode(user.getPassword());
-
-        user.setPassword(encodedPassword);
         user.setRegistrationDate(LocalDate.now());
 
         setUserRole(user);
@@ -68,7 +63,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(String username) {
+    public void delete(String username) {
         Optional<UserEntity> userToDelete = this.userRepository.findByUsername(username);
         userToDelete.ifPresent(this.userRepository::delete);
     }

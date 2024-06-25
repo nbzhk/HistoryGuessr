@@ -40,7 +40,7 @@ public class UserRegistrationController {
             return "redirect:/users/register";
         }
 
-        this.userService.registerUser(userRegistrationDTO);
+        this.userService.register(userRegistrationDTO);
 
         return "redirect:/users/login";
     }
