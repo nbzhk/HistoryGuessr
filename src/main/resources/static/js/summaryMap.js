@@ -22,7 +22,7 @@ const csrfToken = document.querySelector('meta[name="_csrf"]');
 
 const token = csrfToken.getAttribute("content");
 
-fetch("/summary", {
+fetch("/game/summary", {
     method: "POST",
     headers: {
         'X-CSRF-TOKEN': token

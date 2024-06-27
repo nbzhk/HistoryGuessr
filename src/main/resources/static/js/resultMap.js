@@ -25,7 +25,7 @@ const token = csrfToken.getAttribute("content");
 
 console.log(token);
 
-fetch("/result", {
+fetch("/game/get-result", {
     method: "POST",
     headers: {
         'X-CSRF-TOKEN': token

@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -40,15 +38,15 @@ public class SummaryController {
         return "summary";
     }
 
-    @PostMapping("/summary")
-    @ResponseBody
-    public GameSessionDTO summary(HttpSession session) {
-
-        GameSessionDTO currentGame = (GameSessionDTO) session.getAttribute("gameSession");
-
-        session.setAttribute("gameSession", null);
-
-        return currentGame;
-    }
+//    @PostMapping("/summary")
+//    @ResponseBody
+//    public GameSessionDTO summary(HttpSession session) {
+//
+//        GameSessionDTO currentGame = (GameSessionDTO) session.getAttribute("gameSession");
+//
+//        session.setAttribute("gameSession", null);
+//
+//        return currentGame;
+//    }
 
 }

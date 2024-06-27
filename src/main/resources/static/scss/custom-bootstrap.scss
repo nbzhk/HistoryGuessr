@@ -1,0 +1,18 @@
+@import "./variables.scss";
+$primary: #102e44;
+$secondary: #f6e49e;
+$custom-third: #f35f4c;
+
+@import "//node_modules/bootstrap/scss/functions";
+@import "//node_modules/bootstrap/scss/variables";
+@import "//node_modules/bootstrap/scss/mixins";
+
+.custom-third-bg {
+  background-color: $custom-third !important;
+}
+
+.custom-third-text {
+  color: $custom-third !important;
+}
+
+@import "//node_modules/bootstrap/scss/bootstrap";
