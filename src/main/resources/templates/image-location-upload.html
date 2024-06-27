@@ -1,62 +1,121 @@
 <!doctype html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/css/users-manage.css">
-    <link rel="stylesheet" href="/css/home.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/main.css">
     <title>Add Image</title>
 </head>
 <body>
 <div th:replace="~{fragments/navbar}">Navbar</div>
 
-    <h2>Image Upload</h2>
-            <form   class="image-submit"
-            th:action="@{/admin/upload}"
-            th:method="POST"
-            enctype="multipart/form-data">
-                <div>
-                    <label for="file">Upload Image:</label><br>
-                    <input th:type="file" id="file" name="file" accept="image/*" required>
-                 </div>
-                 <div>
-                     <label for="year">Year:</label><br>
-                     <input th:type="number"
-                            id="year"
-                            name="year"
-                            min="1820" max="2024"
-                            step="1"
-                            required>
-                 </div>
-                <div>
-                     <label for="description">Description:</label><br>
-                    <textarea th:type="text"
-                              id="description"
-                              name="description"
-                              rows="4" cols="50"
-                              required></textarea>
-                </div>
-                 <div>
-                     <label for="latitude">Latitude:</label><br>
-                     <input th:type="number"
-                            id="latitude"
-                            name="latitude"
-                            step="0.0001" required>
-                </div>
-                <div>
-                    <label for="longitude">Longitude:</label><br>
-                    <input th:type="number" id="longitude" name="longitude" step="0.0001" required>
-                </div>
-         <button th:type="submit">Upload Image</button>
-    </form>
+<h2>Image Upload</h2>
+<form class="mx-auto w-25 image-submit bg-blur rounded"
+      th:action="@{/admin/upload}"
+      th:method="POST"
+      th:object="${pictureData}"
+      enctype="multipart/form-data">
+    <div class="form-group">
+        <div class="label-holder textCol d-flex justify-content-center">
+            <label for="formFile">Upload Image:</label>
+        </div>
+        <input type="file"
+               class="form-control"
+               id="formFile"
+               name="file"
+               th:field="*{picture}"
+               th:errorclass="'is-invalid alert-danger bg-danger'">
 
-    <div th:if="${success}" class="alert alert-success" role="alert" >
-        <span th:text="${success}"></span>
+        <p th:if="${#fields.hasErrors('picture')}"
+           th:text="${#fields.errors('picture').iterator().next()}"
+           class="invalid-feedback text-danger">
+        </p>
     </div>
-    <div th:if="${error}" class="alert alert-danger" role="alert">
-        <span th:text="${error}"></span>
+    <div class="form-group">
+        <div class="label-holder textCol d-flex justify-content-center">
+            <label for="year">Year</label>
+        </div>
+        <input type="number"
+               class="form-control"
+               id="year"
+               name="year"
+               step="1"
+               th:field="*{year}"
+               th:errorclass="'is-invalid alert-danger bg-danger'">
+
+        <p th:if="${#fields.hasErrors('year')}"
+           th:text="${#fields.errors('year').iterator().next()}"
+           class="invalid-feedback text-danger">
+        </p>
     </div>
+    <div class="form-group">
+        <div class="label-holder textCol d-flex justify-content-center">
+            <label for="description">Description</label>
+        </div>
+        <textarea type="text"
+                  class="form-control"
+                  id="description"
+                  name="description"
+                  rows="4" cols="50"
+                  th:field="*{description}"
+                  th:errorclass="'is-invalid alert-danger bg-danger'">
+                    </textarea>
+        <p th:if="${#fields.hasErrors('description')}"
+           th:text="${#fields.errors('description').iterator().next()}"
+           class="invalid-feedback text-danger">
+        </p>
+    </div>
+    <div class="form-group">
+        <div class="label-holder textCol d-flex justify-content-center">
+            <label for="latitude">Latitude</label>
+        </div>
+        <input type="number"
+               step="any"
+               class="form-control"
+               id="latitude"
+               name="latitude"
+               th:field="*{latitude}"
+               th:errorclass="'is-invalid alert-danger bg-danger'">
+        <p th:if="${#fields.hasErrors('latitude')}"
+           th:text="${#fields.errors('latitude').iterator().next()}"
+           class="invalid-feedback text-danger">
+        </p>
+    </div>
+    <div class="form-group">
+        <div class="label-holder textCol d-flex justify-content-center">
+            <label for="longitude">Longitude</label>
+        </div>
+        <input  class="form-control"
+                type="number"
+                step="any"
+                id="longitude"
+                name="longitude"
+                th:field="*{longitude}"
+                th:errorclass="'is-invalid alert-danger bg-danger'">
+        <p th:if="${#fields.hasErrors('longitude')}"
+           th:text="${#fields.errors('longitude').iterator().next()}"
+           class="invalid-feedback text-danger">
+        </p>
+    </div>
+    <button class="btn-primary btn" th:type="submit">Upload Image</button>
+</form>
+
+<div th:if="${success}" class="alert alert-success" role="alert">
+    <span th:text="${success}"></span>
+</div>
+<div th:if="${error}" class="alert alert-danger" role="alert">
+    <span th:text="${error}"></span>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

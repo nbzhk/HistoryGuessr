@@ -1,14 +1,17 @@
 package org.softuni.finalproject.web;
 
 import com.dropbox.core.DbxException;
+import jakarta.validation.Valid;
 import org.softuni.finalproject.model.dto.DropboxCredentialDTO;
+import org.softuni.finalproject.model.dto.PictureDataDTO;
 import org.softuni.finalproject.service.DropboxService;
 import org.softuni.finalproject.service.PictureService;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -28,6 +31,12 @@ public class ImageLocationUploadController {
         this.pictureService = pictureService;
     }
 
+    @ModelAttribute("pictureData")
+    public PictureDataDTO pictureData() {
+        return new PictureDataDTO();
+    }
+
+
     @GetMapping("/upload")
     public String imageLocationUpload() throws DbxException {
         if (currentUserCredential == null) {
@@ -40,17 +49,27 @@ public class ImageLocationUploadController {
     }
 
     @PostMapping("/upload")
-    public String imageLocationUpload(@RequestParam("file") MultipartFile file,
-                                      @RequestParam("description") String description,
-                                      @RequestParam("longitude") Double longitude,
-                                      @RequestParam("latitude") Double latitude,
-                                      @RequestParam("year") Integer year,
+    public String imageLocationUpload(@Valid PictureDataDTO pictureData,
+                                      BindingResult bindingResult,
                                       RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("pictureData", pictureData);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.pictureData", bindingResult);
+
+            return "redirect:/admin/upload";
+        }
+
+        MultipartFile file = pictureData.getPicture();
+
         try {
             String url = this.dropboxService.uploadFile(file, file.getOriginalFilename());
-            this.pictureService.savePicture(url, description, year, latitude, longitude);
+            this.pictureService.savePicture(url,
+                    pictureData.getDescription(),
+                    pictureData.getYear(),
+                    pictureData.getLatitude(),
+                    pictureData.getLongitude());
             redirectAttributes.addFlashAttribute("success", "Image uploaded successfully");
-
         } catch (DbxException e) {
             redirectAttributes.addFlashAttribute("error", "Image upload failed");
         } catch (IOException e) {
