@@ -6,13 +6,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.softuni.finalproject.service.DropboxAuthService;
 import org.softuni.finalproject.service.DropboxCredentialService;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 
 
-@Controller
+@RestController
 public class DropboxAuthController {
 
     private final DropboxAuthService dropboxAuthService;
@@ -24,13 +25,29 @@ public class DropboxAuthController {
     }
 
     @GetMapping("/dropbox/auth")
-    public void authorizeDropbox(HttpServletRequest request, HttpServletResponse response) throws  IOException {
-       this.dropboxAuthService.authoriseUrl(request, response);
+    public ResponseEntity<Void> authorizeDropbox(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            this.dropboxAuthService.authoriseUrl(request, response);
+            return ResponseEntity.ok().build();
+        } catch (IOException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
-
+        //TODO: EXCEPTION HANDLING !!!
     @GetMapping("/dropbox-auth-finish")
-    public void finishDropbox(HttpServletRequest request, HttpServletResponse response) throws DbxWebAuth.ProviderException, DbxWebAuth.NotApprovedException, DbxWebAuth.BadRequestException, DbxWebAuth.BadStateException, DbxException, DbxWebAuth.CsrfException, IOException {
-        this.dropboxAuthService.setCredentials(request, response);
-        this.dropboxCredentialService.setCredentialToAdmin(this.dropboxAuthService.getCredentials());
+    public ResponseEntity<Void> finishDropbox(HttpServletRequest request, HttpServletResponse response)
+            throws DbxWebAuth.ProviderException, DbxWebAuth.NotApprovedException,
+            DbxWebAuth.BadRequestException, DbxWebAuth.BadStateException, DbxException,
+            DbxWebAuth.CsrfException,
+            IOException {
+        try {
+            this.dropboxAuthService.setCredentials(request, response);
+            this.dropboxCredentialService.setCredentialToAdmin(this.dropboxAuthService.getCredentials());
+
+            return ResponseEntity.ok().build();
+
+        } catch (IOException e) {
+                return ResponseEntity.badRequest().build();
+        }
     }
 }
