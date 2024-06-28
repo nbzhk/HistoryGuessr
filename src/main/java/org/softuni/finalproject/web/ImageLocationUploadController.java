@@ -6,6 +6,7 @@ import org.softuni.finalproject.model.dto.DropboxCredentialDTO;
 import org.softuni.finalproject.model.dto.PictureDataDTO;
 import org.softuni.finalproject.service.DropboxService;
 import org.softuni.finalproject.service.PictureService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,6 +37,10 @@ public class ImageLocationUploadController {
         return new PictureDataDTO();
     }
 
+    @ModelAttribute("apiKey")
+    public String apiKey(@Value("${google.maps.key}") String apiKey) {
+        return apiKey;
+    }
 
     @GetMapping("/upload")
     public String imageLocationUpload() throws DbxException {
@@ -45,6 +50,7 @@ public class ImageLocationUploadController {
                 return "redirect:/dropbox/auth";
             }
         }
+
         return "image-location-upload";
     }
 

@@ -276,3 +276,10 @@ th{
 tr:nth-child(even) {
     background-color: rgba(255, 255, 255, 0.1);
 }
+
+/*ADMIN UPLOAD*/
+#uploadMap {
+    margin-top: 10vh;
+    height: 47vh;
+    max-width: 53vh;
+}

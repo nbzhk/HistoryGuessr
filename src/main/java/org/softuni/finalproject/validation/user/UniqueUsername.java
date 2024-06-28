@@ -1,4 +1,4 @@
-package org.softuni.finalproject.validation;
+package org.softuni.finalproject.validation.user;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -10,10 +10,10 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-@Constraint(validatedBy = UniqueEmailValidator.class)
-public @interface UniqueEmail {
+@Constraint(validatedBy = UniqueUsernameValidator.class)
+public @interface UniqueUsername {
 
-    String message() default "Email already exist";
+    String message() default "Username already exist";
 
     Class<?>[] groups() default {};
 

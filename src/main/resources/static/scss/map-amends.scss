@@ -1,0 +1,6 @@
+
+$custom-colors: (
+ "custom-third": #f35f4c
+);
+
+$theme-colors: map-merge($theme-colors, $custom-colors);

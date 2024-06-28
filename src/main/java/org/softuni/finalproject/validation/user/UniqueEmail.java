@@ -1,4 +1,4 @@
-package org.softuni.finalproject.validation;
+package org.softuni.finalproject.validation.user;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -9,11 +9,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-@Constraint(validatedBy = ConfirmPasswordValidator.class)
-public @interface ConfirmPassword {
+@Target(ElementType.FIELD)
+@Constraint(validatedBy = UniqueEmailValidator.class)
+public @interface UniqueEmail {
 
-    String message() default "Passwords don't match";
+    String message() default "Email already exist";
 
     Class<?>[] groups() default {};
 

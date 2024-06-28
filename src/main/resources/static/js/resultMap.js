@@ -1,4 +1,6 @@
 const {Map} = await google.maps.importLibrary("maps");
+console.log("importLibrary MAPS")
+
 const {LatLng} = await google.maps.importLibrary("core");
 
 const map = new Map(document.getElementById("resultMap"), {
@@ -22,8 +24,6 @@ let currentRound;
 
 const csrfToken = document.querySelector('meta[name="_csrf"]');
 const token = csrfToken.getAttribute("content");
-
-console.log(token);
 
 fetch("/game/get-result", {
     method: "POST",

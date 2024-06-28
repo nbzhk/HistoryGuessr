@@ -35,10 +35,9 @@ public class ResultController {
         return "result";
     }
 
-    @PostMapping("/result")
-    @ResponseBody
-    public GameSessionDTO result(HttpSession session)  {
-        return (GameSessionDTO) session.getAttribute("gameSession");
-
-    }
+//    @PostMapping("/result")
+//
+//    public GameSessionDTO result(HttpSession session)  {
+//        return (GameSessionDTO) session.getAttribute("gameSession");
+//    }
 }

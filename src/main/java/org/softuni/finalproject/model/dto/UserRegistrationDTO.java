@@ -4,9 +4,9 @@ package org.softuni.finalproject.model.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import org.softuni.finalproject.validation.ConfirmPassword;
-import org.softuni.finalproject.validation.UniqueEmail;
-import org.softuni.finalproject.validation.UniqueUsername;
+import org.softuni.finalproject.validation.user.ConfirmPassword;
+import org.softuni.finalproject.validation.user.UniqueEmail;
+import org.softuni.finalproject.validation.user.UniqueUsername;
 
 import java.time.LocalDate;
 

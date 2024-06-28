@@ -4,8 +4,9 @@ const {LatLng} = google.maps.importLibrary("core");
 const yearSlider = document.getElementById("yearSlider");
 const yearValue = document.getElementById("yearValue");
 
+let map;
 
-const map = new Map(document.getElementById("googleMap"), {
+map = new Map(document.getElementById("googleMap"), {
     zoom: 0,
     center: {lat: 0, lng: 0},
     mapTypeControl: false,
@@ -72,7 +73,7 @@ async function fetchCoordinates() {
 
     guessYear = yearSlider.value;
 
-    fetch("/game", {
+    fetch("/game/get-user-guess", {
         method: 'post',
         headers: {
             'Content-Type': 'application/json',
@@ -162,6 +163,7 @@ photoContainer.addEventListener("mousemove", (event) => {
 
         const backgroundPositionX = parseInt(photoContainer.style.backgroundPositionX) || 0;
         const backgroundPositionY = parseInt(photoContainer.style.backgroundPositionY) || 0;
+
 
         photoContainer.style.backgroundPositionX = `${backgroundPositionX + deltaX}px`;
         photoContainer.style.backgroundPositionY = `${backgroundPositionY + deltaY}px`;

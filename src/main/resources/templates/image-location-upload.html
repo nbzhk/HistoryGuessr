@@ -6,6 +6,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type="module" src="/js/UploadMap.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/main.css">
@@ -13,97 +14,105 @@
 </head>
 <body>
 <div th:replace="~{fragments/navbar}">Navbar</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Image Upload</h2>
+            <form class="mx-auto image-submit bg-blur rounded"
+                  th:action="@{/admin/upload}"
+                  th:method="POST"
+                  th:object="${pictureData}"
+                  enctype="multipart/form-data">
+                <div class="form-group">
+                    <div class="label-holder textCol d-flex justify-content-center">
+                        <label for="formFile">Upload Image:</label>
+                    </div>
+                    <input type="file"
+                           class="form-control"
+                           id="formFile"
+                           name="file"
+                           th:field="*{picture}"
+                           th:errorclass="'is-invalid alert-danger bg-danger'">
 
-<h2>Image Upload</h2>
-<form class="mx-auto w-25 image-submit bg-blur rounded"
-      th:action="@{/admin/upload}"
-      th:method="POST"
-      th:object="${pictureData}"
-      enctype="multipart/form-data">
-    <div class="form-group">
-        <div class="label-holder textCol d-flex justify-content-center">
-            <label for="formFile">Upload Image:</label>
-        </div>
-        <input type="file"
-               class="form-control"
-               id="formFile"
-               name="file"
-               th:field="*{picture}"
-               th:errorclass="'is-invalid alert-danger bg-danger'">
+                    <p th:if="${#fields.hasErrors('picture')}"
+                       th:text="${#fields.errors('picture').iterator().next()}"
+                       class="invalid-feedback text-danger">
+                    </p>
+                </div>
+                <div class="form-group">
+                    <div class="label-holder textCol d-flex justify-content-center">
+                        <label for="year">Year</label>
+                    </div>
+                    <input type="number"
+                           class="form-control"
+                           id="year"
+                           name="year"
+                           step="1"
+                           th:field="*{year}"
+                           th:errorclass="'is-invalid alert-danger bg-danger'">
 
-        <p th:if="${#fields.hasErrors('picture')}"
-           th:text="${#fields.errors('picture').iterator().next()}"
-           class="invalid-feedback text-danger">
-        </p>
-    </div>
-    <div class="form-group">
-        <div class="label-holder textCol d-flex justify-content-center">
-            <label for="year">Year</label>
-        </div>
-        <input type="number"
-               class="form-control"
-               id="year"
-               name="year"
-               step="1"
-               th:field="*{year}"
-               th:errorclass="'is-invalid alert-danger bg-danger'">
-
-        <p th:if="${#fields.hasErrors('year')}"
-           th:text="${#fields.errors('year').iterator().next()}"
-           class="invalid-feedback text-danger">
-        </p>
-    </div>
-    <div class="form-group">
-        <div class="label-holder textCol d-flex justify-content-center">
-            <label for="description">Description</label>
-        </div>
-        <textarea type="text"
-                  class="form-control"
-                  id="description"
-                  name="description"
-                  rows="4" cols="50"
-                  th:field="*{description}"
-                  th:errorclass="'is-invalid alert-danger bg-danger'">
+                    <p th:if="${#fields.hasErrors('year')}"
+                       th:text="${#fields.errors('year').iterator().next()}"
+                       class="invalid-feedback text-danger">
+                    </p>
+                </div>
+                <div class="form-group">
+                    <div class="label-holder textCol d-flex justify-content-center">
+                        <label for="description">Description</label>
+                    </div>
+                    <textarea type="text"
+                              class="form-control"
+                              id="description"
+                              name="description"
+                              rows="4" cols="50"
+                              th:field="*{description}"
+                              th:errorclass="'is-invalid alert-danger bg-danger'">
                     </textarea>
-        <p th:if="${#fields.hasErrors('description')}"
-           th:text="${#fields.errors('description').iterator().next()}"
-           class="invalid-feedback text-danger">
-        </p>
-    </div>
-    <div class="form-group">
-        <div class="label-holder textCol d-flex justify-content-center">
-            <label for="latitude">Latitude</label>
+                    <p th:if="${#fields.hasErrors('description')}"
+                       th:text="${#fields.errors('description').iterator().next()}"
+                       class="invalid-feedback text-danger">
+                    </p>
+                </div>
+                <div class="form-group">
+                    <div class="label-holder textCol d-flex justify-content-center">
+                        <label for="latitude">Latitude</label>
+                    </div>
+                    <input type="number"
+                           step="any"
+                           class="form-control"
+                           id="latitude"
+                           name="latitude"
+                           th:field="*{latitude}"
+                           th:errorclass="'is-invalid alert-danger bg-danger'">
+                    <p th:if="${#fields.hasErrors('latitude')}"
+                       th:text="${#fields.errors('latitude').iterator().next()}"
+                       class="invalid-feedback text-danger">
+                    </p>
+                </div>
+                <div class="form-group">
+                    <div class="label-holder textCol d-flex justify-content-center">
+                        <label for="longitude">Longitude</label>
+                    </div>
+                    <input class="form-control"
+                           type="number"
+                           step="any"
+                           id="longitude"
+                           name="longitude"
+                           th:field="*{longitude}"
+                           th:errorclass="'is-invalid alert-danger bg-danger'">
+                    <p th:if="${#fields.hasErrors('longitude')}"
+                       th:text="${#fields.errors('longitude').iterator().next()}"
+                       class="invalid-feedback text-danger">
+                    </p>
+                </div>
+                <button class="btn-primary btn" th:type="submit">Upload Image</button>
+            </form>
         </div>
-        <input type="number"
-               step="any"
-               class="form-control"
-               id="latitude"
-               name="latitude"
-               th:field="*{latitude}"
-               th:errorclass="'is-invalid alert-danger bg-danger'">
-        <p th:if="${#fields.hasErrors('latitude')}"
-           th:text="${#fields.errors('latitude').iterator().next()}"
-           class="invalid-feedback text-danger">
-        </p>
-    </div>
-    <div class="form-group">
-        <div class="label-holder textCol d-flex justify-content-center">
-            <label for="longitude">Longitude</label>
+        <div class="col-md-6 result-right">
+            <div id="uploadMap">MAP MAP MAP</div>
         </div>
-        <input  class="form-control"
-                type="number"
-                step="any"
-                id="longitude"
-                name="longitude"
-                th:field="*{longitude}"
-                th:errorclass="'is-invalid alert-danger bg-danger'">
-        <p th:if="${#fields.hasErrors('longitude')}"
-           th:text="${#fields.errors('longitude').iterator().next()}"
-           class="invalid-feedback text-danger">
-        </p>
     </div>
-    <button class="btn-primary btn" th:type="submit">Upload Image</button>
-</form>
+</div>
 
 <div th:if="${success}" class="alert alert-success" role="alert">
     <span th:text="${success}"></span>
@@ -117,5 +126,34 @@
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+<script>
+    (g => {
+        var h, a, k, p = "The Google Maps JavaScript API",
+            c = "google",
+            l = "importLibrary",
+            q = "__ib__",
+            m = document,
+            b = window;
+        b = b[c] || (b[c] = {});
+        var d = b.maps || (b.maps = {}),
+            r = new Set(['maps']),
+            e = new URLSearchParams,
+            u = () => h || (h = new Promise(async (f, n) => {
+                await (a = m.createElement("script"));
+                e.set("libraries", [...r] + "");
+                for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]);
+                e.set("callback", c + ".maps." + q);
+                a.src = `https://maps.${c}apis.com/maps/api/js?` + e;
+                d[q] = f;
+                a.onerror = () => h = n(Error(p + " could not load."));
+                a.nonce = m.querySelector("script[nonce]")?.nonce || "";
+                m.head.append(a)
+            }));
+        d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n))
+    })({
+        key: '[[${apiKey}]]',
+        v: "weekly",
+    });
+</script>
 </body>
 </html>
