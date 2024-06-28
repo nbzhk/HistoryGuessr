@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -30,7 +29,7 @@ public class GameController {
             this.startNewGame(session);
             gameSession = (GameSessionDTO) session.getAttribute("gameSession");
         }
-        gameSession.nextRound();
+
 
         String imageUrl = this.gameService.getCurrentLocation(gameSession).getUrl();
 
@@ -42,7 +41,7 @@ public class GameController {
         return "game";
     }
 
-    @PostMapping("/start-new-game")
+    @GetMapping("/start-new-game")
     public String startNewGame(HttpSession session) {
         GameSessionDTO newGame = this.gameService.startGame(session);
         session.setAttribute("gameSession", newGame);

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class ResultController {
@@ -25,19 +24,34 @@ public class ResultController {
     public String getResult(Model model, HttpSession session) {
         GameSessionDTO gameSession = (GameSessionDTO) session.getAttribute("gameSession");
         if(gameSession == null || gameSession.getUserGuesses()[gameSession.getRound() - 1] == null) {
-            return "redirect:/game";
+            return "redirect:/game/start-new-game";
         }
 
         model.addAttribute("currentLocation", this.gameService.getCurrentLocation(gameSession));
         model.addAttribute("currentGame", gameSession);
         model.addAttribute("apiKey", googleMapsKey);
 
+
+
         return "result";
     }
 
-//    @PostMapping("/result")
-//
-//    public GameSessionDTO result(HttpSession session)  {
-//        return (GameSessionDTO) session.getAttribute("gameSession");
-//    }
+    @PostMapping("/next-round")
+    public String nextRound(HttpSession session) {
+        GameSessionDTO gameSession = (GameSessionDTO) session.getAttribute("gameSession");
+        if(gameSession == null || gameSession.getUserGuesses()[gameSession.getRound() - 1] == null) {
+            return "redirect:/game/start-new-game";
+        }
+
+        gameSession.nextRound();
+
+        if (gameSession.lastRound()) {
+            // this actually sets the round to 5
+            gameSession.nextRound();
+            return "redirect:/summary";
+        } else {
+            return "redirect:/game";
+        }
+    }
+
 }

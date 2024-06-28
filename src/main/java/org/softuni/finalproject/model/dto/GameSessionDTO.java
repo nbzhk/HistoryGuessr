@@ -24,8 +24,10 @@ public class GameSessionDTO implements Serializable {
         this.roundScores = new int[ROUNDS_PER_GAME];
         this.yearDifferences = new int[ROUNDS_PER_GAME];
         this.distanceDifferences = new double[ROUNDS_PER_GAME];
-        this.round = 0;
+        this.round = 1;
     }
+
+
 
     public User getUser() {
         return user;
@@ -69,8 +71,10 @@ public class GameSessionDTO implements Serializable {
     }
 
     public void nextRound() {
-        if (round < ROUNDS_PER_GAME) {
+        if (round <= ROUNDS_PER_GAME) {
             round++;
+        } else {
+            round = ROUNDS_PER_GAME;
         }
     }
 
@@ -103,6 +107,6 @@ public class GameSessionDTO implements Serializable {
     }
 
     public boolean lastRound() {
-        return round == 5;
+        return round > ROUNDS_PER_GAME;
     }
 }

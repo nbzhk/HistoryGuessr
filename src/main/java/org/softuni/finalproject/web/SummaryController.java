@@ -26,7 +26,7 @@ public class SummaryController {
     public String showSummary(Model model, HttpSession session) {
         GameSessionDTO gameSession = (GameSessionDTO) session.getAttribute("gameSession");
         if(gameSession == null || Arrays.stream(gameSession.getUserGuesses()).anyMatch(Objects::isNull)) {
-            return "redirect:/game";
+            return "redirect:/game/start-new-game";
         }
 
 
@@ -37,16 +37,4 @@ public class SummaryController {
         this.gameSessionService.saveGameSession(gameSession);
         return "summary";
     }
-
-//    @PostMapping("/summary")
-//    @ResponseBody
-//    public GameSessionDTO summary(HttpSession session) {
-//
-//        GameSessionDTO currentGame = (GameSessionDTO) session.getAttribute("gameSession");
-//
-//        session.setAttribute("gameSession", null);
-//
-//        return currentGame;
-//    }
-
 }

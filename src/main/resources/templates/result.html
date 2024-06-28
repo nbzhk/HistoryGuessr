@@ -84,11 +84,14 @@
                     </p>
                 </div>
             </div>
-            <button class="btn btn-primary"
-                    type="button"
-                    id="nextButton"
-                    th:text="${currentGame.lastRound()} ? 'Finish Game' : 'Next Round'">
-            </button>
+            <form th:method="POST"
+                  th:action="@{/next-round}">
+                <button class="btn btn-primary"
+                        type="submit"
+                        id="nextButton"
+                        th:text="${currentGame.getRound() == 5} ? 'Finish Game' : 'Next Round'">
+                </button>
+            </form>
         </div>
 
     </div>
