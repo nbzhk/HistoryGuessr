@@ -3,7 +3,6 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Navigation</title>
     <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/main.css">
 </head>
@@ -27,28 +26,20 @@
                 <a class="nav-link" th:href="@{/users/register}">Register</a>
             </li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
-                <form th:action="@{/game/start-new-game}"
-                      th:method="POST"
-                      id="startGameForm"
-                      class="logoutForm"
-                >
-                    <a class="nav-link"
-                       href="javascript:void(0);"
-                       onclick="document.getElementById('startGameForm').submit();"
-                    >Start Game
-                    </a>
-                </form>
+                <a class="nav-link" th:href="@{/game/start-new-game}">Start Game</a>
             </li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
                 <div th:if="${session.gameSession != null}">
-                    <a class="nav-link btn-outline-light" th:href="@{/game}">Resume</a>
+                    <a class="nav-link" th:href="@{/game}">Resume</a>
                 </div>
             </li>
             <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
                 <a class="nav-link dropdown-toggle"
-                   id="dropdown" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">Admin</a>
-                <div class="dropdown-menu " aria-labelledby="dropdown">
+                   href="#" role="button"
+                   id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                    Admin
+                </a>
+                <div class="dropdown-menu " aria-labelledby="dropdownMenuLink">
                     <a class="dropdown-item" th:href="@{/admin/upload}">Add Location</a>
                     <a class="dropdown-item" th:href="@{/admin/manage-users}">Manage users</a>
                 </div>
@@ -72,6 +63,8 @@
         </ul>
     </div>
 </nav>
-<script src="/js/bootstrap.bundle.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

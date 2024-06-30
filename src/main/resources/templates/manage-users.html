@@ -25,18 +25,18 @@
 
 </div>
 
-<table id="table" class="table-striped mt-3">
+<table id="table" class="table table-striped mt-3">
     <thead>
-    <tr>
+    <tr class="text-white">
         <th>Username</th>
-        <th>Registration date</th>
+        <th>Reg. date</th>
         <th>User Roles</th>
-        <th>Promote to Admin</th>
+        <th>Promote</th>
         <th>Delete</th>
     </tr>
     </thead>
     <tbody id="users-container">
-    <tr th:each="user : ${users}">
+    <tr class="text-white" th:each="user : ${users}">
         <td th:text="${user.getUsername()}"></td>
         <td th:text="${user.getRegistrationDate()}"></td>
         <td th:text="${user.getUserRoles()}">
@@ -83,7 +83,6 @@
 </table>
 
 <script type="module" src="/js/ManageUsers.js"></script>
-
 <script src="/js/bootstrap.bundle.js"></script>
 </body>
 </html>
