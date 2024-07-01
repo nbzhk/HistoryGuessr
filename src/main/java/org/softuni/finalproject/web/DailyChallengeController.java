@@ -1,16 +1,16 @@
 package org.softuni.finalproject.web;
 
-import org.softuni.finalproject.model.dto.DailyChallengeDTO;
-import org.softuni.finalproject.model.entity.DailyChallengeEntity;
 import org.softuni.finalproject.service.DailyChallengeService;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/challenge")
+@Controller
 public class DailyChallengeController {
+    @Value("${google.maps.key}")
+    private String googleMapsKey;
 
     private final DailyChallengeService dailyChallengeService;
 
@@ -18,8 +18,25 @@ public class DailyChallengeController {
         this.dailyChallengeService = dailyChallengeService;
     }
 
-    @PostMapping("/create")
-    public void createChallenge() {
-        this.dailyChallengeService.create();
+    @GetMapping("/daily")
+    public String daily(Model model) {
+
+        model.addAttribute("imageUrl", dailyChallengeService.getDailyChallenge().getPicture().getUrl());
+        model.addAttribute("apiKey", googleMapsKey);
+
+        return "daily";
+    }
+
+    @GetMapping("/daily/result")
+    public String result(Model model) {
+
+        model.addAttribute("imageUrl", dailyChallengeService.getDailyChallenge().getPicture().getUrl());
+
+        return "daily-result";
+    }
+
+    @PostMapping("/daily/make-guess")
+    public String makeGuess() {
+        return "daily";
     }
 }

@@ -1,8 +1,10 @@
 const {Map} = await google.maps.importLibrary("maps");
-console.log("importLibrary MAPS")
 const {LatLng} = google.maps.importLibrary("core");
 const yearSlider = document.getElementById("yearSlider");
 const yearValue = document.getElementById("yearValue");
+
+const isDaily = document.body.classList.contains("daily-challenge");
+
 
 let map;
 
@@ -73,7 +75,18 @@ async function fetchCoordinates() {
 
     guessYear = yearSlider.value;
 
-    fetch("/game/get-user-guess", {
+    let inputUrl;
+    let redirectUrl;
+
+    if (isDaily) {
+        inputUrl = "/daily/make-guess";
+        redirectUrl = "/daily/result"
+    } else {
+        inputUrl = "/game/get-user-guess";
+        redirectUrl = "/result"
+    }
+
+    fetch(inputUrl, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json',
@@ -84,7 +97,7 @@ async function fetchCoordinates() {
     }).then(response => {
         if (response.ok) {
             console.log(response.headers)
-            window.location.href = "/result";
+            window.location.href = redirectUrl;
         } else {
             console.log(response);
             console.log(response.headers.get("X-XSRF-TOKEN"))
@@ -100,6 +113,8 @@ fetchButton.addEventListener("click", () => {
     fetchCoordinates();
     console.log("fetched")
 });
+
+
 
 const expandable = document.getElementById("expandable");
 const googleMap = document.getElementById("googleMap");

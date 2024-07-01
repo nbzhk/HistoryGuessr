@@ -46,7 +46,7 @@ public class ResultController {
         gameSession.nextRound();
 
         if (gameSession.lastRound()) {
-            // this actually sets the round to 5
+            // this actually sets the round back to 5
             gameSession.nextRound();
             return "redirect:/summary";
         } else {

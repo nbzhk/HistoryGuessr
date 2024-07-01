@@ -1,5 +1,7 @@
 package org.softuni.finalproject.service;
 
+import org.softuni.finalproject.model.dto.DailyChallengeDTO;
+
 public interface DailyChallengeService {
-    void create();
+    DailyChallengeDTO getDailyChallenge();
 }

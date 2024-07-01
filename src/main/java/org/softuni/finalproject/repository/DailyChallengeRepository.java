@@ -10,4 +10,6 @@ import java.time.LocalDate;
 public interface DailyChallengeRepository extends JpaRepository<DailyChallengeEntity, Long> {
 
     boolean existsByDate(LocalDate now);
+
+    DailyChallengeEntity findByDate(LocalDate now);
 }
