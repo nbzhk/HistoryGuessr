@@ -13,20 +13,27 @@
 
 <div th:replace="~{fragments/navbar}" class="mb-4">Navbar</div>
 
+<main class="bg-secondary bg-blur rounded mt-5">
+    <div class="container rounded mt-5">
+        <h1>Welcome to History Guessr</h1>
 
-<div class="container">
+        <h2 sec:authorize="isAuthenticated()"
+            class="text-center text-white mt-2">Welcome,
+            <span sec:authorize="isAuthenticated()"
+                  th:text="${#authentication.principal.getUsername()}">
+            </span>
+        </h2>
+        <p class="h4">
+            Welcome to my final project.</p>
 
-    <h2 class="text-center text-white mt-2">Welcome,
-        <span
-              sec:authorize="isAuthenticated()"
-              th:text="${#authentication.principal.getUsername()}">
-        </span>
-        <span
-            sec:authorize="!isAuthenticated()">
-            Anonymous
-        </span>
-    </h2>
-</div>
+        <h3>
+            <a class="primary-text" th:href="@{/users/login}">Login</a>
+            if you have an account or
+            <a class="primary-text" th:href="@{/users/register}">Register</a>
+            and play a game!
+        </h3>
+    </div>
+</main>
 <script src="/js/bootstrap.bundle.js"></script>
 </body>
 </html>
