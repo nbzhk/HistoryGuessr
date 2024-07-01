@@ -1,9 +1,9 @@
-package org.softuni.finalproject.model;
+package org.softuni.finalproject.model.dto;
 
 import jakarta.persistence.Embeddable;
 
 @Embeddable
-public class UserGuess {
+public class UserGuessDTO {
     private Double guessLat;
     private Double guessLng;
     private int guessYear;

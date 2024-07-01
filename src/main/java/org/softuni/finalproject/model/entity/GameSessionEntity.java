@@ -1,7 +1,7 @@
 package org.softuni.finalproject.model.entity;
 
 import jakarta.persistence.*;
-import org.softuni.finalproject.model.UserGuess;
+import org.softuni.finalproject.model.dto.UserGuessDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,7 +20,7 @@ public class GameSessionEntity extends BaseEntity {
     @ElementCollection
     @CollectionTable(name = "game_data",
                      joinColumns = @JoinColumn(name = "game_session_id"))
-    private List<UserGuess> guesses;
+    private List<UserGuessDTO> guesses;
 
     @ElementCollection
     @CollectionTable(name = "game_data",
@@ -55,11 +55,11 @@ public class GameSessionEntity extends BaseEntity {
         this.pictures = pictures;
     }
 
-    public List<UserGuess> getGuesses() {
+    public List<UserGuessDTO> getGuesses() {
         return guesses;
     }
 
-    public void setGuesses(List<UserGuess> guesses) {
+    public void setGuesses(List<UserGuessDTO> guesses) {
         this.guesses = guesses;
     }
 

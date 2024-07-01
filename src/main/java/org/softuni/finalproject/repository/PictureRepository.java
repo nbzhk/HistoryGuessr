@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PictureRepository extends JpaRepository<PictureEntity, Long> {
@@ -15,4 +16,7 @@ public interface PictureRepository extends JpaRepository<PictureEntity, Long> {
 
     @Query(value = "SELECT * FROM pictures ORDER BY RAND() LIMIT :limit", nativeQuery = true)
     List<PictureEntity> findRandomPictures(@Param("limit") int limit);
+
+    @Query(value = "select * from pictures ORDER BY RAND() LIMIT :limit", nativeQuery = true)
+    Optional<PictureEntity> findRandomDailyPicture(@Param("limit") int limit);
 }

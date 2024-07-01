@@ -2,7 +2,7 @@ package org.softuni.finalproject.service.impl;
 
 
 import jakarta.servlet.http.HttpSession;
-import org.softuni.finalproject.model.UserGuess;
+import org.softuni.finalproject.model.dto.UserGuessDTO;
 import org.softuni.finalproject.model.dto.GameSessionDTO;
 import org.softuni.finalproject.model.dto.PictureLocationDTO;
 import org.softuni.finalproject.service.GameService;
@@ -98,8 +98,8 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public void setUserGuess(UserGuess userGuess, GameSessionDTO gameSessionDTO) {
-        gameSessionDTO.setUserGuess(userGuess);
+    public void setUserGuess(UserGuessDTO userGuessDTO, GameSessionDTO gameSessionDTO) {
+        gameSessionDTO.setUserGuess(userGuessDTO);
 
     }
 

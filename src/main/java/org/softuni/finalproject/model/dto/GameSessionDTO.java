@@ -1,6 +1,5 @@
 package org.softuni.finalproject.model.dto;
 
-import org.softuni.finalproject.model.UserGuess;
 import org.springframework.security.core.userdetails.User;
 
 import java.io.Serializable;
@@ -10,7 +9,7 @@ public class GameSessionDTO implements Serializable {
     private static final int ROUNDS_PER_GAME = 5;
 
     private User user;
-    private final UserGuess[] userGuesses;
+    private final UserGuessDTO[] userGuessDTOS;
     private PictureLocationDTO[] pictureLocationDTOS;
     private final int[] roundScores;
     private final int[] yearDifferences;
@@ -19,7 +18,7 @@ public class GameSessionDTO implements Serializable {
 
     public GameSessionDTO(User user, PictureLocationDTO[] pictureLocationDTOS) {
         this.user = user;
-        this.userGuesses = new UserGuess[ROUNDS_PER_GAME];
+        this.userGuessDTOS = new UserGuessDTO[ROUNDS_PER_GAME];
         this.pictureLocationDTOS = pictureLocationDTOS;
         this.roundScores = new int[ROUNDS_PER_GAME];
         this.yearDifferences = new int[ROUNDS_PER_GAME];
@@ -37,12 +36,12 @@ public class GameSessionDTO implements Serializable {
         this.user = user;
     }
 
-    public UserGuess[] getUserGuesses() {
-        return this.userGuesses;
+    public UserGuessDTO[] getUserGuesses() {
+        return this.userGuessDTOS;
     }
 
-    public void setUserGuess(UserGuess userGuess) {
-        this.userGuesses[round - 1] = userGuess;
+    public void setUserGuess(UserGuessDTO userGuessDTO) {
+        this.userGuessDTOS[round - 1] = userGuessDTO;
     }
 
     public PictureLocationDTO[] getPictureLocations() {

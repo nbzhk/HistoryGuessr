@@ -2,7 +2,7 @@ package org.softuni.finalproject.web;
 
 
 import jakarta.servlet.http.HttpSession;
-import org.softuni.finalproject.model.UserGuess;
+import org.softuni.finalproject.model.dto.UserGuessDTO;
 import org.softuni.finalproject.model.dto.GameSessionDTO;
 import org.softuni.finalproject.service.GameService;
 import org.springframework.http.ResponseEntity;
@@ -20,14 +20,14 @@ public class MapsController {
     }
 
     @PostMapping("/game/get-user-guess")
-    public ResponseEntity<UserGuess> getUserGuess(@RequestBody UserGuess userGuess, HttpSession session) {
+    public ResponseEntity<UserGuessDTO> getUserGuess(@RequestBody UserGuessDTO userGuessDTO, HttpSession session) {
 
 
-        this.gameService.setUserGuess(userGuess,(GameSessionDTO) session.getAttribute("gameSession"));
+        this.gameService.setUserGuess(userGuessDTO,(GameSessionDTO) session.getAttribute("gameSession"));
         this.gameService.calculateRoundScore((GameSessionDTO) session.getAttribute("gameSession"));
 
 
-        return ResponseEntity.ok().body(userGuess);
+        return ResponseEntity.ok().body(userGuessDTO);
 
     }
 
