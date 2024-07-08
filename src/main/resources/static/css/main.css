@@ -127,7 +127,8 @@ p {
 }
 
 .photoResultContainer {
-    height: 80vh;
+    margin-top: 10vh;
+    max-height: 50vh;
     align-self: stretch;
     position: relative;
     display: flex;
