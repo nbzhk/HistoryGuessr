@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DailyChallengeScheduler {
 
+
     private final DailyChallengeAPIService dailyChallengeAPIService;
 
     public DailyChallengeScheduler(DailyChallengeAPIService dailyChallengeAPIService) {
