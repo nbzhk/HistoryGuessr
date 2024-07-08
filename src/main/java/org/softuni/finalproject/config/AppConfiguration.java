@@ -5,8 +5,11 @@ import org.modelmapper.TypeMap;
 import org.softuni.finalproject.config.converter.PasswordEncoderConverter;
 import org.softuni.finalproject.config.converter.ScoreConverter;
 import org.softuni.finalproject.config.converter.UserRoleConverter;
+import org.softuni.finalproject.model.dto.ChallengeParticipantDTO;
 import org.softuni.finalproject.model.dto.GameSessionDTO;
+import org.softuni.finalproject.model.dto.UserInfoDTO;
 import org.softuni.finalproject.model.dto.UserRegistrationDTO;
+import org.softuni.finalproject.model.entity.ChallengeParticipantEntity;
 import org.softuni.finalproject.model.entity.GameSessionEntity;
 import org.softuni.finalproject.model.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,7 +30,9 @@ public class AppConfiguration {
         ModelMapper modelMapper = new ModelMapper();
 
         /* User roles converter */
-        modelMapper.addConverter(new UserRoleConverter());
+        modelMapper.typeMap(UserEntity.class, UserInfoDTO.class)
+                .addMappings(mapping -> mapping.using(new UserRoleConverter())
+                .map(UserEntity::getUserRoles, UserInfoDTO::setUserRoles));
 
         /* Dropbox credentials */
         modelMapper.addConverter(new DropboxCredentialConverter(appKey, appSecret));
@@ -43,6 +48,10 @@ public class AppConfiguration {
         modelMapper.createTypeMap(UserRegistrationDTO.class, UserEntity.class)
                 .addMappings(mapping -> mapping.using(new PasswordEncoderConverter())
                 .map(UserRegistrationDTO::getPassword, UserEntity::setPassword));
+
+        /* Type Map for ChallengeParticipantEntity to DTO*/
+        modelMapper.createTypeMap(ChallengeParticipantEntity.class, ChallengeParticipantDTO.class)
+                .addMapping(p -> p.getUser().getUsername(), ChallengeParticipantDTO::setUsername);
 
 
         return modelMapper;
