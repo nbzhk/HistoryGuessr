@@ -7,6 +7,8 @@ public class DailyChallengeDTO {
     private PictureLocationDTO picture;
     private List<ChallengeParticipantDTO> participants;
 
+
+
     public Long getId() {
         return id;
     }

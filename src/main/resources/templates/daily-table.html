@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Daily Standings</title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar}" class="mb-4">Navbar</div>
+
+<h1 class="mt-5">Daily Standings <th:block th:text="${#dates.format(#dates.createNow(), 'dd.MM.yyyy')}"></th:block> </h1>
+<table id="table" class="table table-striped mt-5"
+ th:objext="${sortedParticipants}">
+    <thead>
+    <tr class="text-white">
+        <th>Position</th>
+        <th>Username</th>
+        <th>Score</th>
+    </tr>
+    </thead>
+
+    <tbody id="users-container">
+    <tr class="text-white" th:each="participant, index : ${sortedParticipants}">
+        <td th:text="${index.index + 1}"></td>
+        <td th:text="${participant.getUsername()}"></td>
+        <td th:text="${participant.score}"></td>
+    </tr>
+</table>
+
+
+<script src="/js/bootstrap.bundle.js"></script>
+</body>
+</html>

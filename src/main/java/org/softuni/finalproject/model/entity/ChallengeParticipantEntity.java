@@ -1,6 +1,9 @@
 package org.softuni.finalproject.model.entity;
 
 import jakarta.persistence.*;
+import org.softuni.finalproject.model.dto.UserGuessDTO;
+
+import java.util.List;
 
 @Entity
 @Table(name = "challenge_participants")
@@ -14,6 +17,8 @@ public class ChallengeParticipantEntity extends BaseEntity {
     private UserEntity user;
     @Column
     private int score;
+    @Column
+    private UserGuessDTO guess;
 
     public DailyChallengeEntity getDailyChallenge() {
         return dailyChallenge;
@@ -37,5 +42,13 @@ public class ChallengeParticipantEntity extends BaseEntity {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public UserGuessDTO getGuess() {
+        return guess;
+    }
+
+    public void setGuess(UserGuessDTO guess) {
+        this.guess = guess;
     }
 }

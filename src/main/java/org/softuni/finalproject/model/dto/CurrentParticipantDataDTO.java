@@ -1,18 +1,11 @@
 package org.softuni.finalproject.model.dto;
 
-public class ChallengeParticipantDTO {
+public class CurrentParticipantDataDTO {
+
     private String username;
+    private PictureLocationDTO picture;
     private UserGuessDTO userGuessDTO;
     private int score;
-
-    public ChallengeParticipantDTO() {
-    }
-
-    public ChallengeParticipantDTO(String username) {
-        this.username = username;
-        this.userGuessDTO = new UserGuessDTO();
-        this.score = 0;
-    }
 
     public String getUsername() {
         return username;
@@ -22,12 +15,12 @@ public class ChallengeParticipantDTO {
         this.username = username;
     }
 
-    public int getScore() {
-        return score;
+    public PictureLocationDTO getPicture() {
+        return picture;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setPicture(PictureLocationDTO picture) {
+        this.picture = picture;
     }
 
     public UserGuessDTO getUserGuessDTO() {
@@ -36,5 +29,13 @@ public class ChallengeParticipantDTO {
 
     public void setUserGuessDTO(UserGuessDTO userGuessDTO) {
         this.userGuessDTO = userGuessDTO;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

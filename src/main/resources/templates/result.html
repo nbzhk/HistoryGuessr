@@ -50,16 +50,25 @@
     <script type="module" src="/js/ResultMap.js"></script>
     <meta name="_csrf" th:content="${_csrf.getToken()}"/>
 </head>
-<body>
+<body class=""
+        th:classappend=" ${isDaily} ? 'daily-challenge' : '' ">
 <div class="container">
     <div class="row">
         <div class="col results-left">
 
             <div class="photoResultContainer">
-                <img class="result-img" th:src="${currentLocation.getUrl()}" alt="image">
+                <img th:if="${isDaily}"
+                     class="result-img"
+                     th:src="${dailyChallenge.getPicture().getUrl()}" alt="image">
+                <img th:unless="${isDaily}"
+                     class="result-img"
+                     th:src="${currentLocation.getUrl()}" alt="image">
             </div>
             <div class="photoDescription roundBox">
-                <p class="text-primary" th:text="${currentLocation.getDescription()}"></p>
+                <p class="text-primary">
+                    <th:block th:if="${isDaily}" th:text="${dailyChallenge.picture.description}"></th:block>
+                    <th:block th:unless="${isDaily}" th:text="${currentLocation.description}"></th:block>
+                </p>
             </div>
         </div>
         <div class="col results-right">
@@ -68,23 +77,61 @@
                 <div class="text-center roundBox">
                     <p class="text-primary font-weight-bold">You were </p>
                     <p class="text-secondary">
-                        <th:block th:text="${currentGame.getRoundYearDifference()} + ' years apart.'"></th:block>
+                        <th:block th:if="${isDaily}"
+                                  th:text="${T(java.lang.Math).abs(currentChallengerData.userGuessDTO.guessYear - dailyChallenge.picture.year)} + ' years apart.'">
+                        </th:block>
+                        <th:block th:unless="${isDaily}"
+                                  th:text="${currentGame.getRoundYearDifference()} + ' years apart.'">
+                        </th:block>
                     </p>
                 </div>
                 <div class="text-center roundBox">
                     <p class="text-primary font-weight-bold">You guessed</p>
                     <p class="text-secondary">
-                        <th:block th:text="${#numbers.formatDecimal(currentGame.getRoundDistanceDifference(), 1, 2)} + ' km away'"></th:block>
+                        <th:block
+                                th:if="${isDaily}"
+                                th:text="${#numbers.formatDecimal(dailyDistance, 1, 2)} + ' km away'">
+                        </th:block>
+                        <th:block
+                                th:unless="${isDaily}"
+                                th:text="${#numbers.formatDecimal(currentGame.getRoundDistanceDifference(), 1, 2)} + ' km away'">
+                        </th:block>
                     </p>
                 </div>
                 <div id="scoreBox" class="text-center roundBox">
                     <p class="text-primary font-weight-bold">Total Score:</p>
                     <p class="text-secondary">
-                        <th:block th:text="${currentGame.getRoundScore()} + '/10000'"></th:block>
+                        <th:block
+                                th:if="${isDaily}"
+                                th:text="${currentChallengerData.score} + '/10000'">
+                        </th:block>
+                        <th:block
+                                th:unless="${isDaily}"
+                                th:text="${currentGame.getRoundScore()} + '/10000'">
+                        </th:block>
                     </p>
                 </div>
             </div>
-            <form th:method="POST"
+<!--            <form th:if="${isDaily}"-->
+<!--                  th:method="GET"-->
+<!--                  th:action="@{/daily/table}">-->
+<!--                <button class="btn btn-primary"-->
+<!--                        type="submit"-->
+<!--                        id="dailyTable"-->
+<!--                        th:text="Daily Results">-->
+<!--                </button>-->
+<!--            </form>-->
+            <form th:if="${isDaily}"
+                  th:method="GET"
+                  th:action="@{/}">
+                <button class="btn btn-primary"
+                        type="submit"
+                        id="homeButton"
+                        th:text="Home">
+                </button>
+            </form>
+            <form th:unless="${isDaily}"
+                  th:method="POST"
                   th:action="@{/next-round}">
                 <button class="btn btn-primary"
                         type="submit"

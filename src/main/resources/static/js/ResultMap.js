@@ -3,6 +3,8 @@ console.log("importLibrary MAPS")
 
 const {LatLng} = await google.maps.importLibrary("core");
 
+const isDaily = document.body.classList.contains("daily-challenge");
+
 const map = new Map(document.getElementById("resultMap"), {
     zoom: 0,
     center: {lat: 0, lng: 0},
@@ -25,28 +27,48 @@ let currentRound;
 const csrfToken = document.querySelector('meta[name="_csrf"]');
 const token = csrfToken.getAttribute("content");
 
-fetch("/game/get-result", {
+let inputUrl;
+
+if (isDaily) {
+    inputUrl = "/daily/get-result"
+} else {
+    inputUrl = "/game/get-result"
+}
+
+fetch(inputUrl, {
     method: "POST",
     headers: {
+        'Content-Type': 'application/json',
         'X-CSRF-TOKEN': token
     }
 
 })
     .then(response => response.json())
     .then(data => {
+            let actualCoordinates;
+            let guessCoordinates;
 
-        console.log(data);
-         currentRound = data.round - 1;
-        const actualCoordinates = new LatLng(data.pictureLocations[currentRound].latitude,
-            data.pictureLocations[currentRound].longitude);
+            console.log(data);
+            if (data.hasOwnProperty("round")) {
+                currentRound = data.round - 1;
+                actualCoordinates = new LatLng(data.pictureLocations[currentRound].latitude,
+                    data.pictureLocations[currentRound].longitude);
 
-        new google.maps.Marker({
-            position: actualCoordinates,
-            map: map
-        });
+                guessCoordinates = new LatLng(data.userGuesses[currentRound].guessLat,
+                    data.userGuesses[currentRound].guessLng);
+            } else {
+                actualCoordinates = new LatLng(data.picture.latitude, data.picture.longitude);
 
-        if (data.userGuesses[currentRound].guessLat != null && data.userGuesses[currentRound].guessLng != null) {
-            const guessCoordinates = new LatLng(data.userGuesses[currentRound].guessLat, data.userGuesses[currentRound].guessLng);
+                guessCoordinates = new LatLng(data.userGuessDTO.guessLat,
+                    data.userGuessDTO.guessLng)
+            }
+
+            new google.maps.Marker({
+                position: actualCoordinates,
+                map: map
+            });
+
+
             new google.maps.Marker({
                 position: guessCoordinates,
                 map: map
@@ -76,7 +98,4 @@ fetch("/game/get-result", {
             linePath.setMap(map);
 
         }
-    });
-
-
-
+    );
