@@ -22,7 +22,10 @@ public class DropboxCredentialServiceImpl implements DropboxCredentialService {
     private final DbxRequestConfig config;
 
 
-    public DropboxCredentialServiceImpl(DropboxCredentialRepository dropboxCredentialRepository, UserAuthService userAuthService, UserService userService, DbxRequestConfig config) {
+    public DropboxCredentialServiceImpl(DropboxCredentialRepository dropboxCredentialRepository,
+                                        UserAuthService userAuthService,
+                                        UserService userService,
+                                        DbxRequestConfig config) {
         this.dropboxCredentialRepository = dropboxCredentialRepository;
         this.userAuthService = userAuthService;
         this.userService = userService;

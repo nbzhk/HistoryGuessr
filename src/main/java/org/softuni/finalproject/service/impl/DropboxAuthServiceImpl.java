@@ -9,12 +9,12 @@ import org.softuni.finalproject.service.DropboxAuthService;
 
 import java.io.IOException;
 
+
 public class DropboxAuthServiceImpl implements DropboxAuthService {
 
     private static final String REDIRECT_URI_AUTH_FINISH = "http://localhost:8080/dropbox-auth-finish";
     private static final String REDIRECT_URI_UPLOAD_PAGE = "http://localhost:8080/admin/upload";
     private static final String SESSION_KEY = "dropbox-auth-csrf-token";
-
 
     private final DbxRequestConfig dbxRequestConfig;
     private final String appKey;
@@ -45,14 +45,12 @@ public class DropboxAuthServiceImpl implements DropboxAuthService {
 
         response.sendRedirect(authorizePageUri);
 
-
     }
 
     @Override
-    public void setCredentials(HttpServletRequest request, HttpServletResponse response) throws DbxException, DbxWebAuth.ProviderException, DbxWebAuth.NotApprovedException, DbxWebAuth.BadRequestException, DbxWebAuth.BadStateException, DbxWebAuth.CsrfException, IOException {
+    public void setCredentials(HttpServletRequest request, HttpServletResponse response) throws IOException, DbxWebAuth.ProviderException, DbxWebAuth.NotApprovedException, DbxWebAuth.BadRequestException, DbxWebAuth.BadStateException, DbxException, DbxWebAuth.CsrfException {
         HttpSession session = request.getSession(true);
         DbxSessionStore csrfTokenStore = new DbxStandardSessionStore(session, SESSION_KEY);
-
 
         DbxAppInfo appInfo = new DbxAppInfo(appKey, appSecret);
         DbxWebAuth auth = new DbxWebAuth(dbxRequestConfig, appInfo);
@@ -66,8 +64,8 @@ public class DropboxAuthServiceImpl implements DropboxAuthService {
                 this.appKey, this.appSecret);
 
 
-
         response.sendRedirect(REDIRECT_URI_UPLOAD_PAGE);
+
     }
 
     @Override

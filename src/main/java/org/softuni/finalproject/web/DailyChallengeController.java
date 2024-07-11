@@ -69,6 +69,10 @@ public class DailyChallengeController {
     @GetMapping("/daily/table")
     public String showDailyTable(Model model) {
 
+        if (!this.dailyChallengeService.userAlreadyParticipated()) {
+            return "redirect:/daily";
+        }
+
         List<ChallengeParticipantDTO> participantsByScore = this.dailyChallengeDTO().getParticipants()
                 .stream()
                 .sorted(Comparator.comparing(ChallengeParticipantDTO::getScore)

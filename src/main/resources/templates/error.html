@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body class="error">
+
+<div th:replace="~{fragments/navbar}" class="mb-4">Navbar</div>
+
+<div class="bg-dark">
+    <h1>An error occurred!</h1>
+    <p>We encountered an issue:
+        <th:block th:text="${errorMessage}"></th:block>
+    </p>
+    <p>If you need assistance, please contact support.</p>
+</div>
+</body>
+</html>

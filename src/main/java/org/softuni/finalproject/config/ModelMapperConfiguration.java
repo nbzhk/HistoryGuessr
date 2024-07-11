@@ -2,6 +2,7 @@ package org.softuni.finalproject.config;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
+import org.softuni.finalproject.config.converter.DropboxCredentialConverter;
 import org.softuni.finalproject.config.converter.PasswordEncoderConverter;
 import org.softuni.finalproject.config.converter.ScoreConverter;
 import org.softuni.finalproject.config.converter.UserRoleConverter;
@@ -18,7 +19,7 @@ import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
-public class AppConfiguration {
+public class ModelMapperConfiguration {
 
     @Value("${dropbox.appKey}")
     private String appKey;
