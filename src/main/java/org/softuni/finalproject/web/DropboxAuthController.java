@@ -2,10 +2,12 @@ package org.softuni.finalproject.web;
 
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxWebAuth;
+import com.dropbox.core.DbxWebAuth.BadStateException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.softuni.finalproject.model.dto.DropboxErrorInfoDTO;
 import org.softuni.finalproject.service.DropboxAuthService;
 import org.softuni.finalproject.service.DropboxCredentialService;
 import org.springframework.http.HttpStatus;
@@ -53,16 +55,21 @@ public class DropboxAuthController {
             return ResponseEntity.ok().build();
     }
 
-    @ExceptionHandler(DbxWebAuth.BadStateException.class)
-    public ResponseEntity<String> handleBadStateException(DbxWebAuth.BadStateException ex) {
+    @ExceptionHandler(BadStateException.class)
+    public ResponseEntity<DropboxErrorInfoDTO> handleBadStateException(BadStateException ex) {
         logger.error("Bad state exception", ex);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid state");
+        DropboxErrorInfoDTO errorInfoDTO =
+                new DropboxErrorInfoDTO(HttpStatus.UNAUTHORIZED.toString(), "Unexpected state");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorInfoDTO);
     }
 
-    @ExceptionHandler(DbxWebAuth.NotApprovedException.class)
-    public ResponseEntity<Object> handleNotApprovedException(DbxWebAuth.NotApprovedException ex) {
-        logger.error("Not approved exception", ex);
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You should authorise dropbox, in order to upload a picture!");
-    }
+//    @ExceptionHandler(NotApprovedException.class)
+//    public ResponseEntity<DropboxErrorInfoDTO> handleNotApprovedException(NotApprovedException ex) {
+//        logger.error("Not approved exception", ex);
+//        DropboxErrorInfoDTO errorInfoDTO = new DropboxErrorInfoDTO(HttpStatus.UNAUTHORIZED.toString(),
+//                "You should authorise dropbox, in order to upload an image.");
+//        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorInfoDTO);
+//    }
+
 
 }

@@ -15,6 +15,9 @@
     <p>We encountered an issue:
         <th:block th:text="${errorMessage}"></th:block>
     </p>
+    <p th:if="${reauthenticate}">
+        You might want to <a th:href="@{/dropbox/auth}">reauthenticate</a> again.
+    </p>
     <p>If you need assistance, please contact support.</p>
 </div>
 </body>

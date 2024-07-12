@@ -63,15 +63,14 @@ public class DropboxAuthServiceImpl implements DropboxAuthService {
                 finish.getRefreshToken(),
                 this.appKey, this.appSecret);
 
-
         response.sendRedirect(REDIRECT_URI_UPLOAD_PAGE);
-
     }
 
-    @Override
-    public DbxCredential getCredentials() {
-        return this.credential;
-    }
+
+@Override
+public DbxCredential getCredentials() {
+    return this.credential;
+}
 
 
 }
