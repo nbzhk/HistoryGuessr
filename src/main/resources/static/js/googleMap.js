@@ -132,6 +132,7 @@ function decrementFunc() {
     googleMap.style.height = "23vh"
 }
 
+
 let photoContainer = document.getElementById('photoContainer');
 let backgroundSize = 100;
 
@@ -154,7 +155,6 @@ photoContainer.addEventListener("wheel", (event) => {
         photoContainer.style.backgroundSize = `contain`;
     } else {
         photoContainer.style.backgroundSize = `${backgroundSize}%`;
-
     }
 
 });
@@ -170,21 +170,23 @@ photoContainer.addEventListener("mousedown", (event) => {
     y = event.clientY;
 });
 
+
 photoContainer.addEventListener("mousemove", (event) => {
     if (isDragging) {
         const deltaX = event.clientX - x;
         const deltaY = event.clientY - y;
 
-
         const backgroundPositionX = parseInt(photoContainer.style.backgroundPositionX) || 0;
         const backgroundPositionY = parseInt(photoContainer.style.backgroundPositionY) || 0;
-
 
         photoContainer.style.backgroundPositionX = `${backgroundPositionX + deltaX}px`;
         photoContainer.style.backgroundPositionY = `${backgroundPositionY + deltaY}px`;
 
         x = event.clientX;
         y = event.clientY;
+
+
+        adjustBackgroundPosition();
 
     }
 });
@@ -193,3 +195,22 @@ photoContainer.addEventListener("mouseup", () => {
     isDragging = false;
 });
 
+function adjustBackgroundPosition() {
+    const containerRect = photoContainer.getBoundingClientRect();
+    const bgWidth = (backgroundSize / 100) * containerRect.width;
+    const bgHeight = (backgroundSize / 100) * containerRect.height;
+
+    let bgPosX = parseInt(photoContainer.style.backgroundPositionX) || 0;
+    let bgPosY = parseInt(photoContainer.style.backgroundPositionY) || 0;
+
+    const minX = containerRect.width - bgWidth;
+    const minY = containerRect.height - bgHeight;
+
+    if (bgPosX > 0) bgPosX = 0;
+    if (bgPosY > 0) bgPosY = 0;
+    if (bgPosX < minX) bgPosX = minX;
+    if (bgPosY < minY) bgPosY = minY;
+
+    photoContainer.style.backgroundPositionX = `${bgPosX}px`;
+    photoContainer.style.backgroundPositionY = `${bgPosY}px`;
+}
