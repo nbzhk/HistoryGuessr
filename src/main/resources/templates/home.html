@@ -14,7 +14,7 @@
 <div th:replace="~{fragments/navbar}" class="mb-4">Navbar</div>
 
 <main sec:authorize="${!isAuthenticated()}" class="container mt-5">
-    <div sec:authorize="!isAuthenticated()" class="row justify-content-center">
+    <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card bg-blur text-white">
                 <div class="card-body">

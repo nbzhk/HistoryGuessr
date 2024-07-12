@@ -8,40 +8,37 @@
     <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/main.css">
 </head>
-<body>
+<body class="manage">
 
 <div th:replace="~{fragments/navbar}" class="mb-4">Navbar</div>
 
 <div class="container mt-5">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card">
-                <img th:src="@{https://upload.wikimedia.org/wikipedia/commons/a/a5/Default_Profile_Picture.png}" class="card-img-top" alt="Profile Picture">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${userInformation.getUsername()}">Username</h5>
-                </div>
-            </div>
-        </div>
+    <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
+            <div class="card bg-blur text-white">
                 <div class="card-body">
-                    <h5 class="card-title">Profile Details</h5>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><strong>Email:</strong>
-                            <p class="text-primary" th:text="${userInformation.getEmail()}"></p>
-                        <li>
-                        <li class="list-group-item"><strong>User since:</strong>
-                            <p class="text-info" th:text="${userInformation.getRegistrationDate()}"></p>
-                        <li>
-                        <li class="list-group-item"><strong>Interests:</strong> Reading, Traveling, Photography</li>
-                    </ul>
+                    <h2 class="card-title text-center">Profile Details</h2>
+<!--                    <div class="mb-3">-->
+<!--                        <strong>Name:</strong>-->
+<!--                        <p class="text-white" th:text="${userInformation.getFullName()}">Full Name</p>-->
+<!--                    </div>-->
+                    <div class="mb-3">
+                        <strong>Username:</strong>
+                        <p class="text-white" th:text="${userInformation.getUsername()}">Username</p>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Email:</strong>
+                        <p class="text-white" th:text="${userInformation.getEmail()}">Email</p>
+                    </div>
+                    <div class="mb-3">
+                        <strong>User since:</strong>
+                        <p class="text-white" th:text="${userInformation.getRegistrationDate()}">Registration Date</p>
+                    </div>
                 </div>
             </div>
-            <button class="btn btn-primary mt-3">Edit Profile</button>
         </div>
     </div>
 </div>
-
 <script src="/js/bootstrap.bundle.js"></script>
 </body>
 </html>

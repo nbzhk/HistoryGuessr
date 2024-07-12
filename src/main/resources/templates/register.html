@@ -25,13 +25,13 @@
                     <label for="username">Username</label>
                     <input id="username"
                            th:field="*{username}"
-                           th:errorclass="is-invalid"
+                           th:errorclass="'is-invalid alert-danger bg-danger'"
                            class="form-control text-lg-center"
                            type="text"
                            name="username"
                            placeholder="User name">
                     <div th:if="${#fields.hasErrors('username')}" >
-                        <p class="alert alert-danger is-invalid"
+                        <p class="text-danger"
                            th:each="error : ${#fields.errors('username')}" th:text="${error}"></p>
                     </div>
                 </div>
@@ -39,13 +39,13 @@
                     <label for="email">Email</label>
                     <input id="email"
                            th:field="*{email}"
-                           th:errorclass="is-invalid"
+                           th:errorclass="'is-invalid alert-danger bg-danger'"
                            class="form-control text-lg-center"
                            type="text"
                            name="email"
                            placeholder="Email">
                     <div th:if="${#fields.hasErrors('email')}" >
-                        <p class="errors alert alert-danger is-invalid"
+                        <p class="text-danger"
                            th:each="error : ${#fields.errors('email')}" th:text="${error}"></p>
                     </div>
                 </div>
@@ -54,13 +54,13 @@
                     <label for="password">Password</label>
                     <input id="password"
                            th:field="*{password}"
-                           th:errorclass="is-invalid"
+                           th:errorclass="'is-invalid alert-danger bg-danger'"
                            class="form-control text-lg-center"
                            type="password"
                            name="password"
                            placeholder="Password">
                     <div th:if="${#fields.hasErrors('password')}" >
-                        <p class="errors alert alert-danger is-invalid"
+                        <p class="text-danger"
                            th:each="error : ${#fields.errors('password')}" th:text="${error}"></p>
                     </div>
                 </div>
@@ -69,13 +69,13 @@
                     <label for="confirmPassword">Confirm Password</label>
                     <input id="confirmPassword"
                            th:field="*{confirmPassword}"
-                           th:errorclass="is-invalid"
+                           th:errorclass="'is-invalid alert-danger bg-danger'"
                            class="form-control text-lg-center"
                            type="password"
                            name="confirmPassword"
                            placeholder="Confirm Password">
                     <div th:if="${#fields.hasErrors('confirmPassword')}" >
-                        <p class="errors alert alert-danger is-invalid"
+                        <p class="text-danger"
                            th:each="error : ${#fields.errors('confirmPassword')}" th:text="${error}"></p>
                     </div>
                 </div>
