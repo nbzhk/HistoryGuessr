@@ -1,6 +1,8 @@
 body.home,
 body.login,
-body.register {
+body.register,
+body.upload,
+body.manage {
     background-image: url('../images/background.png');
     background-repeat: no-repeat;
     background-position: center;
@@ -78,6 +80,8 @@ input[type="password"]:focus {
 }
 
 .photoBackground {
+    overflow: hidden;
+    position: relative;
     border-radius: 21px;
     background: linear-gradient(145deg, #0e293d, #113149);
     box-shadow:  41px 41px 82px #0a1d2b,

@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="_csrf" th:content="${_csrf.getToken()}"/>
-    <meta http-equiv="content-type" content="no-store, no-cache, must-revalidate" />
-    <meta http-equiv="content-type" content="post-check=0, pre-check=0" />
-    <meta http-equiv="refresh" content="no-cache" />
+    <meta http-equiv="content-type" content="no-store, no-cache, must-revalidate"/>
+    <meta http-equiv="content-type" content="post-check=0, pre-check=0"/>
+    <meta http-equiv="refresh" content="no-cache"/>
     <script>
         (function () {
             window.history.pushState(null, "", window.location.href);
@@ -68,7 +68,8 @@
                            class="form-range"
                            id="yearSlider">
                     <p>Year: <span id="yearValue">2024</span></p>
-                    <button type="button" class="btn btn-primary" id="fetchButton" disabled>Put your marker on the map</button>
+                    <button type="button" class="btn btn-primary" id="fetchButton" disabled>Put your marker on the map
+                    </button>
                 </div>
             </form>
         </div>
