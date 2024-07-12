@@ -55,21 +55,5 @@ public class DropboxAuthController {
             return ResponseEntity.ok().build();
     }
 
-    @ExceptionHandler(BadStateException.class)
-    public ResponseEntity<DropboxErrorInfoDTO> handleBadStateException(BadStateException ex) {
-        logger.error("Bad state exception", ex);
-        DropboxErrorInfoDTO errorInfoDTO =
-                new DropboxErrorInfoDTO(HttpStatus.UNAUTHORIZED.toString(), "Unexpected state");
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorInfoDTO);
-    }
-
-//    @ExceptionHandler(NotApprovedException.class)
-//    public ResponseEntity<DropboxErrorInfoDTO> handleNotApprovedException(NotApprovedException ex) {
-//        logger.error("Not approved exception", ex);
-//        DropboxErrorInfoDTO errorInfoDTO = new DropboxErrorInfoDTO(HttpStatus.UNAUTHORIZED.toString(),
-//                "You should authorise dropbox, in order to upload an image.");
-//        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorInfoDTO);
-//    }
-
 
 }

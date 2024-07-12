@@ -13,7 +13,13 @@
 <div class="bg-dark">
     <h1>An error occurred!</h1>
     <p>We encountered an issue:
+    <div th:if="${errorCode}">
+        <p> Error code: </p>
+        <th:block th:text="${errorCode}"></th:block>
+    </div>
+    <div th:if="${errorMessage}">
         <th:block th:text="${errorMessage}"></th:block>
+    </div>
     </p>
     <p th:if="${reauthenticate}">
         You might want to <a th:href="@{/dropbox/auth}">reauthenticate</a> again.
