@@ -8,14 +8,14 @@
     <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/main.css">
 </head>
-<body>
+<body class="register">
 
 <div th:replace="~{fragments/navbar}">Navbar</div>
 
 <div class="container form-signin">
     <div class="row justify-content-center mt-5">
         <div class="col-md-6">
-            <form class="p-3 text-white rounded shadow"
+            <form class="p-3 text-white rounded shadow bg-blur"
                   th:action="@{/users/register}"
                   th:method="POST"
                   th:object="${userRegistrationDTO}">

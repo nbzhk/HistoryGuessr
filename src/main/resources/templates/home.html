@@ -13,28 +13,29 @@
 
 <div th:replace="~{fragments/navbar}" class="mb-4">Navbar</div>
 
-<main class="bg-dark bg-blur rounded mt-5">
-    <div sec:authorize="!isAuthenticated()"
-         class="container rounded mt-5">
-        <h1>Welcome to History Guessr</h1>
+<main sec:authorize="${!isAuthenticated()}" class="container mt-5">
+    <div sec:authorize="!isAuthenticated()" class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card bg-blur text-white">
+                <div class="card-body">
+                    <h1 class="card-title text-center">Welcome to History Guessr</h1>
 
-        <h2 sec:authorize="isAuthenticated()"
-            class="text-center text-white mt-2">Welcome,
-            <span sec:authorize="isAuthenticated()"
-                  th:text="${#authentication.principal.getUsername()}">
-            </span>
-        </h2>
-        <p class="h4">
-            Welcome to my final project.</p>
+                    <h2 sec:authorize="isAuthenticated()" class="text-center text-white mt-2">
+                        Welcome, <span th:text="${#authentication.principal.getUsername()}"></span>
+                    </h2>
 
-        <h3>
-            <a class="primary-text" th:href="@{/users/login}">Login</a>
-            if you have an account or
-            <a class="primary-text" th:href="@{/users/register}">Register</a>
-            and play a game!
-        </h3>
+                    <p class="h4 text-center mt-4">Welcome to my final project.</p>
+
+                    <h3 class="text-center mt-4">
+                        <a class="text-primary" th:href="@{/users/login}">Login</a> if you have an account or
+                        <a class="text-primary" th:href="@{/users/register}">Register</a> and play a game!
+                    </h3>
+                </div>
+            </div>
+        </div>
     </div>
 </main>
+
 <script src="/js/bootstrap.bundle.js"></script>
 </body>
 </html>
