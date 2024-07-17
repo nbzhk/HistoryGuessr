@@ -1,11 +1,11 @@
 package org.softuni.finalproject.service.impl;
 
-import org.softuni.finalproject.model.dto.ChallengeParticipantDTO;
 import org.softuni.finalproject.model.dto.CurrentParticipantDataDTO;
 import org.softuni.finalproject.model.dto.DailyChallengeDTO;
 import org.softuni.finalproject.model.entity.DailyChallengeEntity;
 import org.softuni.finalproject.repository.DailyChallengeRepository;
 import org.softuni.finalproject.service.DailyChallengeService;
+import org.softuni.finalproject.service.exception.DailyChallengeNotFound;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -65,6 +65,10 @@ public class DailyChallengeServiceImpl implements DailyChallengeService {
     public boolean userAlreadyParticipated() {
         DailyChallengeEntity byDate = dailyChallengeRepository.findByDate(LocalDate.now());
         String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        if (byDate == null || currentUser.isBlank()) {
+            throw new DailyChallengeNotFound(LocalDate.now());
+        }
 
         return byDate.getParticipants()
                 .stream()

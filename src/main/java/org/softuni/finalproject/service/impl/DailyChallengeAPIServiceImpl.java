@@ -11,6 +11,7 @@ import org.softuni.finalproject.repository.PictureRepository;
 import org.softuni.finalproject.repository.UserRepository;
 import org.softuni.finalproject.service.DailyChallengeAPIService;
 import org.softuni.finalproject.service.GameService;
+import org.softuni.finalproject.service.exception.DailyChallengeNotFound;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -53,11 +54,15 @@ public class DailyChallengeAPIServiceImpl implements DailyChallengeAPIService {
     public DailyChallengeDTO getCurrentChallenge() {
         DailyChallengeEntity byDate = this.dailyChallengeRepository.findByDate(LocalDate.now());
 
+        if (byDate == null) {
+            throw new DailyChallengeNotFound(LocalDate.now());
+        }
+
         return modelMapper.map(byDate, DailyChallengeDTO.class);
     }
 
     @Override
-    public ChallengeParticipantDTO addParticipant(DailyChallengeDTO dailyChallengeDTO) {
+    public void addParticipant(DailyChallengeDTO dailyChallengeDTO) {
         DailyChallengeEntity byDate = this.dailyChallengeRepository.findByDate(LocalDate.now());
 
         if (dailyChallengeDTO.getParticipants() == null || dailyChallengeDTO.getParticipants().isEmpty()) {
@@ -82,16 +87,12 @@ public class DailyChallengeAPIServiceImpl implements DailyChallengeAPIService {
                 participant.setUser(user.get());
                 participant.setDailyChallenge(byDate);
 
-                //TODO check if participant already exists
-
                 byDate.getParticipants().add(participant);
             }
 
 
             this.dailyChallengeRepository.save(byDate);
         }
-
-        return challengeParticipantDTO;
 
     }
 
@@ -184,4 +185,34 @@ public class DailyChallengeAPIServiceImpl implements DailyChallengeAPIService {
         return this.gameService.getDailyGuessDistance(dailyChallengeDTO, participant.get().getGuess());
 
     }
+
+    @Override
+    public ChallengeParticipantDTO userAlreadyParticipated() {
+        DailyChallengeEntity byDate = dailyChallengeRepository.findByDate(LocalDate.now());
+        String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        ChallengeParticipantEntity participant = byDate.getParticipants()
+                .stream()
+                .filter(p -> p.getUser().getUsername().equals(currentUser))
+//                        && !p.getGuess().getGuessLat().isNaN()
+//                        && !p.getGuess().getGuessLng().isNaN())
+                .findFirst()
+                .orElse(null);
+
+        return mapToDTO(participant);
+    }
+
+    private ChallengeParticipantDTO mapToDTO(ChallengeParticipantEntity participant) {
+        if (participant == null) {
+            return null;
+        }
+
+        ChallengeParticipantDTO participantDTO = new ChallengeParticipantDTO(participant.getUser().getUsername());
+        participantDTO.setUserGuessDTO(participant.getGuess());
+        participantDTO.setScore(participant.getScore());
+
+        return participantDTO;
+
+    }
+
 }

@@ -10,7 +10,7 @@ public interface DailyChallengeAPIService {
 
     DailyChallengeDTO getCurrentChallenge();
 
-    ChallengeParticipantDTO addParticipant(DailyChallengeDTO dailyChallengeDTO);
+    void addParticipant(DailyChallengeDTO dailyChallengeDTO);
 
     void setUserGuess(ChallengeParticipantDTO challengeParticipantDTO, UserGuessDTO userGuessDTO);
 
@@ -19,4 +19,6 @@ public interface DailyChallengeAPIService {
     CurrentParticipantDataDTO getForCurrentUser(String username);
 
     double currentGuessDistance(DailyChallengeDTO dailyChallengeDTO, String username);
+
+    ChallengeParticipantDTO userAlreadyParticipated();
 }
