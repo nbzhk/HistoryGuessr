@@ -10,7 +10,7 @@
     <meta http-equiv="refresh" content="no-cache"/>
     <script>
         (function () {
-            window.history.pushState(null, "", window.location.href);
+            window.history.pushState(null, "", "/game");
             window.onpopstate = function () {
                 window.location.replace("/");
             };
@@ -19,6 +19,8 @@
     <title>Game</title>
     <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/main.css">
+
+
 </head>
 <body class="game d-flex flex-column"
       th:classappend=" ${isDaily} ? 'daily-challenge' : '' ">
@@ -55,7 +57,7 @@
     <footer id="mapFormContainer" class="col mt-auto">
         <div id="expandable">
             <div class="mapSearch mb-3" id="googleMap">
-                <script type="module" src="/js/googleMap.js"></script>
+                <script type="module" src="/js/GoogleMap.js"></script>
             </div>
             <form th:method="post"
                   th:action="${isDaily} ? '@{/daily/make-guess}' : '@{/game}'" class="mt-3">
@@ -106,6 +108,7 @@
     });
 </script>
 <script src="/js/bootstrap.bundle.js"></script>
+<script src="/js/PanZoom.js"></script>
 
 </body>
 </html>
