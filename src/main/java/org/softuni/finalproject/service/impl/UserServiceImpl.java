@@ -32,9 +32,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void register(UserRegistrationDTO userRegistrationDTO) {
+    public boolean register(UserRegistrationDTO userRegistrationDTO) {
 
         UserEntity user = this.modelMapper.map(userRegistrationDTO, UserEntity.class);
+
+        if (user == null) {
+            return false;
+        }
 
         user.setRegistrationDate(LocalDate.now());
 
@@ -42,8 +46,7 @@ public class UserServiceImpl implements UserService {
 
         this.userRepository.save(user);
 
-        System.out.println("Saved user: " + user);
-
+        return true;
     }
 
     private void setUserRole(UserEntity user) {

@@ -40,7 +40,7 @@ public class UserRegistrationController {
     public String register(@Valid UserRegistrationDTO userRegistrationDTO,
                            BindingResult bindingResult,
                            RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors() || !this.userService.register(userRegistrationDTO)) {
             redirectAttributes.addFlashAttribute("userRegistrationDTO", userRegistrationDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userRegistrationDTO", bindingResult);
             return "redirect:/users/register";

@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface UserService {
 
-    void register(UserRegistrationDTO userRegistrationDTO);
+    boolean register(UserRegistrationDTO userRegistrationDTO);
 
     List<UserInfoDTO> getAllUsers();
 
