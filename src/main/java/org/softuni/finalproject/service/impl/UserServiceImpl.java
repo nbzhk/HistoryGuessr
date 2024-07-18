@@ -6,13 +6,18 @@ import org.softuni.finalproject.model.dto.UserRegistrationDTO;
 import org.softuni.finalproject.model.entity.UserEntity;
 import org.softuni.finalproject.model.entity.UserRoleEntity;
 import org.softuni.finalproject.model.enums.UserRoleEnum;
+import org.softuni.finalproject.repository.GameSessionRepository;
 import org.softuni.finalproject.repository.RolesRepository;
 import org.softuni.finalproject.repository.UserRepository;
 import org.softuni.finalproject.service.UserService;
+import org.softuni.finalproject.service.exception.UserNotFound;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -21,14 +26,17 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final RolesRepository rolesRepository;
+    private final GameSessionRepository gameSessionRepository;
 
 
     public UserServiceImpl(UserRepository userRepository,
                            ModelMapper modelMapper,
-                           RolesRepository rolesRepository) {
+                           RolesRepository rolesRepository,
+                           GameSessionRepository gameSessionRepository) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.rolesRepository = rolesRepository;
+        this.gameSessionRepository = gameSessionRepository;
     }
 
     @Override
@@ -41,9 +49,7 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setRegistrationDate(LocalDate.now());
-
         setUserRole(user);
-
         this.userRepository.save(user);
 
         return true;
@@ -66,13 +72,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(String username) {
-        Optional<UserEntity> userToDelete = this.userRepository.findByUsername(username);
+        Optional<UserEntity> userToDelete = findByUsername(username);
         userToDelete.ifPresent(this.userRepository::delete);
     }
 
     @Override
     public void promoteUserToAdmin(String username) {
-        Optional<UserEntity> user = this.userRepository.findByUsername(username);
+        Optional<UserEntity> user = findByUsername(username);
 
         if (user.isPresent()) {
             UserEntity userEntity = user.get();
@@ -85,13 +91,43 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void demoteAdminToUser(String username) {
-        Optional<UserEntity> user = this.userRepository.findByUsername(username);
+        Optional<UserEntity> user = findByUsername(username);
 
         if (user.isPresent() && user.get().getUserRoles().get(0).getUserRole().equals(UserRoleEnum.ADMIN)) {
             UserEntity userEntity = user.get();
             userEntity.getUserRoles().remove(rolesRepository.findByUserRole(UserRoleEnum.ADMIN));
             this.userRepository.save(userEntity);
         }
+    }
+
+    @Override
+    public Map<LocalDateTime, Integer> getBestGames(String username) {
+        Long playerId = getCurrentUserId(username);
+
+        List<Object[]> bestGames = this.gameSessionRepository.findTopFiveGamesForPlayer(playerId);
+
+        return mapData(bestGames);
+    }
+
+    private Long getCurrentUserId(String username) {
+        UserEntity userEntity = this.userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFound("No such user"));
+
+        return userEntity.getId();
+    }
+
+    private Map<LocalDateTime, Integer> mapData(List<Object[]> byPlayerId) {
+
+        Map<LocalDateTime, Integer> map = new LinkedHashMap<>();
+
+        for (Object[] result : byPlayerId) {
+            LocalDateTime timeStamp = (LocalDateTime) result[0];
+            Integer score = ((Number) result[1]).intValue();
+            map.put(timeStamp, score);
+        }
+
+        return map;
+
     }
 
     @Override

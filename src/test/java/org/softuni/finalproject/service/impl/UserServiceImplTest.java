@@ -11,14 +11,14 @@ import org.softuni.finalproject.model.dto.UserRegistrationDTO;
 import org.softuni.finalproject.model.entity.UserEntity;
 import org.softuni.finalproject.model.entity.UserRoleEntity;
 import org.softuni.finalproject.model.enums.UserRoleEnum;
+import org.softuni.finalproject.repository.GameSessionRepository;
 import org.softuni.finalproject.repository.RolesRepository;
 import org.softuni.finalproject.repository.UserRepository;
+import org.softuni.finalproject.service.exception.UserNotFound;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
@@ -28,6 +28,9 @@ public class UserServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private GameSessionRepository gameSessionRepository;
 
     @Mock
     private ModelMapper modelMapper;
@@ -159,7 +162,66 @@ public class UserServiceImplTest {
 
         Optional<UserEntity> foundUser = userServiceImpl.findByUsername(username);
 
+        assertTrue(foundUser.isPresent());
         assertEquals(foundUser.get().getUsername(), username);
+    }
+
+    @Test
+    void findByUsernameIsNull() {
+        String username = "non_existing";
+
+        when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
+
+        Optional<UserEntity> user = userServiceImpl.findByUsername(username);
+
+        assertFalse(user.isPresent());
+    }
+
+    @Test
+    void testGetBestGames() {
+        // Mocking the user
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId(1L);
+        userEntity.setUsername("testUser");
+
+        // Mocking the repository responses
+        when(userRepository.findByUsername("testUser")).thenReturn(Optional.of(userEntity));
+
+        // Mocking the game sessions
+        List<Object[]> mockGameSessions = Arrays.asList(
+                new Object[]{LocalDateTime.of(2024, 7, 18, 0, 0), 50000},
+                new Object[]{LocalDateTime.of(2024, 7, 17, 0,0), 40000}
+
+        );
+        when(gameSessionRepository.findTopFiveGamesForPlayer(1L)).thenReturn(mockGameSessions);
+
+        // Testing the method
+        Map<LocalDateTime, Integer> result = userServiceImpl.getBestGames("testUser");
+
+        // Expected result map
+        Map<LocalDateTime, Integer> expected = new LinkedHashMap<>();
+        expected.put(LocalDateTime.of(2024, 7, 18, 0, 0), 50000);
+        expected.put(LocalDateTime.of(2024, 7, 17, 0,0), 40000);
+
+        assertNotNull(result);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void testGetBestGamesUserNotFound() {
+        when(userRepository.findByUsername("non_existing")).thenReturn(Optional.empty());
+
+        assertThrows(UserNotFound.class, () -> userServiceImpl.getBestGames("non_existing"));
+    }
+
+    @Test
+    void getCurrentUserIdTest() {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId(1L);
+
+        when(userRepository.findByUsername("testUser")).thenReturn(Optional.of(userEntity));
+
+        assertEquals(1L, userEntity.getId());
     }
 
     @Test

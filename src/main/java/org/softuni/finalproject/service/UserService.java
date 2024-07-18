@@ -4,7 +4,9 @@ import org.softuni.finalproject.model.dto.UserInfoDTO;
 import org.softuni.finalproject.model.dto.UserRegistrationDTO;
 import org.softuni.finalproject.model.entity.UserEntity;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface UserService {
@@ -18,6 +20,8 @@ public interface UserService {
     void promoteUserToAdmin(String username);
 
     void demoteAdminToUser(String username);
+
+    Map<LocalDateTime, Integer> getBestGames(String username);
 
     Optional<UserEntity> findByUsername(String currentUsername);
 
