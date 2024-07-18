@@ -7,6 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.time.LocalDateTime;
+import java.util.Map;
+
 
 @Controller
 public class ProfileController {
@@ -22,8 +25,10 @@ public class ProfileController {
     public String profile(Model model, Authentication authentication) {
 
         LoggedUserDTO userInformation = userAuthService.getUserInformation(authentication.getName());
+        Map<LocalDateTime, Integer> bestGames = userAuthService.getBestGames(authentication.getName());
 
         model.addAttribute("userInformation", userInformation);
+        model.addAttribute("bestGames", bestGames);
 
         return "profile";
     }

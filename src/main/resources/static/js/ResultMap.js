@@ -1,5 +1,5 @@
 const {Map} = await google.maps.importLibrary("maps");
-console.log("importLibrary MAPS")
+
 
 const {LatLng} = await google.maps.importLibrary("core");
 
@@ -48,7 +48,6 @@ fetch(inputUrl, {
             let actualCoordinates;
             let guessCoordinates;
 
-            console.log(data);
             if (data.hasOwnProperty("round")) {
                 currentRound = data.round - 1;
                 actualCoordinates = new LatLng(data.pictureLocations[currentRound].latitude,
@@ -71,7 +70,8 @@ fetch(inputUrl, {
 
             new google.maps.Marker({
                 position: guessCoordinates,
-                map: map
+                map: map,
+                icon: "/images/GuessMarker.png", scaledSize: new google.maps.Size(50, 50),
             });
 
             let lineCoordinates = [

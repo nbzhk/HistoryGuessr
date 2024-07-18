@@ -35,10 +35,14 @@ map.addListener("click", (mapsMouseEvent) => {
     if (guessMarker) {
         guessMarker.setPosition(mapsMouseEvent.latLng);
     } else {
+
+        const guessMarkerImg = "/images/GuessMarker.png";
         guessMarker = new google.maps.Marker({
             position: mapsMouseEvent.latLng,
             map: map,
-            title: "My Guess!"
+            title: "My Guess!",
+            icon: guessMarkerImg
+
         });
     }
     console.log("marker SET")
