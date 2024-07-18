@@ -20,9 +20,18 @@ function searchFunction() {
 
 document.getElementById('inputSearch').onkeyup = searchFunction;
 
+let popUpOpen = false;
+
 document.querySelectorAll('.promote-button, .demote-button, .delete-button').forEach(button => {
    button.addEventListener("click", evt => {
        evt.preventDefault();
+
+       if (popUpOpen) {
+           return;
+       }
+
+       popUpOpen = true;
+
        const usernameField = button.closest('form').querySelector('.username-field');
        const username = usernameField.value;
        let confirmMessage = "";
@@ -35,7 +44,7 @@ document.querySelectorAll('.promote-button, .demote-button, .delete-button').for
        }
 
        const confirmationPopup = document.createElement('div');
-       confirmationPopup.classList.add('confirmation-popup');
+       confirmationPopup.classList.add('confirmation-popup', 'bg-blur', 'container');
 
        const messageElement = document.createElement('p');
        messageElement.textContent = confirmMessage;
@@ -46,17 +55,19 @@ document.querySelectorAll('.promote-button, .demote-button, .delete-button').for
 
        const confirmButton = document.createElement('button');
        confirmButton.textContent = "Confirm";
-       confirmButton.classList.add('admin-button')
+       confirmButton.classList.add('admin-button', 'btn', 'btn-danger', 'mx-2')
        confirmButton.addEventListener("click", () => {
             button.parentElement.submit();
             confirmationPopup.remove();
+            popUpOpen = false;
        });
 
        const cancelButton = document.createElement('button');
        cancelButton.textContent = "Cancel";
-       cancelButton.classList.add('admin-button');
+       cancelButton.classList.add('admin-button', 'btn', 'btn-primary', 'mx-2');
        cancelButton.addEventListener("click", () => {
           confirmationPopup.remove();
+           popUpOpen = false;
        });
 
        buttonContainer.appendChild(confirmButton);

@@ -15,14 +15,14 @@ import java.util.Comparator;
 import java.util.List;
 
 @Controller
-public class DailyChallengeController {
+public class DailyChallengeClient {
     @Value("${google.maps.key}")
     private String googleMapsKey;
 
     private final DailyChallengeService dailyChallengeService;
     private final DailyChallengeAPIService dailyChallengeAPIService;
 
-    public DailyChallengeController(DailyChallengeService dailyChallengeService, DailyChallengeAPIService dailyChallengeAPIService) {
+    public DailyChallengeClient(DailyChallengeService dailyChallengeService, DailyChallengeAPIService dailyChallengeAPIService) {
         this.dailyChallengeService = dailyChallengeService;
         this.dailyChallengeAPIService = dailyChallengeAPIService;
     }
@@ -76,7 +76,7 @@ public class DailyChallengeController {
         List<ChallengeParticipantDTO> participantsByScore = this.dailyChallengeDTO().getParticipants()
                 .stream()
                 .sorted(Comparator.comparing(ChallengeParticipantDTO::getScore)
-                        .reversed())
+                .reversed())
                 .toList();
 
         model.addAttribute("sortedParticipants", participantsByScore);

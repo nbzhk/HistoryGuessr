@@ -20,7 +20,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
-    //TODO: check role assignment
     private final RolesRepository rolesRepository;
 
 

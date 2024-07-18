@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
+
 @Controller
 public class UserRegistrationController {
 
@@ -25,7 +27,12 @@ public class UserRegistrationController {
     }
 
     @GetMapping("/users/register")
-    public String register() {
+    public String register(Principal principal) {
+
+        if (principal != null) {
+            return "redirect:/";
+        }
+
         return "register";
     }
 
@@ -33,7 +40,6 @@ public class UserRegistrationController {
     public String register(@Valid UserRegistrationDTO userRegistrationDTO,
                            BindingResult bindingResult,
                            RedirectAttributes redirectAttributes) {
-        //TODO: Password Confirmation
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("userRegistrationDTO", userRegistrationDTO);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userRegistrationDTO", bindingResult);

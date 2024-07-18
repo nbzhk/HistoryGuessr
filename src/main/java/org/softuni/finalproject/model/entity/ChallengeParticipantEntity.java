@@ -3,8 +3,6 @@ package org.softuni.finalproject.model.entity;
 import jakarta.persistence.*;
 import org.softuni.finalproject.model.dto.UserGuessDTO;
 
-import java.util.List;
-
 @Entity
 @Table(name = "challenge_participants")
 public class ChallengeParticipantEntity extends BaseEntity {

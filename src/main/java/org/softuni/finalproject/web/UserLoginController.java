@@ -6,12 +6,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.security.Principal;
+
 @Controller
 public class UserLoginController {
 
-
     @GetMapping("/users/login")
-    public String login() {
+    public String login(Principal principal) {
+        if (principal != null) {
+            return "redirect:/";
+        }
+
         return "login";
     }
 
