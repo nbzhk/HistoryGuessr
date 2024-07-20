@@ -8,7 +8,7 @@ public class PictureEntity extends BaseEntity {
 
     @Column(nullable = false)
     private String url;
-    @Column(nullable = false)
+    @Column(name= "pic_year",nullable = false)
     private int year;
     @Column(columnDefinition = "TEXT")
     private String description;

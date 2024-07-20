@@ -30,7 +30,7 @@ public class DropboxConfiguration {
 
     @Bean
     public DbxRequestConfig dbxRequestConfig() {
-        return DbxRequestConfig.newBuilder(appKey).build();
+        return DbxRequestConfig.newBuilder("HistoryGuessr/1.0").build();
     }
 
 
