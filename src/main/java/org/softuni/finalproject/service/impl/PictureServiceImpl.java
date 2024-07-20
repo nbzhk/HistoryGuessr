@@ -39,15 +39,15 @@ public class PictureServiceImpl implements PictureService {
     }
 
 
-    private PictureEntity getPictureByUrl(String url) {
-        return this.pictureRepository.findByUrl(url);
-    }
-
     @Override
     public List<PictureEntity> getCurrentGamePictures(PictureLocationDTO[] pictures) {
         return Arrays.stream(pictures)
                 .map(pic -> getPictureByUrl(pic.getUrl()))
                 .toList();
+    }
+
+    private PictureEntity getPictureByUrl(String url) {
+        return this.pictureRepository.findByUrl(url);
     }
 
     @Override
