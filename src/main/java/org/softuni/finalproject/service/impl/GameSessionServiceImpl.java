@@ -31,8 +31,7 @@ public class GameSessionServiceImpl implements GameSessionService {
         this.modelMapper = modelMapper;
     }
 
-
-    //TODO: check mapping
+    
     @Override
     public void saveGameSession(GameSessionDTO gameSessionDTO) {
         UserEntity user = getUser(gameSessionDTO);
