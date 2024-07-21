@@ -1,9 +1,7 @@
 package org.softuni.finalproject.service.impl;
 
-import com.dropbox.core.DbxApiException;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
-import com.dropbox.core.LocalizedText;
 import com.dropbox.core.oauth.DbxCredential;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.sharing.SharedLinkMetadata;
@@ -93,6 +91,10 @@ public class DropboxServiceImpl implements DropboxService {
     private DbxClientV2 initializeClient() throws DbxException {
         DbxCredential credential = this.modelMapper.map(getUserDropboxCredential(), DbxCredential.class);
         boolean tokenIsValid = this.credentialService.checkCredentialValidation(credential);
+
+        if (credential.getAccessToken() == null || credential.getAccessToken().isEmpty()) {
+            throw new DbxException("Invalid credential");
+        }
 
         if (!tokenIsValid) {
             credential = this.modelMapper.map(getUserDropboxCredential(), DbxCredential.class);

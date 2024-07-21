@@ -4,7 +4,6 @@ package org.softuni.finalproject.service.impl;
 import jakarta.servlet.http.HttpSession;
 import org.softuni.finalproject.model.dto.*;
 import org.softuni.finalproject.service.DailyChallengeAPIService;
-import org.softuni.finalproject.service.DailyChallengeService;
 import org.softuni.finalproject.service.GameService;
 import org.softuni.finalproject.service.PictureService;
 import org.springframework.security.core.Authentication;
@@ -26,7 +25,6 @@ public class GameServiceImpl implements GameService {
     private static final double MAX_DISTANCE_KM = 20037.5;
 
     private final PictureService pictureService;
-
     private final DailyChallengeAPIService dailyChallengeAPIService;
     private final Principal principal;
 
@@ -37,6 +35,7 @@ public class GameServiceImpl implements GameService {
 
         this.principal = SecurityContextHolder.getContext().getAuthentication();
     }
+
 
     @Override
     public GameSessionDTO startGame(HttpSession session) {
@@ -71,7 +70,7 @@ public class GameServiceImpl implements GameService {
 
     }
 
-    private int calculateYearDifference(int guessYear, int actualYear, GameSessionDTO gameSessionDTO) {
+     int calculateYearDifference(int guessYear, int actualYear, GameSessionDTO gameSessionDTO) {
         int yearDifference = Math.abs(guessYear - actualYear);
 
         if (gameSessionDTO != null) {
@@ -80,7 +79,7 @@ public class GameServiceImpl implements GameService {
         return yearDifference;
     }
 
-    private double calculateDistanceInKm(GameSessionDTO gameSessionDTO) {
+     double calculateDistanceInKm(GameSessionDTO gameSessionDTO) {
         int round = gameSessionDTO.getRound();
         double actualLatitude = gameSessionDTO.getPictureLocations()[round - 1].getLatitude();
         double actualLongitude = gameSessionDTO.getPictureLocations()[round - 1].getLongitude();
@@ -92,7 +91,7 @@ public class GameServiceImpl implements GameService {
 
     }
 
-    private double haversineFormula(double actualLatitude,
+     double haversineFormula(double actualLatitude,
                                     double actualLongitude,
                                     Double guessLat,
                                     Double guessLng,
@@ -201,16 +200,16 @@ public class GameServiceImpl implements GameService {
     }
 
 
-    private void setRoundYearDifference(int roundYearDifference, GameSessionDTO gameSessionDTO) {
+    void setRoundYearDifference(int roundYearDifference, GameSessionDTO gameSessionDTO) {
         gameSessionDTO.setRoundYearDifference(roundYearDifference);
     }
 
 
-    private void setRoundDistance(double roundDistance, GameSessionDTO gameSessionDTO) {
+    void setRoundDistance(double roundDistance, GameSessionDTO gameSessionDTO) {
         gameSessionDTO.setRoundDistanceDifference(roundDistance);
     }
 
-    private void setRoundScore(int roundScore, GameSessionDTO gameSessionDTO) {
+    void setRoundScore(int roundScore, GameSessionDTO gameSessionDTO) {
         gameSessionDTO.setRoundScore(roundScore);
     }
 }

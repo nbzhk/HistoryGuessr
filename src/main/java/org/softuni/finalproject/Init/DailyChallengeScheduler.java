@@ -1,29 +1,34 @@
 package org.softuni.finalproject.Init;
 
+import org.softuni.finalproject.repository.DailyChallengeRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
+
+import java.time.LocalDate;
 
 @Component
 public class DailyChallengeScheduler {
 
 
     private final RestClient restClient;
+    private final DailyChallengeRepository dailyChallengeRepository;
 
-    public DailyChallengeScheduler(RestClient restClient) {
+    public DailyChallengeScheduler(RestClient restClient, DailyChallengeRepository dailyChallengeRepository) {
         this.restClient = restClient;
-
+        this.dailyChallengeRepository = dailyChallengeRepository;
     }
 
 
 //    @Scheduled(cron = "0 0 0 * * ?")
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(cron = "0 * * * * *")
     public void createDailyChallenge() {
-        this.restClient
-                .get()
-                .uri("http://localhost:8080/challenge/create")
-                .retrieve()
-                .toBodilessEntity();
+        if (!dailyChallengeRepository.existsByDate(LocalDate.now())) {
+            this.restClient
+                    .get()
+                    .uri("http://localhost:8080/challenge/create")
+                    .retrieve()
+                    .toBodilessEntity();
+        }
     }
-
 }
