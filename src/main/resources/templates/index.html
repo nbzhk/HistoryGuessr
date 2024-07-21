@@ -13,7 +13,7 @@
 
 <div th:replace="~{fragments/navbar}" class="mb-4">Navbar</div>
 
-<main sec:authorize="${isAuthenticated()}" class="container mt-5">
+<main sec:authorize="${!isAuthenticated()}" class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card bg-blur text-white">
@@ -24,7 +24,11 @@
                         Welcome, <span th:text="${#authentication.principal.getUsername()}"></span>
                     </h2>
 
+                    <p class="h4 text-center mt-4">Welcome to my final project.</p>
+
                     <h3 class="text-center mt-4">
+                        <a class="text-primary" th:href="@{/users/login}">Login</a> if you have an account or
+                        <a class="text-primary" th:href="@{/users/register}">Register</a> and play a game!
                     </h3>
                 </div>
             </div>
