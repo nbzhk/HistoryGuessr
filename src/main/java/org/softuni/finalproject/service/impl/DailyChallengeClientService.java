@@ -14,13 +14,13 @@ import org.springframework.web.client.RestClient;
 import java.time.LocalDate;
 
 @Service
-public class DailyChallengeServiceImpl implements DailyChallengeService {
+public class DailyChallengeClientService implements DailyChallengeService {
 
 
     private final RestClient restClient;
     private final DailyChallengeRepository dailyChallengeRepository;
 
-    public DailyChallengeServiceImpl(RestClient restClient, DailyChallengeRepository dailyChallengeRepository) {
+    public DailyChallengeClientService(RestClient restClient, DailyChallengeRepository dailyChallengeRepository) {
         this.restClient = restClient;
         this.dailyChallengeRepository = dailyChallengeRepository;
     }

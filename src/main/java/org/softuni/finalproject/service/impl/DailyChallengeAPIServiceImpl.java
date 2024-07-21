@@ -12,6 +12,7 @@ import org.softuni.finalproject.repository.UserRepository;
 import org.softuni.finalproject.service.DailyChallengeAPIService;
 import org.softuni.finalproject.service.GameService;
 import org.softuni.finalproject.service.exception.DailyChallengeNotFound;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +47,11 @@ public class DailyChallengeAPIServiceImpl implements DailyChallengeAPIService {
             DailyChallengeEntity dailyChallenge =
                     new DailyChallengeEntity(randomDailyPicture.get(), LocalDate.now());
 
-            this.dailyChallengeRepository.save(dailyChallenge);
+            try {
+                this.dailyChallengeRepository.save(dailyChallenge);
+            } catch (DataIntegrityViolationException e) {
+                throw new DataIntegrityViolationException("Daily challenge already exists. Skipping...");
+            }
         }
     }
 

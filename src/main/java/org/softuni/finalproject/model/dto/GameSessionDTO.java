@@ -52,6 +52,13 @@ public class GameSessionDTO implements Serializable {
         this.pictureLocationDTOS = pictureLocationDTOS;
     }
 
+    public void setPictureLocationDTOS(PictureLocationDTO[] pictureLocationDTOS) {
+        this.pictureLocationDTOS = pictureLocationDTOS;
+    }
+
+    public void setRound(int round) {
+        this.round = round;
+    }
 
     public int[] getScores() {
         return roundScores;
