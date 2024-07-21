@@ -20,6 +20,7 @@ import java.util.Optional;
 
 @Component
 public class SetupDataLoader implements ApplicationListener<ContextRefreshedEvent> {
+
     boolean alreadySetup = false;
 
     private final UserRepository userRepository;
@@ -50,7 +51,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
     }
 
-    private void createAdminIfNotExist() {
+    public void createAdminIfNotExist() {
         Optional<UserEntity> admin = this.userRepository.findByUsername("admin");
 
         if (admin.isEmpty()) {
@@ -68,7 +69,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     }
 
     @Transactional
-    void createAdminRoleIfNotFound() {
+   public void createAdminRoleIfNotFound() {
         UserRoleEntity adminRole = rolesRepository.findByUserRole(UserRoleEnum.ADMIN);
         if (adminRole == null) {
             adminRole = new UserRoleEntity();
@@ -79,7 +80,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     }
 
     @Transactional
-    void createUserRoleIfNotFound() {
+    public void createUserRoleIfNotFound() {
         UserRoleEntity userRole = rolesRepository.findByUserRole(UserRoleEnum.USER);
         if (userRole == null) {
             userRole = new UserRoleEntity();
@@ -90,7 +91,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     }
 
     @Transactional
-    void addPictureDataIfNotFound() {
+    public void addPictureDataIfNotFound() {
         if (this.pictureRepository.count() == 0) {
             PictureEntity[] pictures = getPictures();
 
@@ -100,7 +101,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
     }
 
-    PictureEntity[] getPictures() {
+   public PictureEntity[] getPictures() {
         PictureEntity firstPicture = new PictureEntity();
         firstPicture.setUrl("https://www.dropbox.com/scl/fi/2zlun9r5vfrgwm0l31cit/Train_wreck_at_Montparnasse_1895.jpg?rlkey=bc3oxzi1m7raawbpjx6pwpnrs&dl=0&raw=1");
         firstPicture.setDescription("The Montparnasse derailment occurred at 16:00 on 22 October 1895 when the Granville–Paris Express overran the buffer stop at its Gare Montparnasse terminus.");
