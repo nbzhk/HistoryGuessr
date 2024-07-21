@@ -23,6 +23,8 @@ public class GameServiceImpl implements GameService {
     private static final double EARTH_RADIUS = 6371;
     private static final int MAX_YEAR_DIFFERENCE = 124;
     private static final double MAX_DISTANCE_KM = 20037.5;
+    private static final int YEAR_THRESHOLD = 60;
+    private static final double DISTANCE_THRESHOLD = 5000;
 
     private final PictureService pictureService;
     private final DailyChallengeAPIService dailyChallengeAPIService;
@@ -60,11 +62,7 @@ public class GameServiceImpl implements GameService {
 
         double distanceInKm = calculateDistanceInKm(gameSessionDTO);
 
-        int yearScore = 5000 * (1 - (yearDiff / MAX_YEAR_DIFFERENCE));
-
-        int distanceScore = (int) (5000 * (1 - (distanceInKm / MAX_DISTANCE_KM)));
-
-        int roundScore = yearScore + distanceScore;
+        int roundScore = score(yearDiff, distanceInKm);
 
         setRoundScore(roundScore, gameSessionDTO);
 
@@ -143,27 +141,38 @@ public class GameServiceImpl implements GameService {
 
         if (currentUser.isPresent()) {
 
-            int yearDifference = this.calculateYearDifference(currentUser.get().getUserGuessDTO().getGuessYear(),
+            int yearDiff = this.calculateYearDifference(currentUser.get().getUserGuessDTO().getGuessYear(),
                     dailyChallengeDTO.getPicture().getYear(),
                     null);
 
-            double distance = this.haversineFormula(dailyChallengeDTO.getPicture().getLatitude(),
+            double distanceInKm = this.haversineFormula(dailyChallengeDTO.getPicture().getLatitude(),
                     dailyChallengeDTO.getPicture().getLongitude(),
                     currentUser.get().getUserGuessDTO().getGuessLat(),
                     currentUser.get().getUserGuessDTO().getGuessLng(),
                     null);
 
-            int yearScore = 5000 * (1 - (yearDifference / MAX_YEAR_DIFFERENCE));
+            int score = score(yearDiff, distanceInKm);
 
-            int distanceScore = (int) (5000 * (1 - (distance / MAX_DISTANCE_KM)));
-
-            int totalScore = yearScore + distanceScore;
-
-            this.dailyChallengeAPIService.setParticipantScore(currentUser.get(),totalScore);
+            this.dailyChallengeAPIService.setParticipantScore(currentUser.get(),score);
 
         }
 
 
+    }
+
+    private int score(int yearDiff, double distanceInKm) {
+        int score = 0;
+
+        if (yearDiff <= YEAR_THRESHOLD) {
+            int yearScore = (int) (5000 * Math.pow((1 - (yearDiff / (double)MAX_YEAR_DIFFERENCE)), 2));
+            score += yearScore;
+        }
+
+        if (distanceInKm <= DISTANCE_THRESHOLD) {
+            int distanceScore = (int) (5000 * Math.pow((1 - (distanceInKm / MAX_DISTANCE_KM)), 2));
+            score += distanceScore;
+        }
+        return score;
     }
 
     @Override
