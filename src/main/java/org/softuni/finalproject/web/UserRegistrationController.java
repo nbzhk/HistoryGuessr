@@ -46,7 +46,6 @@ public class UserRegistrationController {
             return "redirect:/users/register";
         }
 
-        this.userService.register(userRegistrationDTO);
 
         return "redirect:/users/login";
     }
