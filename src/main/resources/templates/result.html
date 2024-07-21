@@ -76,7 +76,7 @@
             <div id="resultBar" class="d-flex justify-content-between align-items-center text-white rounded-pill">
                 <div class="text-center roundBox">
                     <p class="text-primary font-weight-bold">You were </p>
-                    <p class="text-secondary">
+                    <p class="text-secondary text-white">
                         <th:block th:if="${isDaily}"
                                   th:text="${T(java.lang.Math).abs(currentChallengerData.userGuessDTO.guessYear - dailyChallenge.picture.year)} + ' years apart.'">
                         </th:block>
@@ -87,7 +87,7 @@
                 </div>
                 <div class="text-center roundBox">
                     <p class="text-primary font-weight-bold">You guessed</p>
-                    <p class="text-secondary">
+                    <p class="text-secondary text-white">
                         <th:block
                                 th:if="${isDaily}"
                                 th:text="${#numbers.formatDecimal(dailyDistance, 1, 2)} + ' km away'">
@@ -100,7 +100,7 @@
                 </div>
                 <div id="scoreBox" class="text-center roundBox">
                     <p class="text-primary font-weight-bold">Total Score:</p>
-                    <p class="text-secondary">
+                    <p class="text-secondary text-white">
                         <th:block
                                 th:if="${isDaily}"
                                 th:text="${currentChallengerData.score} + '/10000'">
@@ -112,15 +112,6 @@
                     </p>
                 </div>
             </div>
-<!--            <form th:if="${isDaily}"-->
-<!--                  th:method="GET"-->
-<!--                  th:action="@{/daily/table}">-->
-<!--                <button class="btn btn-primary"-->
-<!--                        type="submit"-->
-<!--                        id="dailyTable"-->
-<!--                        th:text="Daily Results">-->
-<!--                </button>-->
-<!--            </form>-->
             <form th:if="${isDaily}"
                   th:method="GET"
                   th:action="@{/}">
@@ -129,6 +120,11 @@
                         id="homeButton"
                         th:text="Home">
                 </button>
+                <a th:if="${isDaily}"
+                   class="btn btn-primary"
+                   th:href="@{/daily/table}">
+                    Daily Standings
+                </a>
             </form>
             <form th:unless="${isDaily}"
                   th:method="POST"
