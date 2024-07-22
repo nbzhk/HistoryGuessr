@@ -20,16 +20,22 @@
                 <div class="card-body">
                     <h1 class="card-title text-center">Welcome to History Guessr</h1>
 
-                    <h2 sec:authorize="isAuthenticated()" class="text-center text-white mt-2">
-                        Welcome, <span th:text="${#authentication.principal.getUsername()}"></span>
-                    </h2>
+                    <h4 class="text-center mt-4">
+                        This is my project for the Spring Advanced Course 2024 at <a th:href="@{https://softuni.bg}" target="_blank">SoftUni</a>.
+                    </h4>
+                    <h4 class="h4 text-center mt-4">
+                        It is a game inspired by
+                        <a th:href="@{https://www.geoguessr.com}" target="_blank"> GeoGuessr </a> and
+                        <a th:href="@{https://timeguessr.com}" target="_blank"> TimeGuessr </a>, and I strongly advise you to check them out!
+                        The goal is to guess the location and the year of the given historical picture.
+                        You can also compete against other players in the daily challenge. Try it out!
+                    </h4>
 
-                    <p class="h4 text-center mt-4">Welcome to my final project.</p>
 
-                    <h3 class="text-center mt-4">
+                    <h4 class="text-center mt-4">
                         <a class="text-primary" th:href="@{/users/login}">Login</a> if you have an account or
                         <a class="text-primary" th:href="@{/users/register}">Register</a> and play a game!
-                    </h3>
+                    </h4>
                 </div>
             </div>
         </div>
