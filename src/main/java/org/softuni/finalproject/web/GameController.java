@@ -25,6 +25,14 @@ public class GameController {
     public String gameView(Model model, HttpSession session) {
         GameSessionDTO gameSession = this.gameService.getCurrentGame(session);
 
+        Boolean fromResult = (Boolean) session.getAttribute("fromResult");
+        if (fromResult != null && fromResult) {
+            session.removeAttribute("fromResult");
+            gameSession.nextRound();
+            return "redirect:/";
+        }
+
+
         if (gameSession == null) {
             this.startNewGame(session);
             gameSession = (GameSessionDTO) session.getAttribute("gameSession");

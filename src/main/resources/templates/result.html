@@ -6,14 +6,6 @@
     <meta http-equiv="content-type" content="no-store, no-cache, must-revalidate" />
     <meta http-equiv="content-type" content="post-check=0, pre-check=0" />
     <meta http-equiv="refresh" content="no-cache" />
-    <script>
-        (function () {
-            window.history.pushState(null, "", "/result");
-            window.onpopstate = function () {
-                window.location.replace("/");
-            };
-        })();
-    </script>
     <title>Result</title>
     <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/main.css">
@@ -127,7 +119,7 @@
                 </a>
             </form>
             <form th:unless="${isDaily}"
-                  th:method="POST"
+                  th:method="GET"
                   th:action="@{/next-round}">
                 <button class="btn btn-primary"
                         type="submit"

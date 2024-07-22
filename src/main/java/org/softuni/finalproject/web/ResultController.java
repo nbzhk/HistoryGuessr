@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class ResultController {
@@ -27,16 +26,17 @@ public class ResultController {
             return "redirect:/game/start-new-game";
         }
 
+        session.setAttribute("fromResult", true);
+
         model.addAttribute("currentLocation", this.gameService.getCurrentLocation(gameSession));
         model.addAttribute("currentGame", gameSession);
         model.addAttribute("apiKey", googleMapsKey);
 
 
-
         return "result";
     }
 
-    @PostMapping("/next-round")
+    @GetMapping("/next-round")
     public String nextRound(HttpSession session) {
         GameSessionDTO gameSession = (GameSessionDTO) session.getAttribute("gameSession");
         if(gameSession == null || gameSession.getUserGuesses()[gameSession.getRound() - 1] == null) {
@@ -44,6 +44,7 @@ public class ResultController {
         }
 
         gameSession.nextRound();
+        session.setAttribute("fromResult", false);
 
         if (gameSession.lastRound()) {
             // this actually sets the round back to 5
