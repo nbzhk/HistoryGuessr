@@ -265,7 +265,7 @@ input[type=range]:focus::-ms-fill-upper {
 .deleteForm,
 .logoutForm,
 .startGameForm,
-.dropdown-form {
+.language-form {
     background: none;
     box-shadow: none;
     padding: 0;
@@ -304,4 +304,26 @@ tr:nth-child(even) {
     margin-top: 10vh;
     height: 47vh;
     max-width: 53vh;
+}
+
+/*FLAG BUTTON*/
+.flag-icon {
+    margin-top: 10px;
+    width: 24px;
+    height: auto;
+}
+
+.flag-btn {
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+}
+
+.flag-btn:hover {
+    opacity: 0.8;
+}
+
+.hidden {
+    display: none;
 }

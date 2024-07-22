@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/main.css">
-    <title>Home</title>
+    <title th:text="#{home.title}">Home</title>
 </head>
 <body class="home">
 
@@ -18,23 +18,34 @@
         <div class="col-md-8">
             <div class="card bg-blur text-white">
                 <div class="card-body">
-                    <h1 class="card-title text-center">Welcome to History Guessr</h1>
+                    <h1 class="card-title text-center" th:text="#{home.welcome_title}">Welcome to History Guessr</h1>
 
                     <h4 class="text-center mt-4">
-                        This is my project for the Spring Advanced Course 2024 at <a th:href="@{https://softuni.bg}" target="_blank">SoftUni</a>.
+                        <span th:text="#{home.project_info} + ' '">
+                        This is my project for the Spring Advanced Course 2024 at
+                            </span>
+                        <a th:href="@{https://softuni.bg}" target="_blank" th:text="#{home.soft.uni}">SoftUni</a>.
                     </h4>
                     <h4 class="h4 text-center mt-4">
-                        It is a game inspired by
-                        <a th:href="@{https://www.geoguessr.com}" target="_blank"> GeoGuessr </a> and
-                        <a th:href="@{https://timeguessr.com}" target="_blank"> TimeGuessr </a>, and I strongly advise you to check them out!
-                        The goal is to guess the location and the year of the given historical picture.
-                        You can also compete against other players in the daily challenge. Try it out!
+                        <span th:text="#{home.info}">It is a game inspired by</span>
+                        <a th:href="@{https://www.geoguessr.com}" target="_blank" th:text="#{home.geo.guessr}">
+                            GeoGuessr </a>
+                        <span th:text="#{home.info.part2}"> and </span>
+                        <a th:href="@{https://timeguessr.com}" target="_blank" th:text="#{home.time.guessr}">
+                            TimeGuessr </a>
+                        <span th:text="#{home.info.part3}">, and I strongly advise you to check them out! </span>
+                        <span th:text="#{home.info.part4}">
+                            The goal is to guess the location and the year of the given historical picture.
+                            You can also compete against other players in the daily challenge. Try it out!
+                        </span>
                     </h4>
 
 
                     <h4 class="text-center mt-4">
-                        <a class="text-primary" th:href="@{/users/login}">Login</a> if you have an account or
-                        <a class="text-primary" th:href="@{/users/register}">Register</a> and play a game!
+                        <a class="text-primary" th:href="@{/users/login}" th:text="#{home.login}">Login</a>
+                        <span th:text="#{home.login.message}">if you have an account or</span>
+                        <a class="text-primary" th:href="@{/users/register}" th:text="#{home.register}">Register</a>
+                        <span th:text="#{home.register.message}"> and play a game! </span>
                     </h4>
                 </div>
             </div>

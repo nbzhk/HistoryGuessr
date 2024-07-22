@@ -71,17 +71,25 @@
                     </form>
                 </li>
                 <li class="nav-item">
-                    <form class="dropdown-form" th:method="get">
-                        <label class="text-white" for="lang" th:text="#{navbar.language}">Language</label>
-                        <select
-                                id="lang"
-                                name="lang"
-                                onchange="this.form.submit()">
-                            <option value="en_US" th:selected="${#locale.toString()} == 'en_US'">English</option>
-                            <option value="bg_BG" th:selected="${#locale.toString()} == 'bg_BG'">Български</option>
-                        </select>
+                    <form class="language-form" th:method="get">
+                        <input type="hidden" name="lang" id="lang-input" value="${#locale.toString()}">
+
+                        <button  th:classappend="${#locale.toString() == 'en_US' ? ' hidden' : ''}"
+                                type="button" onclick="changeLanguage('en_US')" class="flag-btn">
+                            <img src="/images/gb.svg" alt="English" title="English" class="flag-icon">
+                        </button>
+                        <button  th:classappend="${#locale.toString() == 'bg_BG' ? ' hidden' : ''}"
+                                type="button" onclick="changeLanguage('bg_BG')" class="flag-btn">
+                            <img src="/images/bg.svg" alt="Български"  class="flag-icon">
+                        </button>
                     </form>
 
+                    <script>
+                        function changeLanguage(lang) {
+                            document.getElementById('lang-input').value = lang;
+                            document.querySelector('.language-form').submit();
+                        }
+                    </script>
                 </li>
             </ul>
         </div>
