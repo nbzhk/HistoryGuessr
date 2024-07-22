@@ -13,17 +13,17 @@ import java.time.LocalDate;
 @ConfirmPassword
 public class UserRegistrationDTO {
 
-    @Size(min = 4, max = 20, message = "Username should be between 4 and 20 symbols!")
+    @Size(min = 4, max = 20, message = "{register.username.size}")
     @UniqueUsername
-    @NotBlank(message = "Username cannot be blank!")
+    @NotBlank(message = "{register.username.blank}")
     private String username;
-    @Email(message = "Not a valid email!")
-    @NotBlank(message = "Email cannot be blank!")
+    @Email(message = "{register.email.invalid}")
+    @NotBlank(message = "{register.email.blank}")
     @UniqueEmail
     private String email;
-    @Size(min = 5, message = "Password should have at least 5 symbols!")
+    @Size(min = 5, message = "{register.password.size}")
     private String password;
-    @Size(min = 5, message = "Password should have at least 5 symbols!")
+    @Size(min = 5, message = "{register.password.size}")
     private String confirmPassword;
     private LocalDate registrationDate;
 

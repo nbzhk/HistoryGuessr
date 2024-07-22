@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = FileValidator.class)
 public @interface ValidFile {
 
-    String message() default "Please upload a file!";
+    String message() default "{upload.file.format.error}";
 
     Class<?>[] groups() default {};
 

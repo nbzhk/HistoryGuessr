@@ -9,13 +9,13 @@
     <script type="module" src="/js/UploadMap.js"></script>
     <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/main.css">
-    <title>Add Image</title>
+    <title th:text="#{upload.title}">Add Image</title>
 </head>
 <body class="upload">
 <div th:replace="~{fragments/navbar}">Navbar</div>
 <div class="container">
     <div class="row">
-        <h2>Image Upload</h2>
+        <h2 th:text="#{upload.title}">Image Upload</h2>
         <div class="col-md-6">
             <form class="mx-auto image-submit bg-blur rounded"
                   th:action="@{/admin/upload}"
@@ -24,7 +24,7 @@
                   enctype="multipart/form-data">
                 <div class="form-group">
                     <div class="label-holder textCol d-flex justify-content-center">
-                        <label for="formFile">Upload Image:</label>
+                        <label for="formFile" th:text="#{upload.title} + ':'">Upload Image:</label>
                     </div>
                     <input type="file"
                            class="form-control"
@@ -40,7 +40,7 @@
                 </div>
                 <div class="form-group">
                     <div class="label-holder textCol d-flex justify-content-center">
-                        <label for="year">Year</label>
+                        <label for="year" th:text="#{upload.year}">Year</label>
                     </div>
                     <input type="number"
                            class="form-control"
@@ -57,7 +57,7 @@
                 </div>
                 <div class="form-group">
                     <div class="label-holder textCol d-flex justify-content-center">
-                        <label for="description">Description</label>
+                        <label for="description" th:text="#{upload.description}">Description</label>
                     </div>
                     <textarea type="text"
                               class="form-control"
@@ -74,7 +74,7 @@
                 </div>
                 <div class="form-group">
                     <div class="label-holder textCol d-flex justify-content-center">
-                        <label for="latitude">Latitude</label>
+                        <label for="latitude" th:text="#{upload.latitude}">Latitude</label>
                     </div>
                     <input type="number"
                            step="any"
@@ -90,7 +90,7 @@
                 </div>
                 <div class="form-group">
                     <div class="label-holder textCol d-flex justify-content-center">
-                        <label for="longitude">Longitude</label>
+                        <label for="longitude" th:text="#{upload.longitude}">Longitude</label>
                     </div>
                     <input class="form-control"
                            type="number"
@@ -104,11 +104,11 @@
                        class="invalid-feedback text-danger">
                     </p>
                 </div>
-                <button class="btn-primary btn" th:type="submit">Upload Image</button>
+                <button class="btn-primary btn" th:type="submit" th:text="#{upload.title}">Upload Image</button>
             </form>
         </div>
         <div class="col-md-6 result-right">
-            <div id="uploadMap">MAP MAP MAP</div>
+            <div id="uploadMap"></div>
         </div>
     </div>
 </div>

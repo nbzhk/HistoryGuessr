@@ -22,7 +22,7 @@ public class FileValidator implements ConstraintValidator<ValidFile, MultipartFi
 
         if (!fileExist) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate("Upload a file!")
+            context.buildConstraintViolationWithTemplate("{upload.file.format.error}")
                     .addConstraintViolation();
 
             return false;

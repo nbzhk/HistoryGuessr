@@ -52,9 +52,8 @@
                         <a class="dropdown-item" th:href="@{/admin/manage-users}" th:text="#{navbar.manage_users}">Manage Users</a>
                     </div>
                 </li>
-                <li class="nav-item" sec:authorize="isAuthenticated()"
-                    th:text="#{navbar.profile}">
-                    <a class="nav-link" th:href="@{/profile}">Profile</a>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link" th:href="@{/profile}" th:text="#{navbar.profile}">Profile</a>
                 </li>
                 <li class="nav-item" sec:authorize="isAuthenticated()">
                     <form th:action="@{/logout}"

@@ -8,22 +8,23 @@ import org.springframework.web.multipart.MultipartFile;
 public class PictureDataDTO {
 
     @ValidFile
+    @NotNull(message = "{upload.file.null.error}")
     private MultipartFile picture;
-    @NotNull(message = "Latitude is required!")
-    @Min(value = -90, message = "Latitude value must be between -90 and 90!")
-    @Max(value = 90, message = "Latitude value must be between -90 and 90!")
+    @NotNull(message = "{upload.latitude.null.error}")
+    @Min(value = -90, message = "{upload.latitude.value.error}")
+    @Max(value = 90, message = "{upload.latitude.value.error}")
     @DecimalPlaces
     private Double latitude;
-    @NotNull(message = "Longitude is required!")
-    @Min(value = -180, message = "Longitude value must be between -180 and 180!")
-    @Max(value = 180, message = "Longitude value must be between -180 and 180!")
+    @NotNull(message = "{upload.longitude.null.error}")
+    @Min(value = -180, message = "{upload.longitude.value.error}")
+    @Max(value = 180, message = "{upload.longitude.value.error}")
     @DecimalPlaces
     private Double longitude;
-    @NotNull(message = "Year is required!")
-    @Min(value = 1820, message = "Year must be after 1820!")
-    @Max(value = 2024, message = "Year must be before 2024!")
+    @NotNull(message = "{upload.year.null.error}")
+    @Min(value = 1820, message = "{upload.year.after.error}")
+    @Max(value = 2024, message = "{upload.year.before.error}")
     private Integer year;
-    @NotBlank(message = "Description is required!")
+    @NotBlank(message = "{upload.description.error}")
     private String description;
 
     public MultipartFile getPicture() {

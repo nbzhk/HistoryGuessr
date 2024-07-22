@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Constraint(validatedBy = DecimalPlacesValidator.class)
 public @interface DecimalPlaces {
-    String message() default "Format to 6 decimal places!";
+    String message() default "{upload.lat.lng.decimal.error}";
 
     Class<?>[] groups() default {};
 

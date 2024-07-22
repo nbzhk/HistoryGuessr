@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = ConfirmPasswordValidator.class)
 public @interface ConfirmPassword {
 
-    String message() default "Passwords don't match";
+    String message() default "{register.password.dont_match}";
 
     Class<?>[] groups() default {};
 

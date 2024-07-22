@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = UniqueUsernameValidator.class)
 public @interface UniqueUsername {
 
-    String message() default "Username already exist";
+    String message() default "{register.username.not_unique}";
 
     Class<?>[] groups() default {};
 

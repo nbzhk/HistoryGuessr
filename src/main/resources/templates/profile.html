@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Page</title>
+    <title th:text="#{profile.title}">Profile Page</title>
     <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/main.css">
 </head>
@@ -17,28 +17,28 @@
         <div class="col-md-8">
             <div class="card bg-blur text-white">
                 <div class="card-body">
-                    <h2 class="card-title text-center">Profile Details</h2>
+                    <h2 class="card-title text-center" th:text="#{profile.details}">Profile Details</h2>
                     <div class="mb-3">
-                        <strong>Username:</strong>
+                        <strong th:text="#{user.username} + ':'">Username:</strong>
                         <p class="text-white" th:text="${userInformation.getUsername()}">Username</p>
                     </div>
                     <div class="mb-3">
-                        <strong>Email:</strong>
+                        <strong th:text="#{user.email} + ':'">Email:</strong>
                         <p class="text-white" th:text="${userInformation.getEmail()}">Email</p>
                     </div>
                     <div class="mb-3">
-                        <strong>User since:</strong>
+                        <strong th:text="#{user.since} +':'">User since:</strong>
                         <p class="text-white" th:text="${userInformation.getRegistrationDate()}">Registration Date</p>
                     </div>
 
                     <div class="mt-4">
-                        <h3 class="text-center">Best Games</h3>
+                        <h3 class="text-center" th:text="#{profile.best.games}">Best Games</h3>
                         <table id="table" class="table table-striped mt-3 bg-blur">
                             <thead>
                             <tr>
-                                <th>Position</th>
-                                <th>Date</th>
-                                <th>Total Score</th>
+                                <th th:text="#{table.position}">Position</th>
+                                <th th:text="#{table.date}">Date</th>
+                                <th th:text="#{table.total.score}">Total Score</th>
                             </tr>
                             </thead>
                             <tbody>

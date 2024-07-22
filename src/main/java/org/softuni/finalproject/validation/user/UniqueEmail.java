@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = UniqueEmailValidator.class)
 public @interface UniqueEmail {
 
-    String message() default "Email already exist";
+    String message() default "{register.email.not_unique}";
 
     Class<?>[] groups() default {};
 
