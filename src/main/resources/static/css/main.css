@@ -264,7 +264,8 @@ input[type=range]:focus::-ms-fill-upper {
 .demote-form,
 .deleteForm,
 .logoutForm,
-.startGameForm {
+.startGameForm,
+.dropdown-form {
     background: none;
     box-shadow: none;
     padding: 0;
