@@ -1,6 +1,8 @@
 package org.softuni.finalproject.web;
 
+import com.dropbox.core.BadRequestException;
 import com.dropbox.core.DbxException;
+import com.dropbox.core.DbxWebAuth;
 import jakarta.validation.Valid;
 import org.softuni.finalproject.model.dto.DropboxCredentialDTO;
 import org.softuni.finalproject.model.dto.PictureDataDTO;
@@ -57,7 +59,7 @@ public class ImageLocationUploadController {
     @PostMapping("/upload")
     public String imageLocationUpload(@Valid PictureDataDTO pictureData,
                                       BindingResult bindingResult,
-                                      RedirectAttributes redirectAttributes) {
+                                      RedirectAttributes redirectAttributes) throws BadRequestException {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("pictureData", pictureData);
@@ -76,9 +78,11 @@ public class ImageLocationUploadController {
                     pictureData.getLatitude(),
                     pictureData.getLongitude());
             redirectAttributes.addFlashAttribute("success", "Image uploaded successfully");
+        } catch (BadRequestException e) {
+            throw new BadRequestException(e.getRequestId(), e.getMessage());
         } catch (DbxException e) {
             redirectAttributes.addFlashAttribute("error", "Image upload failed");
-        } catch (IOException e) {
+        } catch (IOException | DbxWebAuth.NotApprovedException e) {
             throw new RuntimeException(e);
         }
 

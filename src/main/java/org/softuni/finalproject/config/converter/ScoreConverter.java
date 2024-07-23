@@ -3,19 +3,16 @@ package org.softuni.finalproject.config.converter;
 import org.modelmapper.AbstractConverter;
 
 import java.util.Arrays;
-import java.util.List;
 
-public class ScoreConverter extends AbstractConverter<int[], List<Integer>> {
+public class ScoreConverter extends AbstractConverter<int[], Integer> {
 
 
     @Override
-    protected List<Integer> convert(int[] source) {
-        List<Integer> result;
+    protected Integer convert(int[] source) {
+        int totalScore;
 
-        result =  Arrays.stream(source)
-                .boxed()
-                .toList();
+        totalScore =  Arrays.stream(source).sum();
 
-        return result;
+        return totalScore;
     }
 }

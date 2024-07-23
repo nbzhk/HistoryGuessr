@@ -6,33 +6,21 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 import org.softuni.finalproject.model.dto.GameSessionDTO;
-import org.softuni.finalproject.model.dto.PictureLocationDTO;
-import org.softuni.finalproject.model.dto.UserGuessDTO;
-import org.softuni.finalproject.service.DailyChallengeAPIService;
-import org.softuni.finalproject.service.DailyChallengeService;
-import org.softuni.finalproject.service.PictureService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 
-import java.security.Principal;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class GameServiceTest {
-
-    @Mock
-    private PictureService pictureService;
-
-    @Mock
-    private DailyChallengeAPIService dailyChallengeApiService;
 
     @Mock
     private HttpSession httpSession;
@@ -60,7 +48,6 @@ public class GameServiceTest {
     @Test
     void testStartGame(){
         User mockUser = new User("testUser", "password", new ArrayList<>());
-        GameSessionDTO expectedGameSession = new GameSessionDTO(mockUser, null);
 
         GameSessionDTO actualGameSession = this.gameService.startGame(httpSession);
 

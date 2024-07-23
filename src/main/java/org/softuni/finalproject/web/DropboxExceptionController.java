@@ -1,15 +1,19 @@
 package org.softuni.finalproject.web;
 
+import com.dropbox.core.BadRequestException;
+import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxWebAuth;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.softuni.finalproject.service.DropboxAuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 
-@ControllerAdvice(basePackageClasses = DropboxAuthController.class)
+@ControllerAdvice(basePackageClasses = {DropboxAuthController.class, ImageLocationUploadController.class})
 public class DropboxExceptionController {
 
     private static final String NOT_APPROVED_MESSAGE = "You have to authorise Dropbox in oder to upload an image.";
@@ -78,6 +82,30 @@ public class DropboxExceptionController {
         logger.error("On /dropbox-auth-finish: Auth failed: {}", exception.getMessage());
 
         model.addAttribute("errorMessage", PROVIDER_MESSAGE);
+        model.addAttribute("errorCode", HttpStatus.SERVICE_UNAVAILABLE.value());
+
+        return "error";
+    }
+    //TODO : show appropriate message
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({BadRequestException.class})
+    public String handleBadRequest(BadRequestException exception, Model model) {
+
+        logger.error("On /dropbox-auth-finish: Bad request: {}", exception.getMessage());
+        model.addAttribute("errorMessage", BAD_REQUEST_MESSAGE);
+        model.addAttribute("errorCode", HttpStatus.BAD_REQUEST.value());
+        model.addAttribute("reauthenticate", "/dropbox/auth");
+
+        return "error";
+    }
+
+    @ResponseStatus(value = HttpStatus.SERVICE_UNAVAILABLE)
+    @ExceptionHandler({DbxException.class})
+    public String handleDbxException(DbxException exception, Model model) {
+
+        logger.error(exception.getMessage());
+
+        model.addAttribute("errorMessage", "There was problem with Dropbox. Please try again later.");
         model.addAttribute("errorCode", HttpStatus.SERVICE_UNAVAILABLE.value());
 
         return "error";

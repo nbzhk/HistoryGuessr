@@ -36,51 +36,37 @@ public class GameSessionRepositoryIT {
         GameSessionEntity firstGameSession = new GameSessionEntity();
         firstGameSession.setPlayer(user);
         firstGameSession.setTimestamp(LocalDateTime.of(2024, 1, 1, 0, 0));
-        firstGameSession.setPictures(new ArrayList<>());
-        firstGameSession.setGuesses(new ArrayList<>());
-        firstGameSession.setYearDifferences(new ArrayList<>());
-        firstGameSession.setRoundScores(List.of(10,10,10,10,10));
-        firstGameSession.setDistanceDifferences(new ArrayList<>());
+        firstGameSession.setTotalScore(50);
+
         gameSessionRepository.save(firstGameSession);
 
         GameSessionEntity secondGameSession = new GameSessionEntity();
         secondGameSession.setPlayer(user);
         secondGameSession.setTimestamp(LocalDateTime.of(2024, 1, 1, 0, 0));
-        secondGameSession.setPictures(new ArrayList<>());
-        secondGameSession.setGuesses(new ArrayList<>());
-        secondGameSession.setYearDifferences(new ArrayList<>());
-        secondGameSession.setRoundScores(List.of(20,20,20,20,20));
-        secondGameSession.setDistanceDifferences(new ArrayList<>());
+        secondGameSession.setTotalScore(100);
+
         gameSessionRepository.save(secondGameSession);
 
         GameSessionEntity thirdGameSession = new GameSessionEntity();
         thirdGameSession.setPlayer(user);
         thirdGameSession.setTimestamp(LocalDateTime.of(2024, 1, 1, 0, 0));
-        thirdGameSession.setPictures(new ArrayList<>());
-        thirdGameSession.setGuesses(new ArrayList<>());
-        thirdGameSession.setYearDifferences(new ArrayList<>());
-        thirdGameSession.setRoundScores(List.of(30,30,30,30,30));
-        thirdGameSession.setDistanceDifferences(new ArrayList<>());
+        thirdGameSession.setTotalScore(150);
+
         gameSessionRepository.save(thirdGameSession);
 
         GameSessionEntity fourthGameSession = new GameSessionEntity();
         fourthGameSession.setPlayer(user);
         fourthGameSession.setTimestamp(LocalDateTime.of(2024, 1, 1, 0, 0));
-        fourthGameSession.setPictures(new ArrayList<>());
-        fourthGameSession.setGuesses(new ArrayList<>());
-        fourthGameSession.setYearDifferences(new ArrayList<>());
-        fourthGameSession.setRoundScores(List.of(40,40,40,40,40));
-        fourthGameSession.setDistanceDifferences(new ArrayList<>());
+        fourthGameSession.setTotalScore(200);
+
+
         gameSessionRepository.save(fourthGameSession);
 
         GameSessionEntity fifthGameSession = new GameSessionEntity();
         fifthGameSession.setPlayer(user);
         fifthGameSession.setTimestamp(LocalDateTime.of(2024, 1, 1, 0, 0));
-        fifthGameSession.setPictures(new ArrayList<>());
-        fifthGameSession.setGuesses(new ArrayList<>());
-        fifthGameSession.setYearDifferences(new ArrayList<>());
-        fifthGameSession.setRoundScores(List.of(50,50,50,50,50));
-        fifthGameSession.setDistanceDifferences(new ArrayList<>());
+        fifthGameSession.setTotalScore(250);
+
         gameSessionRepository.save(fifthGameSession);
 
     }
@@ -100,13 +86,13 @@ public class GameSessionRepositoryIT {
         assertThat(result).isNotEmpty();
         assertThat(result.size()).isEqualTo(5);
 
-        List<Long> totalScores = new ArrayList<>();
+        List<Integer> gameScores = new ArrayList<>();
         for (Object[] object : result) {
-            totalScores.add((Long) object[1]);
+            gameScores.add((Integer) object[1]);
         }
 
-        for (int i = 0; i < totalScores.size() - 1; i++) {
-            assertThat(totalScores.get(i)).isGreaterThanOrEqualTo(totalScores.get(i + 1));
+        for (int i = 0; i < gameScores.size() - 1; i++) {
+            assertThat(gameScores.get(i)).isGreaterThanOrEqualTo(gameScores.get(i + 1));
         }
     }
 }

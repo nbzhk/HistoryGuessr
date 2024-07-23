@@ -18,7 +18,7 @@ public class ManageUsersController {
 
     @GetMapping("/admin")
     public String adminPage() {
-        return "admin";
+        return "home";
     }
 
     @GetMapping("/admin/manage-users")

@@ -9,11 +9,10 @@ import java.util.List;
 
 public interface GameSessionRepository extends JpaRepository<GameSessionEntity, Long> {
 
-    @Query(value = "SELECT timestamp , SUM(r) as totalScore FROM GameSessionEntity g " +
-            "JOIN g.roundScores r " +
+    @Query(value = "SELECT timestamp , g.totalScore FROM GameSessionEntity g " +
             "WHERE g.player.id = :playerId " +
             "GROUP BY g.id " +
-            "ORDER BY totalScore DESC " +
+            "ORDER BY g.totalScore DESC " +
             "LIMIT 5")
     List<Object[]> findTopFiveGamesForPlayer(@Param("playerId") Long playerId);
 }

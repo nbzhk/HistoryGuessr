@@ -15,14 +15,14 @@ import java.util.Comparator;
 import java.util.List;
 
 @Controller
-public class DailyChallengeClient {
+public class DailyChallengeClientController {
     @Value("${google.maps.key}")
     private String googleMapsKey;
 
     private final DailyChallengeService dailyChallengeService;
     private final DailyChallengeAPIService dailyChallengeAPIService;
 
-    public DailyChallengeClient(DailyChallengeService dailyChallengeService, DailyChallengeAPIService dailyChallengeAPIService) {
+    public DailyChallengeClientController(DailyChallengeService dailyChallengeService, DailyChallengeAPIService dailyChallengeAPIService) {
         this.dailyChallengeService = dailyChallengeService;
         this.dailyChallengeAPIService = dailyChallengeAPIService;
     }

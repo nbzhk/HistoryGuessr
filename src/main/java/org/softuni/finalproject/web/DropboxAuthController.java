@@ -2,17 +2,11 @@ package org.softuni.finalproject.web;
 
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxWebAuth;
-import com.dropbox.core.DbxWebAuth.BadStateException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.softuni.finalproject.model.dto.DropboxErrorInfoDTO;
 import org.softuni.finalproject.service.DropboxAuthService;
 import org.softuni.finalproject.service.DropboxCredentialService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,7 +16,6 @@ import java.io.IOException;
 @RestController
 public class DropboxAuthController {
 
-    private static final Logger logger = LoggerFactory.getLogger(DropboxAuthController.class);
 
     private final DropboxAuthService dropboxAuthService;
     private final DropboxCredentialService dropboxCredentialService;
@@ -41,7 +34,7 @@ public class DropboxAuthController {
             return ResponseEntity.badRequest().build();
         }
     }
-        //TODO: EXCEPTION HANDLING !!!
+
     @GetMapping("/dropbox-auth-finish")
     public ResponseEntity<Void> finishDropbox(HttpServletRequest request, HttpServletResponse response)
             throws DbxWebAuth.ProviderException, DbxWebAuth.NotApprovedException,
