@@ -1,9 +1,6 @@
 package org.softuni.finalproject.service.impl;
 
-import com.dropbox.core.BadRequestException;
-import com.dropbox.core.DbxException;
-import com.dropbox.core.DbxRequestConfig;
-import com.dropbox.core.DbxWebAuth;
+import com.dropbox.core.*;
 import com.dropbox.core.oauth.DbxCredential;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.sharing.SharedLinkMetadata;
@@ -83,6 +80,10 @@ public class DropboxServiceImpl implements DropboxService {
             return sharedLinkMetadata.getUrl() + RAW_IMAGE;
         } catch (BadRequestException e) {
             throw new BadRequestException(e.getRequestId(), e.getMessage());
+        } catch (InvalidAccessTokenException e){
+            throw new InvalidAccessTokenException(e.getRequestId(), e.getMessage(), e.getAuthError());
+        } catch (RetryException e) {
+            throw new RetryException(e.getRequestId(), e.getMessage());
         } catch (DbxException e) {
             throw new DbxException(e.getMessage(), e);
         } catch (IOException e) {

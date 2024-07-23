@@ -2,7 +2,8 @@ body.home,
 body.login,
 body.register,
 body.upload,
-body.manage {
+body.manage,
+body.error {
     background-image: url('../images/background.png');
     background-repeat: no-repeat;
     background-position: center;

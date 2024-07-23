@@ -1,8 +1,6 @@
 package org.softuni.finalproject.web;
 
-import com.dropbox.core.BadRequestException;
-import com.dropbox.core.DbxException;
-import com.dropbox.core.DbxWebAuth;
+import com.dropbox.core.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.softuni.finalproject.service.DropboxAuthService;
@@ -86,14 +84,38 @@ public class DropboxExceptionController {
 
         return "error";
     }
+
     //TODO : show appropriate message
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler({BadRequestException.class})
     public String handleBadRequest(BadRequestException exception, Model model) {
 
-        logger.error("On /dropbox-auth-finish: Bad request: {}", exception.getMessage());
-        model.addAttribute("errorMessage", BAD_REQUEST_MESSAGE);
+        logger.error("On /dropbox.credentials: Bad request: {}", exception.getMessage());
+
+        model.addAttribute("errorMessage", "There was a problem please try again.");
         model.addAttribute("errorCode", HttpStatus.BAD_REQUEST.value());
+        model.addAttribute("reauthenticate", "/dropbox/auth");
+
+        return "error";
+    }
+
+    @ResponseStatus(value = HttpStatus.FORBIDDEN)
+    @ExceptionHandler({InvalidAccessTokenException.class})
+    public String handleInvalidAccessTokenException( Model model) {
+
+        model.addAttribute("errorMessage", "Invalid access token");
+        model.addAttribute("errorCode", HttpStatus.FORBIDDEN.value());
+        model.addAttribute("reauthenticate", "/dropbox/auth");
+
+        return "error";
+    }
+
+    @ResponseStatus(value = HttpStatus.SERVICE_UNAVAILABLE)
+    @ExceptionHandler({RetryException.class})
+    public String handleRetryException( Model model) {
+
+        model.addAttribute("errorMessage", "There was an error, please try again.");
+        model.addAttribute("errorCode", HttpStatus.SERVICE_UNAVAILABLE.value());
         model.addAttribute("reauthenticate", "/dropbox/auth");
 
         return "error";
