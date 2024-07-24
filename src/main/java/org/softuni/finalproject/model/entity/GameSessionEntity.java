@@ -1,8 +1,10 @@
 package org.softuni.finalproject.model.entity;
 
 import jakarta.persistence.*;
+import org.softuni.finalproject.model.dto.UserGuessDTO;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "games")
@@ -10,9 +12,29 @@ public class GameSessionEntity extends BaseEntity {
     @ManyToOne
     private UserEntity player;
 
-    @Column(name = "total_score", nullable = false)
-    private int totalScore;
+    @ManyToMany
+    @CollectionTable(name = "game_pictures",
+                     joinColumns = @JoinColumn(name = "game_session_id"))
+    private List<PictureEntity> pictures;
 
+    @ElementCollection
+    @CollectionTable(name = "game_data",
+                     joinColumns = @JoinColumn(name = "game_session_id"))
+    private List<UserGuess> guesses;
+
+    @ElementCollection
+    @CollectionTable(name = "game_data",
+                     joinColumns = @JoinColumn(name = "game_session_id"))
+    private List<Integer> roundScores;
+    @ElementCollection
+    @CollectionTable(name = "game_data",
+                    joinColumns = @JoinColumn(name = "game_session_id"))
+    private List<Integer> yearDifferences;
+
+    @ElementCollection
+    @CollectionTable(name = "game_data",
+                     joinColumns = @JoinColumn(name = "game_session_id"))
+    private List<Double> distanceDifferences;
 
     @Column
     private LocalDateTime timestamp;
@@ -25,13 +47,28 @@ public class GameSessionEntity extends BaseEntity {
         this.player = player;
     }
 
-
-    public Integer getTotalScore() {
-        return totalScore;
+    public List<PictureEntity> getPictures() {
+        return pictures;
     }
 
-    public void setTotalScore(Integer totalScore) {
-        this.totalScore = totalScore;
+    public void setPictures(List<PictureEntity> pictures) {
+        this.pictures = pictures;
+    }
+
+    public List<UserGuess> getGuesses() {
+        return guesses;
+    }
+
+    public void setGuesses(List<UserGuess> guesses) {
+        this.guesses = guesses;
+    }
+
+    public List<Integer> getRoundScores() {
+        return roundScores;
+    }
+
+    public void setRoundScores(List<Integer> scores) {
+        this.roundScores = scores;
     }
 
     public LocalDateTime getTimestamp() {
@@ -42,4 +79,19 @@ public class GameSessionEntity extends BaseEntity {
         this.timestamp = timestamp;
     }
 
+    public void setYearDifferences(List<Integer> yearDifferences) {
+        this.yearDifferences = yearDifferences;
+    }
+
+    public void setDistanceDifferences(List<Double> distanceDifferences) {
+        this.distanceDifferences = distanceDifferences;
+    }
+
+    public List<Integer> getYearDifferences() {
+        return yearDifferences;
+    }
+
+    public List<Double> getDistanceDifferences() {
+        return distanceDifferences;
+    }
 }

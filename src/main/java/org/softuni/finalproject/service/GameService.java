@@ -1,10 +1,7 @@
 package org.softuni.finalproject.service;
 
 import jakarta.servlet.http.HttpSession;
-import org.softuni.finalproject.model.dto.DailyChallengeDTO;
-import org.softuni.finalproject.model.dto.PictureLocationDTO;
-import org.softuni.finalproject.model.dto.UserGuessDTO;
-import org.softuni.finalproject.model.dto.GameSessionDTO;
+import org.softuni.finalproject.model.dto.*;
 
 public interface GameService {
 
@@ -14,7 +11,7 @@ public interface GameService {
 
     void calculateRoundScore(GameSessionDTO gameSessionDTO);
 
-    PictureLocationDTO getCurrentLocation(GameSessionDTO gameSessionDTO);
+    PictureLocationDTO getCurrentLocation(GameSessionDTO gameSessionDTO, Integer round);
 
     GameSessionDTO getCurrentGame(HttpSession session);
 
@@ -23,4 +20,5 @@ public interface GameService {
     void setDailyGuess(UserGuessDTO userGuessDTO, DailyChallengeDTO dailyChallengeDTO);
 
     double getDailyGuessDistance(DailyChallengeDTO dailyChallengeDTO, UserGuessDTO userGuessDTO);
+
 }

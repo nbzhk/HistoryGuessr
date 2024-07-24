@@ -2,7 +2,7 @@ const {Map} = await google.maps.importLibrary("maps");
 const {LatLng} = google.maps.importLibrary("core");
 const yearSlider = document.getElementById("yearSlider");
 const yearValue = document.getElementById("yearValue");
-
+const { Marker } = await google.maps.importLibrary("marker");
 const isDaily = document.body.classList.contains("daily-challenge");
 
 
@@ -36,16 +36,13 @@ map.addListener("click", (mapsMouseEvent) => {
         guessMarker.setPosition(mapsMouseEvent.latLng);
     } else {
 
-        const guessMarkerImg = "/images/GuessMarker.png";
         guessMarker = new google.maps.Marker({
             position: mapsMouseEvent.latLng,
             map: map,
-            title: "My Guess!",
-            icon: guessMarkerImg
-
+            icon: "/images/GuessMarker (2).png"
         });
     }
-    console.log("marker SET")
+
     fetchButton.disabled = false;
     fetchButton.textContent = "Submit"
 });

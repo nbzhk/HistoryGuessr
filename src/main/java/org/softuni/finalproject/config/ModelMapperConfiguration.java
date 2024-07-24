@@ -40,7 +40,7 @@ public class ModelMapperConfiguration {
 
         /* Round Scores TypeMap */
         TypeMap<GameSessionDTO, GameSessionEntity> typeMap = modelMapper.typeMap(GameSessionDTO.class, GameSessionEntity.class);
-        typeMap.addMapping(GameSessionDTO::getScores, GameSessionEntity::setTotalScore);
+        typeMap.addMapping(GameSessionDTO::getScores, GameSessionEntity::setRoundScores);
 
         /* Score converter */
         modelMapper.addConverter(new ScoreConverter());

@@ -23,7 +23,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/webjars/**").permitAll()
-                        .requestMatchers("/", "/users/login", "/users/register", "/users/login-error").permitAll()
+                        .requestMatchers("/", "/users/login", "/users/register", "/users/login-error", "/error").permitAll()
                         .requestMatchers("/challenge/**").permitAll()
                         .requestMatchers("/users/delete/**","/users/make-admin/**","/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()

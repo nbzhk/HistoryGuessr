@@ -36,28 +36,28 @@ public class GameSessionRepositoryIT {
         GameSessionEntity firstGameSession = new GameSessionEntity();
         firstGameSession.setPlayer(user);
         firstGameSession.setTimestamp(LocalDateTime.of(2024, 1, 1, 0, 0));
-        firstGameSession.setTotalScore(50);
+        firstGameSession.setRoundScores(List.of(10, 10, 10, 10, 10));
 
         gameSessionRepository.save(firstGameSession);
 
         GameSessionEntity secondGameSession = new GameSessionEntity();
         secondGameSession.setPlayer(user);
         secondGameSession.setTimestamp(LocalDateTime.of(2024, 1, 1, 0, 0));
-        secondGameSession.setTotalScore(100);
+        secondGameSession.setRoundScores(List.of(20, 20, 20, 20, 20));
 
         gameSessionRepository.save(secondGameSession);
 
         GameSessionEntity thirdGameSession = new GameSessionEntity();
         thirdGameSession.setPlayer(user);
         thirdGameSession.setTimestamp(LocalDateTime.of(2024, 1, 1, 0, 0));
-        thirdGameSession.setTotalScore(150);
+        thirdGameSession.setRoundScores(List.of(30, 30, 30, 30, 30));
 
         gameSessionRepository.save(thirdGameSession);
 
         GameSessionEntity fourthGameSession = new GameSessionEntity();
         fourthGameSession.setPlayer(user);
         fourthGameSession.setTimestamp(LocalDateTime.of(2024, 1, 1, 0, 0));
-        fourthGameSession.setTotalScore(200);
+        fourthGameSession.setRoundScores(List.of(40, 40, 40, 40, 40));
 
 
         gameSessionRepository.save(fourthGameSession);
@@ -65,7 +65,7 @@ public class GameSessionRepositoryIT {
         GameSessionEntity fifthGameSession = new GameSessionEntity();
         fifthGameSession.setPlayer(user);
         fifthGameSession.setTimestamp(LocalDateTime.of(2024, 1, 1, 0, 0));
-        fifthGameSession.setTotalScore(250);
+        fifthGameSession.setRoundScores(List.of(50, 50, 50, 50, 50));
 
         gameSessionRepository.save(fifthGameSession);
 

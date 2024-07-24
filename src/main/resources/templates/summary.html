@@ -54,7 +54,7 @@
     <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/main.css">
 </head>
-<body>
+<body class="summary">
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6">
@@ -62,23 +62,23 @@
                 <p>Total score:</p>
                 <th:block th:text="${totalScore}"></th:block>
             </div>
-            <div class="roundBox">
+            <div class="roundBox round-info" id="firstRound" data-round="1">
                 <p>First round:</p>
                 <th:block th:text="${game.getScores()[0]} + ' points'"></th:block>
             </div>
-            <div class="roundBox">
+            <div class="roundBox round-info" id="secondRound" data-round="2">
                 <p>Second round:</p>
                 <th:block th:text="${game.getScores()[1]} + ' points'"></th:block>
             </div>
-            <div class="roundBox">
+            <div class="roundBox round-info" id="thirdRound" data-round="3">
                 <p>Third round:</p>
                 <th:block th:text="${game.getScores()[2]} + ' points'"></th:block>
             </div>
-            <div class="roundBox">
+            <div class="roundBox round-info" id="fourthRound" data-round="4">
                 <p>Fourth round:</p>
                 <th:block th:text="${game.getScores()[3]} + ' points'"></th:block>
             </div>
-            <div class="roundBox">
+            <div class="roundBox round-info" id="fifthRound" data-round="5">
                 <p>Fifth round:</p>
                 <th:block th:text="${game.getScores()[4]} + ' points'"></th:block>
             </div>
@@ -90,8 +90,11 @@
     </div>
 </div>
 <div class="mt-3">
-    <button type="button" class="btn btn-primary" id="newGameButton" href="/game">New Game</button>
-    <button type="button" class="btn btn-primary" id="homeButton" href="/">Home</button>
+    <form th:method="POST"
+          th:action="@{/summary/save}">
+    <button type="submit" class="btn btn-primary" name="action" value="newGame">New Game</button>
+    <button type="submit" class="btn btn-primary" name="action" value="home">Home</button>
+    </form>
 </div>
 <script src="/js/bootstrap.bundle.js"></script>
 </body>

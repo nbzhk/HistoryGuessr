@@ -49,17 +49,21 @@
         <div class="col results-left">
 
             <div class="photoResultContainer">
-                <img th:if="${isDaily}"
+                <img th:if="${isDaily} and !${roundInfo}"
                      class="result-img"
                      th:src="${dailyChallenge.getPicture().getUrl()}" alt="image">
-                <img th:unless="${isDaily}"
+                <img th:if="!${isDaily} and !${roundInfo}"
                      class="result-img"
                      th:src="${currentLocation.getUrl()}" alt="image">
+                <img th:if="${roundInfo}"
+                        class="result-img"
+                        th:src="${currentLocation.getUrl()}">
             </div>
             <div class="photoDescription roundBox">
                 <p class="text-primary">
                     <th:block th:if="${isDaily}" th:text="${dailyChallenge.picture.description}"></th:block>
-                    <th:block th:unless="${isDaily}" th:text="${currentLocation.description}"></th:block>
+                    <th:block th:if="!${isDaily} and !${roundInfo}" th:text="${currentLocation.description}"></th:block>
+                    <th:block th:if="${roundInfo}" th:text="${currentLocation.description}"></th:block>
                 </p>
             </div>
         </div>
@@ -72,9 +76,13 @@
                         <th:block th:if="${isDaily}"
                                   th:text="${T(java.lang.Math).abs(currentChallengerData.userGuessDTO.guessYear - dailyChallenge.picture.year)} + ' years apart.'">
                         </th:block>
-                        <th:block th:unless="${isDaily}"
-                                  th:text="${currentGame.getRoundYearDifference()} + ' years apart.'">
+                        <th:block th:if="!${isDaily} and !${roundInfo}"
+                                  th:text="${currentGame.getRoundYearDifference(roundNumber)} + ' years apart.'">
                         </th:block>
+                        <th:block th:if="${roundInfo}"
+                                  th:text="${roundData.getYearDiff()} + ' years apart.'">
+                        </th:block>
+
                     </p>
                 </div>
                 <div class="text-center roundBox">
@@ -85,8 +93,8 @@
                                 th:text="${#numbers.formatDecimal(dailyDistance, 1, 2)} + ' km away'">
                         </th:block>
                         <th:block
-                                th:unless="${isDaily}"
-                                th:text="${#numbers.formatDecimal(currentGame.getRoundDistanceDifference(), 1, 2)} + ' km away'">
+                                th:if="!${isDaily} and !${roundInfo}"
+                                th:text="${#numbers.formatDecimal(currentGame.getRoundDistanceDifference(roundNumber), 1, 2)} + ' km away'">
                         </th:block>
                     </p>
                 </div>
@@ -98,9 +106,10 @@
                                 th:text="${currentChallengerData.score} + '/10000'">
                         </th:block>
                         <th:block
-                                th:unless="${isDaily}"
-                                th:text="${currentGame.getRoundScore()} + '/10000'">
+                                th:if="!${isDaily} and !${roundInfo}"
+                                th:text="${currentGame.getRoundScore(roundNumber)} + '/10000'">
                         </th:block>
+
                     </p>
                 </div>
             </div>
@@ -118,7 +127,7 @@
                     Daily Standings
                 </a>
             </form>
-            <form th:unless="${isDaily}"
+            <form th:if="!${isDaily} and !${roundInfo}"
                   th:method="GET"
                   th:action="@{/next-round}">
                 <button class="btn btn-primary"

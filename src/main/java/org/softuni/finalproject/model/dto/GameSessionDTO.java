@@ -64,7 +64,7 @@ public class GameSessionDTO implements Serializable {
         return roundScores;
     }
 
-    public int getRoundScore(){
+    public int getRoundScore(int round){
         return this.roundScores[round - 1];
     }
 
@@ -96,11 +96,11 @@ public class GameSessionDTO implements Serializable {
         this.distanceDifferences[round - 1] = distance;
     }
 
-    public int getRoundYearDifference() {
+    public int getRoundYearDifference(int round) {
         return yearDifferences[round - 1];
     }
 
-    public double getRoundDistanceDifference() {
+    public double getRoundDistanceDifference(int round) {
         return distanceDifferences[round - 1];
     }
 

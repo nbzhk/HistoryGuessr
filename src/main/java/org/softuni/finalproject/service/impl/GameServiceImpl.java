@@ -120,8 +120,11 @@ public class GameServiceImpl implements GameService {
 
 
     @Override
-    public PictureLocationDTO getCurrentLocation(GameSessionDTO gameSessionDTO) {
-        return gameSessionDTO.getPictureLocations()[gameSessionDTO.getRound() - 1];
+    public PictureLocationDTO getCurrentLocation(GameSessionDTO gameSessionDTO, Integer round) {
+        if (round == null) {
+            round = gameSessionDTO.getRound();
+        }
+        return gameSessionDTO.getPictureLocations()[round - 1];
     }
 
 
@@ -207,6 +210,7 @@ public class GameServiceImpl implements GameService {
                 userGuessDTO.getGuessLng(),
                 null);
     }
+
 
 
     void setRoundYearDifference(int roundYearDifference, GameSessionDTO gameSessionDTO) {

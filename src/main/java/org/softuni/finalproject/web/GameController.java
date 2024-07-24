@@ -38,8 +38,13 @@ public class GameController {
             gameSession = (GameSessionDTO) session.getAttribute("gameSession");
         }
 
+        if (gameSession.lastRound()) {
+            gameSession.nextRound();
+            return "redirect:/result";
+        }
 
-        String imageUrl = this.gameService.getCurrentLocation(gameSession).getUrl();
+
+        String imageUrl = this.gameService.getCurrentLocation(gameSession, gameSession.getRound()).getUrl();
 
         model.addAttribute("imageUrl", imageUrl);
         model.addAttribute("roundNumber", gameSession.getRound());

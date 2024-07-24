@@ -22,6 +22,8 @@ const csrfToken = document.querySelector('meta[name="_csrf"]');
 
 const token = csrfToken.getAttribute("content");
 
+let guess;
+
 fetch("/game/summary", {
     method: "POST",
     headers: {
@@ -32,7 +34,7 @@ fetch("/game/summary", {
     .then(data => {
         console.log(data);
         data.pictureLocations.forEach((location, index) => {
-            const guess = data.userGuesses[index];
+            guess = data.userGuesses[index];
             setPictureLocationGuessPairMarker(location, guess);
         })
     });
@@ -43,13 +45,15 @@ function setPictureLocationGuessPairMarker(location, guess){
 
     new google.maps.Marker({
         position: actualCoordinates,
-        map: map
+        map: map,
+        icon: "/images/TargetMarker.png"
     });
 
     const guessCoordinates = new LatLng(guess.guessLat, guess.guessLng);
     new google.maps.Marker({
         position: guessCoordinates,
-        map: map
+        map: map,
+        icon: "/images/GuessMarker (2).png"
     });
 
     let lineCoordinates = [
@@ -76,16 +80,17 @@ function setPictureLocationGuessPairMarker(location, guess){
     linePath.setMap(map);
 }
 
-let newGameButton = document.getElementById("newGameButton");
 
-newGameButton.addEventListener("click", () => {
-    window.location.href = "/game";
+const rounds = document.querySelectorAll('.round-info');
+
+rounds.forEach(round => {
+    round.addEventListener("click", () => {
+        const roundNumber = round.getAttribute("data-round");
+        window.location.href = `/summary/round=${roundNumber}`;
+    });
 });
 
-let homeButton = document.getElementById("homeButton");
 
-homeButton.addEventListener("click", () => {
-    window.location.href = "/";
-});
+
 
 
