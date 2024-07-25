@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.User;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class GameSessionDTO implements Serializable {
     private static final int ROUNDS_PER_GAME = 5;
@@ -155,5 +156,18 @@ public class GameSessionDTO implements Serializable {
 
     public void setUserGuessDTOS(UserGuessDTO[] userGuessDTOS) {
         this.userGuessDTOS = userGuessDTOS;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        GameSessionDTO that = (GameSessionDTO) object;
+        return round == that.round && Objects.equals(user, that.user) && Objects.deepEquals(userGuessDTOS, that.userGuessDTOS) && Objects.deepEquals(pictureLocationDTOS, that.pictureLocationDTOS) && Objects.deepEquals(roundScores, that.roundScores) && Objects.deepEquals(yearDifferences, that.yearDifferences) && Objects.deepEquals(distanceDifferences, that.distanceDifferences) && Objects.equals(timestamp, that.timestamp);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(user, Arrays.hashCode(userGuessDTOS), Arrays.hashCode(pictureLocationDTOS), Arrays.hashCode(roundScores), Arrays.hashCode(yearDifferences), Arrays.hashCode(distanceDifferences), round, timestamp);
     }
 }

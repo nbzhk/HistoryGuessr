@@ -28,14 +28,13 @@ public class GameServiceImpl implements GameService {
 
     private final PictureService pictureService;
     private final DailyChallengeAPIService dailyChallengeAPIService;
-    private final Principal principal;
+
 
 
     public GameServiceImpl(PictureService pictureService, DailyChallengeAPIService dailyChallengeAPIService) {
         this.pictureService = pictureService;
         this.dailyChallengeAPIService = dailyChallengeAPIService;
 
-        this.principal = SecurityContextHolder.getContext().getAuthentication();
     }
 
 
@@ -136,10 +135,11 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public void calculateDailyScore(DailyChallengeDTO dailyChallengeDTO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         Optional<ChallengeParticipantDTO> currentUser = dailyChallengeDTO.getParticipants()
                 .stream()
-                .filter(p -> p.getUsername().equals(this.principal.getName()))
+                .filter(p -> p.getUsername().equals(authentication.getName()))
                 .findFirst();
 
         if (currentUser.isPresent()) {

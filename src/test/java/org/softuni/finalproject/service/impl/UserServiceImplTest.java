@@ -6,8 +6,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
-import org.softuni.finalproject.model.dto.UserInfoDTO;
-import org.softuni.finalproject.model.dto.UserRegistrationDTO;
+import org.softuni.finalproject.model.dto.*;
+import org.softuni.finalproject.model.entity.GameSessionEntity;
 import org.softuni.finalproject.model.entity.UserEntity;
 import org.softuni.finalproject.model.entity.UserRoleEntity;
 import org.softuni.finalproject.model.enums.UserRoleEnum;
@@ -15,14 +15,17 @@ import org.softuni.finalproject.repository.GameSessionRepository;
 import org.softuni.finalproject.repository.RolesRepository;
 import org.softuni.finalproject.repository.UserRepository;
 import org.softuni.finalproject.service.exception.UserNotFound;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class UserServiceImplTest {
 
@@ -179,32 +182,57 @@ public class UserServiceImplTest {
 
     @Test
     void testGetBestGames() {
-        // Mocking the user
+        String username = "testUser";
+        Long playerId = 1L;
+
         UserEntity userEntity = new UserEntity();
-        userEntity.setId(1L);
-        userEntity.setUsername("testUser");
+        userEntity.setUsername(username);
+        userEntity.setId(playerId);
+        when(userRepository.findByUsername(username)).thenReturn(Optional.of(userEntity));
 
-        // Mocking the repository responses
-        when(userRepository.findByUsername("testUser")).thenReturn(Optional.of(userEntity));
 
-        // Mocking the game sessions
-        List<Object[]> mockGameSessions = Arrays.asList(
-                new Object[]{LocalDateTime.of(2024, 7, 18, 0, 0), 50000},
-                new Object[]{LocalDateTime.of(2024, 7, 17, 0,0), 40000}
+        List<Object[]> bestGames = new ArrayList<>();
+        GameSessionEntity gameSessionEntity = new GameSessionEntity();
+        gameSessionEntity.setPlayer(userEntity);
+        gameSessionEntity.setPictures(new ArrayList<>());
+        gameSessionEntity.setGuesses(new ArrayList<>());
+        gameSessionEntity.setDistanceDifferences(new ArrayList<>());
+        gameSessionEntity.setYearDifferences(new ArrayList<>());
+        gameSessionEntity.setRoundScores(new ArrayList<>());
+        gameSessionEntity.setTimestamp(LocalDateTime.of(2024,1,1, 0,0,0));
 
-        );
-        when(gameSessionRepository.findTopFiveGamesForPlayer(1L)).thenReturn(mockGameSessions);
+        Object[] gameData = {gameSessionEntity, 100};
+        bestGames.add(gameData);
 
-        // Testing the method
-        Map<LocalDateTime, Integer> result = userServiceImpl.getBestGames("testUser");
+        when(this.gameSessionRepository.findTopFiveGamesForPlayer(playerId)).thenReturn(bestGames);
 
-        // Expected result map
-        Map<LocalDateTime, Integer> expected = new LinkedHashMap<>();
-        expected.put(LocalDateTime.of(2024, 7, 18, 0, 0), 50000);
-        expected.put(LocalDateTime.of(2024, 7, 17, 0,0), 40000);
+        SecurityContext securityContext = mock(SecurityContext.class);
+        Authentication authentication = mock(Authentication.class);
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
+        User user = new User(username, "testPass", new ArrayList<>());
+        when(authentication.getPrincipal()).thenReturn(user);
+
+        PictureLocationDTO[] pictures = new PictureLocationDTO[0];
+        UserGuessDTO[] userGuesses = new UserGuessDTO[0];
+        when(modelMapper.map(gameSessionEntity.getPictures(), PictureLocationDTO[].class)).thenReturn(pictures);
+        when(modelMapper.map(gameSessionEntity.getGuesses(), UserGuessDTO[].class)).thenReturn(userGuesses);
+
+        GameSessionDTO expected = new GameSessionDTO(user, new PictureLocationDTO[0]);
+        expected.setUserGuesses(new UserGuessDTO[0]);
+        expected.setRoundScores(new int[0]);
+        expected.setYearDifferences(new int[0]);
+        expected.setDistanceDifferences(new double[0]);
+        expected.setTimestamp(gameSessionEntity.getTimestamp().toLocalDate());
+
+        Map<GameSessionDTO, Integer> result = this.userServiceImpl.getBestGames(username);
 
         assertNotNull(result);
-        assertEquals(expected, result);
+        assertEquals(1, result.size());
+        assertTrue(result.containsKey(expected));
+        assertEquals(100, result.get(expected).intValue());
+
     }
 
     @Test
