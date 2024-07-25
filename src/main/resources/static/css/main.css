@@ -287,6 +287,11 @@ table {
     overflow: hidden;
 }
 
+tr.hover:hover {
+    background-color: #eaab67;
+    cursor: pointer;
+}
+
 th, td {
     padding: 10px;
     border-bottom: 1px solid #fff;
@@ -298,6 +303,11 @@ th{
 
 tr:nth-child(even) {
     background-color: rgba(255, 255, 255, 0.1);
+}
+
+tr:nth-child(even).hover:hover {
+    background-color: #eaab67;
+    cursor: pointer;
 }
 
 /*ADMIN UPLOAD*/

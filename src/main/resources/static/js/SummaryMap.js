@@ -22,9 +22,21 @@ const csrfToken = document.querySelector('meta[name="_csrf"]');
 
 const token = csrfToken.getAttribute("content");
 
+let inputUrl;
+const url = window.location.pathname;
+const regex= /^\/profile\/best-game\/summary\/(\d+)$/;
+
+if (url.match(regex)) {
+    inputUrl = "/profile/best";
+} else {
+    inputUrl = "/game/summary";
+}
+
+console.log(inputUrl);
+
 let guess;
 
-fetch("/game/summary", {
+fetch(inputUrl, {
     method: "POST",
     headers: {
         'X-CSRF-TOKEN': token

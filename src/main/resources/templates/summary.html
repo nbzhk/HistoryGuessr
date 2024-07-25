@@ -89,12 +89,15 @@
         </div>
     </div>
 </div>
-<div class="mt-3">
+<div class="mt-3" th:if="${!fromBest}">
     <form th:method="POST"
           th:action="@{/summary/save}">
     <button type="submit" class="btn btn-primary" name="action" value="newGame">New Game</button>
     <button type="submit" class="btn btn-primary" name="action" value="home">Home</button>
     </form>
+</div>
+<div class="mt-3" th:unless="${!fromBest}">
+    <a type="button" class="btn btn-primary" th:href="@{/profile}">Profile</a>
 </div>
 <script src="/js/bootstrap.bundle.js"></script>
 </body>

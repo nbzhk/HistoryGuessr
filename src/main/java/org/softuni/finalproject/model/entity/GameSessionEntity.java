@@ -17,7 +17,7 @@ public class GameSessionEntity extends BaseEntity {
                      joinColumns = @JoinColumn(name = "game_session_id"))
     private List<PictureEntity> pictures;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "game_data",
                      joinColumns = @JoinColumn(name = "game_session_id"))
     private List<UserGuess> guesses;

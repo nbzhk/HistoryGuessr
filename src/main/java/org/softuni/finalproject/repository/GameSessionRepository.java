@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface GameSessionRepository extends JpaRepository<GameSessionEntity, Long> {
 
-    @Query(value = "SELECT timestamp , SUM(r) as totalScore FROM GameSessionEntity g " +
+    @Query(value = "SELECT g, SUM(r) as totalScore FROM GameSessionEntity g " +
             "JOIN g.roundScores r " +
             "WHERE g.player.id = :playerId " +
             "GROUP BY g.id " +

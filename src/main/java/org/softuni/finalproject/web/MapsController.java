@@ -3,8 +3,6 @@ package org.softuni.finalproject.web;
 
 import jakarta.servlet.http.HttpSession;
 import org.softuni.finalproject.model.dto.*;
-import org.softuni.finalproject.repository.GameSessionRepository;
-import org.softuni.finalproject.service.DailyChallengeAPIService;
 import org.softuni.finalproject.service.DailyChallengeService;
 import org.softuni.finalproject.service.GameService;
 import org.softuni.finalproject.service.GameSessionService;
@@ -55,6 +53,14 @@ public class MapsController {
         GameSessionDTO currentGame = (GameSessionDTO) session.getAttribute("gameSession");
 
         return ResponseEntity.ok().body(currentGame);
+    }
+
+    @PostMapping("/profile/best")
+    public ResponseEntity<GameSessionDTO> best(HttpSession session) {
+
+        GameSessionDTO bestGame = (GameSessionDTO) session.getAttribute("bestGame");
+
+        return ResponseEntity.ok().body(bestGame);
     }
 
     @PostMapping("/daily/make-guess")

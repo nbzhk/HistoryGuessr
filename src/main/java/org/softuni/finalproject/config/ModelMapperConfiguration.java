@@ -2,10 +2,7 @@ package org.softuni.finalproject.config;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
-import org.softuni.finalproject.config.converter.DropboxCredentialConverter;
-import org.softuni.finalproject.config.converter.PasswordEncoderConverter;
-import org.softuni.finalproject.config.converter.ScoreConverter;
-import org.softuni.finalproject.config.converter.UserRoleConverter;
+import org.softuni.finalproject.config.converter.*;
 import org.softuni.finalproject.model.dto.ChallengeParticipantDTO;
 import org.softuni.finalproject.model.dto.GameSessionDTO;
 import org.softuni.finalproject.model.dto.UserInfoDTO;

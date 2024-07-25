@@ -3,18 +3,21 @@ package org.softuni.finalproject.model.dto;
 import org.springframework.security.core.userdetails.User;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Arrays;
 
 public class GameSessionDTO implements Serializable {
     private static final int ROUNDS_PER_GAME = 5;
 
     private User user;
-    private final UserGuessDTO[] userGuessDTOS;
+    private UserGuessDTO[] userGuessDTOS;
     private PictureLocationDTO[] pictureLocationDTOS;
-    private final int[] roundScores;
-    private final int[] yearDifferences;
-    private final double[] distanceDifferences;
+    private int[] roundScores;
+    private int[] yearDifferences;
+    private double[] distanceDifferences;
     private int round;
+    private LocalDate timestamp;
+
 
     public GameSessionDTO(User user, PictureLocationDTO[] pictureLocationDTOS) {
         this.user = user;
@@ -26,7 +29,25 @@ public class GameSessionDTO implements Serializable {
         this.round = 1;
     }
 
+    public void setRoundScores(int[] roundScores) {
+        this.roundScores = roundScores;
+    }
 
+    public UserGuessDTO[] getUserGuessDTOS() {
+        return userGuessDTOS;
+    }
+
+    public void setUserGuesses(UserGuessDTO[] userGuessDTOS) {
+        this.userGuessDTOS = userGuessDTOS;
+    }
+
+    public PictureLocationDTO[] getPictureLocationDTOS() {
+        return pictureLocationDTOS;
+    }
+
+    public int[] getRoundScores() {
+        return roundScores;
+    }
 
     public User getUser() {
         return user;
@@ -114,5 +135,25 @@ public class GameSessionDTO implements Serializable {
 
     public boolean lastRound() {
         return round > ROUNDS_PER_GAME;
+    }
+
+    public LocalDate getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDate timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public void setDistanceDifferences(double[] distanceDifferences) {
+        this.distanceDifferences = distanceDifferences;
+    }
+
+    public void setYearDifferences(int[] yearDifferences) {
+        this.yearDifferences = yearDifferences;
+    }
+
+    public void setUserGuessDTOS(UserGuessDTO[] userGuessDTOS) {
+        this.userGuessDTOS = userGuessDTOS;
     }
 }

@@ -42,11 +42,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr class="text-white"
-                                    th:each="entry, index : ${bestGames}">
+                            <tr class="text-white hover"
+                                    th:each="entry, index : ${bestGames}"
+                                    th:onclick="'window.location.href=\'/profile/best-game/summary/' + ${index.index + 1} + '\''">
 
                                 <td th:text="${index.index + 1}"></td>
-                                <td th:text="${entry.key.toLocalDate()}">Date</td>
+                                <td th:text="${entry.key.timestamp}">Date</td>
                                 <td th:text="${entry.getValue()}">Total Score</td>
                             </tr>
                             </tbody>

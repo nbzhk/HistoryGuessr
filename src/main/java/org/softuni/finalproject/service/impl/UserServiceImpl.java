@@ -1,8 +1,8 @@
 package org.softuni.finalproject.service.impl;
 
 import org.modelmapper.ModelMapper;
-import org.softuni.finalproject.model.dto.UserInfoDTO;
-import org.softuni.finalproject.model.dto.UserRegistrationDTO;
+import org.softuni.finalproject.model.dto.*;
+import org.softuni.finalproject.model.entity.GameSessionEntity;
 import org.softuni.finalproject.model.entity.UserEntity;
 import org.softuni.finalproject.model.entity.UserRoleEntity;
 import org.softuni.finalproject.model.enums.UserRoleEnum;
@@ -11,10 +11,11 @@ import org.softuni.finalproject.repository.RolesRepository;
 import org.softuni.finalproject.repository.UserRepository;
 import org.softuni.finalproject.service.UserService;
 import org.softuni.finalproject.service.exception.UserNotFound;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -101,7 +102,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<LocalDateTime, Integer> getBestGames(String username) {
+    public Map<GameSessionDTO, Integer> getBestGames(String username) {
         Long playerId = getCurrentUserId(username);
 
         List<Object[]> bestGames = this.gameSessionRepository.findTopFiveGamesForPlayer(playerId);
@@ -116,18 +117,39 @@ public class UserServiceImpl implements UserService {
         return userEntity.getId();
     }
 
-    private Map<LocalDateTime, Integer> mapData(List<Object[]> byPlayerId) {
+    private Map<GameSessionDTO, Integer> mapData(List<Object[]> byPlayerId) {
 
-        Map<LocalDateTime, Integer> map = new LinkedHashMap<>();
+        Map<GameSessionDTO, Integer> map = new LinkedHashMap<>();
 
         for (Object[] result : byPlayerId) {
-            LocalDateTime timeStamp = (LocalDateTime) result[0];
+            GameSessionEntity gameSession = (GameSessionEntity) result[0];
+            GameSessionDTO gameSessionDTO = mapToGameSessionDTO(gameSession);
             Integer score = ((Number) result[1]).intValue();
-            map.put(timeStamp, score);
+            map.put(gameSessionDTO, score);
         }
 
         return map;
 
+    }
+
+    private GameSessionDTO mapToGameSessionDTO(GameSessionEntity gameSession) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        PictureLocationDTO[] pictures = this.modelMapper.map(gameSession.getPictures(), PictureLocationDTO[].class);
+        UserGuessDTO[] userGuessDTOS = this.modelMapper.map(gameSession.getGuesses(), UserGuessDTO[].class);
+        int[] scoresArray = gameSession.getRoundScores().stream().mapToInt(Integer::intValue).toArray();
+        int[] yearDiffArr = gameSession.getYearDifferences().stream().mapToInt(Integer::intValue).toArray();
+        double[] distanceArr = gameSession.getDistanceDifferences().stream().mapToDouble(Double::doubleValue).toArray();
+
+        GameSessionDTO gameSessionDTO = new GameSessionDTO(user, pictures);
+        gameSessionDTO.setUserGuesses(userGuessDTOS);
+        gameSessionDTO.setRoundScores(scoresArray);
+        gameSessionDTO.setYearDifferences(yearDiffArr);
+        gameSessionDTO.setDistanceDifferences(distanceArr);
+        gameSessionDTO.setTimestamp(gameSession.getTimestamp().toLocalDate());
+
+
+        return gameSessionDTO;
     }
 
     @Override

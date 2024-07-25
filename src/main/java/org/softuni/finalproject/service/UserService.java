@@ -1,10 +1,10 @@
 package org.softuni.finalproject.service;
 
+import org.softuni.finalproject.model.dto.GameSessionDTO;
 import org.softuni.finalproject.model.dto.UserInfoDTO;
 import org.softuni.finalproject.model.dto.UserRegistrationDTO;
 import org.softuni.finalproject.model.entity.UserEntity;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -21,7 +21,7 @@ public interface UserService {
 
     void demoteAdminToUser(String username);
 
-    Map<LocalDateTime, Integer> getBestGames(String username);
+    Map<GameSessionDTO, Integer> getBestGames(String username);
 
     Optional<UserEntity> findByUsername(String currentUsername);
 
