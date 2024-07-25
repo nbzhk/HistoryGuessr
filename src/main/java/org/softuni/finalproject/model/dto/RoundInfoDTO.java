@@ -4,6 +4,29 @@ public class RoundInfoDTO {
     private int round;
     private UserGuessDTO userGuessDTO;
     private PictureLocationDTO pictureLocationDTO;
+    private int yearDiff;
+    private int score;
+    private double distanceDiff;
+
+    public void setYearDiff(int yearDiff) {
+        this.yearDiff = yearDiff;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public double getDistanceDiff() {
+        return distanceDiff;
+    }
+
+    public void setDistanceDiff(double distanceDiff) {
+        this.distanceDiff = distanceDiff;
+    }
 
     public int getRound() {
         return round;
@@ -29,12 +52,8 @@ public class RoundInfoDTO {
         this.pictureLocationDTO = pictureLocationDTO;
     }
 
-    //TODO fix this
-    public double getDistance() {
-        return Math.abs(2 -2 );
-    }
 
     public int getYearDiff() {
-        return Math.abs(this.userGuessDTO.getGuessYear() - pictureLocationDTO.getYear());
+        return this.yearDiff;
     }
 }

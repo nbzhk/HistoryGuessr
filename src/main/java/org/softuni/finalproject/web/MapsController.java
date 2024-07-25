@@ -5,7 +5,6 @@ import jakarta.servlet.http.HttpSession;
 import org.softuni.finalproject.model.dto.*;
 import org.softuni.finalproject.service.DailyChallengeService;
 import org.softuni.finalproject.service.GameService;
-import org.softuni.finalproject.service.GameSessionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,13 +17,13 @@ public class MapsController {
 
     private final GameService gameService;
     private final DailyChallengeService dailyChallengeService;
-    private final GameSessionService gameSessionService;
 
 
-    public MapsController(GameService gameService, DailyChallengeService dailyChallengeService,  GameSessionService gameSessionService) {
+
+    public MapsController(GameService gameService, DailyChallengeService dailyChallengeService) {
         this.gameService = gameService;
         this.dailyChallengeService = dailyChallengeService;
-        this.gameSessionService = gameSessionService;
+
     }
 
     @PostMapping("/game/get-user-guess")
@@ -86,7 +85,12 @@ public class MapsController {
     @PostMapping("/summary/round-info/{round}")
     public ResponseEntity<RoundInfoDTO> getRoundInfo(@PathVariable int round, HttpSession session) {
 
-        RoundInfoDTO roundInfo = this.gameSessionService.getRoundInfo(round);
+        GameSessionDTO gameSessionDTO = (GameSessionDTO) session.getAttribute("bestGame");
+
+        RoundInfoDTO roundInfo = new RoundInfoDTO();
+        roundInfo.setRound(round);
+        roundInfo.setUserGuessDTO(gameSessionDTO.getUserGuessDTOS()[round - 1]);
+        roundInfo.setPictureLocationDTO(gameSessionDTO.getPictureLocations()[round - 1]);
 
 
         return ResponseEntity.ok().body(roundInfo);

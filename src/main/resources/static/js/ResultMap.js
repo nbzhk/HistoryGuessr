@@ -35,7 +35,7 @@ const summaryRegex = /^\/summary\/round=(\d+)$/;
 const summaryRound = url.match(summaryRegex);
 
 
-const regex = /^\/result\/round=(\d+)$/;
+const regex = /^\/profile\/best-game\/summary\/round=(\d+)$/;
 const roundInfo = url.match(regex);
 
 console.log(summaryRound);

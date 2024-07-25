@@ -98,7 +98,7 @@ const rounds = document.querySelectorAll('.round-info');
 rounds.forEach(round => {
     round.addEventListener("click", () => {
         const roundNumber = round.getAttribute("data-round");
-        window.location.href = `/summary/round=${roundNumber}`;
+        window.location.href = `/profile/best-game/summary/round=${roundNumber}`;
     });
 });
 

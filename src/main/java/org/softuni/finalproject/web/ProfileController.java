@@ -3,6 +3,8 @@ package org.softuni.finalproject.web;
 import jakarta.servlet.http.HttpSession;
 import org.softuni.finalproject.model.dto.GameSessionDTO;
 import org.softuni.finalproject.model.dto.LoggedUserDTO;
+import org.softuni.finalproject.model.dto.RoundInfoDTO;
+import org.softuni.finalproject.service.GameSessionService;
 import org.softuni.finalproject.service.UserAuthService;
 import org.softuni.finalproject.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,12 +25,14 @@ public class ProfileController {
 
     private final UserAuthService userAuthService;
     private final UserService userService;
+    private final GameSessionService gameSessionService;
     @Value("${google.maps.key}")
     private String googleMapsKey;
 
-    public ProfileController(UserAuthService userAuthService, UserService userService) {
+    public ProfileController(UserAuthService userAuthService, UserService userService, GameSessionService gameSessionService) {
         this.userAuthService = userAuthService;
         this.userService = userService;
+        this.gameSessionService = gameSessionService;
     }
 
     @ModelAttribute("bestGames")
@@ -63,5 +67,17 @@ public class ProfileController {
         model.addAttribute("fromBest", true);
 
         return "summary";
+    }
+
+    @GetMapping("/profile/best-game/summary/round={round}")
+    public String bestGameRound(Model model, @PathVariable int round, HttpSession session) {
+
+        RoundInfoDTO roundInfo = this.gameSessionService.getRoundInfo(round, session);
+        model.addAttribute("roundInfo", true);
+        model.addAttribute("currentLocation", roundInfo.getPictureLocationDTO());
+        model.addAttribute("roundData", roundInfo);
+        model.addAttribute("apiKey", googleMapsKey);
+
+        return "result";
     }
 }

@@ -1,5 +1,6 @@
 package org.softuni.finalproject.service.impl;
 
+import jakarta.servlet.http.HttpSession;
 import org.modelmapper.ModelMapper;
 import org.softuni.finalproject.model.dto.GameSessionDTO;
 import org.softuni.finalproject.model.dto.PictureLocationDTO;
@@ -51,20 +52,23 @@ public class GameSessionServiceImpl implements GameSessionService {
     }
 
     @Override
-    public RoundInfoDTO getRoundInfo(int round) {
+    public RoundInfoDTO getRoundInfo(int round, HttpSession session) {
         Long userId = getUserId();
         if (userId == null) {
             return null;
         }
 
-        GameSessionEntity game = this.gameSessionRepository.findTopByPlayerIdOrderByTimestampDesc(userId);
+        GameSessionDTO game = (GameSessionDTO) session.getAttribute("bestGame");
 
         RoundInfoDTO roundInfoDTO = new RoundInfoDTO();
         roundInfoDTO.setRound(round);
-        PictureLocationDTO roundPicture = this.modelMapper.map(game.getPictures().get(round - 1), PictureLocationDTO.class);
+        PictureLocationDTO roundPicture = game.getPictureLocations()[round - 1];
         roundInfoDTO.setPictureLocationDTO(roundPicture);
-        UserGuessDTO roundGuess = this.modelMapper.map(game.getGuesses().get(round - 1), UserGuessDTO.class);
+        UserGuessDTO roundGuess = game.getUserGuessDTOS()[round - 1];
         roundInfoDTO.setUserGuessDTO(roundGuess);
+        roundInfoDTO.setYearDiff(game.getRoundYearDifference(round));
+        roundInfoDTO.setDistanceDiff(game.getRoundDistanceDifference(round));
+        roundInfoDTO.setScore(game.getRoundScore(round));
 
         return roundInfoDTO;
     }
