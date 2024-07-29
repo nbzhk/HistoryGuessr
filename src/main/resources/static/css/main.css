@@ -170,6 +170,11 @@ p {
     max-width: 53vh;
 }
 
+.round-info:hover {
+    background-color: #eaab67;
+    cursor: pointer;
+}
+
 /*SLIDER*/
 input[type=range] {
     -webkit-appearance: none;
