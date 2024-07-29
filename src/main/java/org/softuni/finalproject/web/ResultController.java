@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class ResultController {
 
     private final GameService gameService;
+
     @Value("${google.maps.key}")
     private String googleMapsKey;
 
