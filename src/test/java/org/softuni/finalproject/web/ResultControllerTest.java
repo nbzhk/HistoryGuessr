@@ -46,8 +46,6 @@ class ResultControllerTest {
         validGuess.setGuessLat(0);
         validGuess.setGuessLng(0);
 
-
-
         this.validGame = new GameSessionDTO(testUser, new PictureLocationDTO[5]);
         this.validGame.setRound(1);
         this.validGame.setUserGuesses(new UserGuessDTO[5]);
