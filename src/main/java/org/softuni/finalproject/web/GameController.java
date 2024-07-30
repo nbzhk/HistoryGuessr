@@ -34,15 +34,14 @@ public class GameController {
 
 
         if (gameSession == null) {
-            this.startNewGame(session);
-            gameSession = (GameSessionDTO) session.getAttribute("gameSession");
+            return "redirect:/game/start-new-game";
         }
 
         if (gameSession.lastRound()) {
+            //TODO change last round to previous round
             gameSession.nextRound();
             return "redirect:/result";
         }
-
 
         String imageUrl = this.gameService.getCurrentLocation(gameSession, gameSession.getRound()).getUrl();
 
@@ -61,5 +60,4 @@ public class GameController {
 
         return "redirect:/game";
     }
-
 }
