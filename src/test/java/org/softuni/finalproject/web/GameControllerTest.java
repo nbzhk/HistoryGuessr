@@ -36,19 +36,15 @@ class GameControllerTest {
     @Mock
     private GameService gameService;
 
-    @InjectMocks
-    private GameController gameController;
 
     private GameSessionDTO validGame;
     private PictureLocationDTO validPictureLocation;
-
-    private User testUser;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        this.testUser = new User("test", "testPass", new ArrayList<>());
+        User testUser = new User("test", "testPass", new ArrayList<>());
 
         UserGuessDTO validGuess = new UserGuessDTO();
         validGuess.setGuessYear(2024);

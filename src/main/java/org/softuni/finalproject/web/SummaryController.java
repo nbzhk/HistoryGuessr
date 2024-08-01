@@ -38,6 +38,7 @@ public class SummaryController {
 
         model.addAttribute("totalScore", gameSession.getTotalScore());
         model.addAttribute("game", gameSession);
+        model.addAttribute("fromBest", false);
         model.addAttribute("apiKey", googleMapsKey);
 
 
