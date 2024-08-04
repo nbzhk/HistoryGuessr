@@ -16,10 +16,6 @@ public class ManageUsersController {
         this.userService = userService;
     }
 
-    @GetMapping("/admin")
-    public String adminPage() {
-        return "home";
-    }
 
     @GetMapping("/admin/manage-users")
     public String manageUsers(Model model) {

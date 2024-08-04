@@ -3,7 +3,6 @@ package org.softuni.finalproject.web;
 import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.softuni.finalproject.model.dto.GameSessionDTO;
@@ -35,7 +34,6 @@ class GameControllerTest {
 
     @Mock
     private GameService gameService;
-
 
     private GameSessionDTO validGame;
     private PictureLocationDTO validPictureLocation;

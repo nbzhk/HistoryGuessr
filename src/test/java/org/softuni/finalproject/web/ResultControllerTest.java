@@ -1,5 +1,6 @@
 package org.softuni.finalproject.web;
 
+import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.softuni.finalproject.model.dto.GameSessionDTO;
@@ -11,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
@@ -105,6 +107,17 @@ class ResultControllerTest {
                         .with(user(testUser)))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/summary"));
+    }
+
+    @Test
+    @WithMockUser(username = "test", password = "testPass", roles = {"ADMIN"})
+    void testGetView_WhenGameSessionIsNull_ShouldRedirectToStartNewGame() throws Exception {
+        when(this.gameService.getCurrentGame(any(HttpSession.class))).thenReturn(null);
+        when(this.gameService.startGame(any(HttpSession.class))).thenReturn(validGame);
+
+        this.mockMvc.perform(get("/next-round"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/game/start-new-game"));
     }
 
 }

@@ -54,8 +54,8 @@ public class DailyChallengeAPIController {
 
     @PostMapping("/add-participant")
     public ResponseEntity<ChallengeParticipantDTO> addParticipant(
-            @RequestBody DailyChallengeDTO dailyChallengeDTO
-    ){
+            @RequestBody DailyChallengeDTO dailyChallengeDTO) {
+
         this.dailyChallengeAPIService.addParticipant(dailyChallengeDTO);
 
         return ResponseEntity.ok().build();

@@ -1,5 +1,8 @@
 package org.softuni.finalproject.web;
 
+import com.dropbox.core.BadRequestException;
+import com.dropbox.core.InvalidAccessTokenException;
+import com.dropbox.core.v2.auth.AuthError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.softuni.finalproject.model.dto.DropboxCredentialDTO;
@@ -15,8 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.multipart.MultipartFile;
 
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
@@ -101,4 +103,43 @@ class ImageLocationUploadControllerTest {
                 .andExpect(flash().attributeExists("org.springframework.validation.BindingResult.pictureData"));
     }
 
+    @Test
+    @WithMockUser(username = "test", password = "testPass", roles = {"ADMIN"})
+    void testPostUpload_BadRequestException_ShouldThrowBadRequestException() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("picture", "image.jpg", "image/jpeg", "image".getBytes());
+
+        when(this.dropboxService.uploadFile(any(MultipartFile.class), anyString()))
+                .thenThrow(new BadRequestException("request-id", "Bad request"));
+
+        mockMvc.perform(multipart("/admin/upload")
+                        .file("picture", file.getBytes())
+                        .param("description", "Valid description")
+                        .param("year", "2024")
+                        .param("latitude", "0")
+                        .param("longitude", "0")
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/admin/upload"));
+    }
+
+    @Test
+    @WithMockUser(username = "test", password = "testPass", roles = {"ADMIN"})
+    void testPostUpload_InvalidAccessTokenException_ShouldThrowInvalidAccessTokenException() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("picture", "image.jpg", "image/jpeg", "image".getBytes());
+
+        AuthError mockAuthError = mock(AuthError.class);
+
+        when(this.dropboxService.uploadFile(any(MultipartFile.class), anyString()))
+                .thenThrow(new InvalidAccessTokenException("request-id", "Invalid token", mockAuthError));
+
+        mockMvc.perform(multipart("/admin/upload")
+                        .file("picture", file.getBytes())
+                        .param("description", "Valid description")
+                        .param("year", "2024")
+                        .param("latitude", "0")
+                        .param("longitude", "0")
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/admin/upload"));
+    }
 }
