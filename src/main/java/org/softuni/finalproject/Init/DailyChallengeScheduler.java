@@ -26,7 +26,7 @@ public class DailyChallengeScheduler {
         if (!dailyChallengeRepository.existsByDate(LocalDate.now())) {
             this.restClient
                     .get()
-                    .uri("http://localhost:8080/challenge/create")
+                    .uri(System.getenv("BASE_URL") + "/challenge/create")
                     .retrieve()
                     .toBodilessEntity();
         }

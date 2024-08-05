@@ -11,11 +11,6 @@ public class RestClientConfig {
     public RestClient restClient() {
         return RestClient.create();
 
-//        return RestClient
-//                .builder()
-//                .baseUrl("http://localhost:8080")
-//                .defaultHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-//                .build();
     }
 
 }

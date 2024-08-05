@@ -31,7 +31,7 @@ public class DailyChallengeClientService implements DailyChallengeService {
 
         return this.restClient
                 .get()
-                .uri("http://localhost:8080/challenge/current")
+                .uri(System.getenv("BASE_URL") +"/challenge/current")
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .body(DailyChallengeDTO.class);
@@ -43,7 +43,7 @@ public class DailyChallengeClientService implements DailyChallengeService {
 
         return this.restClient
                 .get()
-                .uri("http://localhost:8080/challenge/for-user/{username}", username)
+                .uri(System.getenv("BASE_URL") + "/challenge/for-user/{username}", username)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .body(CurrentParticipantDataDTO.class);
@@ -55,7 +55,7 @@ public class DailyChallengeClientService implements DailyChallengeService {
 
         this.restClient
                 .post()
-                .uri("http://localhost:8080/challenge/add-participant")
+                .uri(System.getenv("BASE_URL") +"/challenge/add-participant")
                 .body(dailyChallengeDTO)
                 .retrieve();
 

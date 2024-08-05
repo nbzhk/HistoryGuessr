@@ -67,7 +67,4 @@ class DropboxAuthControllerTest {
         mockMvc.perform(get("/dropbox-auth-finish"))
                 .andExpect(status().isOk());
     }
-
-
-
 }

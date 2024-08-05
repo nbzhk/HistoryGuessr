@@ -12,8 +12,8 @@ import java.io.IOException;
 
 public class DropboxAuthServiceImpl implements DropboxAuthService {
 
-    private static final String REDIRECT_URI_AUTH_FINISH = "http://localhost:8080/dropbox-auth-finish";
-    private static final String REDIRECT_URI_UPLOAD_PAGE = "http://localhost:8080/admin/upload";
+    private static final String REDIRECT_URI_AUTH_FINISH = System.getenv("BASE_URL") + "/dropbox-auth-finish";
+    private static final String REDIRECT_URI_UPLOAD_PAGE = System.getenv("BASE_URL") +"/admin/upload";
     private static final String SESSION_KEY = "dropbox-auth-csrf-token";
 
     private final DbxRequestConfig dbxRequestConfig;

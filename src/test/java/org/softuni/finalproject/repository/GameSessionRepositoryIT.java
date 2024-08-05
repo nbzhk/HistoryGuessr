@@ -88,7 +88,7 @@ public class GameSessionRepositoryIT {
 
         List<Integer> gameScores = new ArrayList<>();
         for (Object[] object : result) {
-            gameScores.add((Integer) object[1]);
+            gameScores.add(((Long) object[1]).intValue());
         }
 
         for (int i = 0; i < gameScores.size() - 1; i++) {

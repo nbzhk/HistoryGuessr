@@ -24,12 +24,17 @@ const token = csrfToken.getAttribute("content");
 
 let inputUrl;
 const url = window.location.pathname;
-const regex= /^\/profile\/best-game\/summary\/(\d+)$/;
+const regex = /^\/profile\/best-game\/summary\/(\d+)$/;
+
+let fromProfile = false;
+let fromSummary = false;
 
 if (url.match(regex)) {
     inputUrl = "/profile/best";
+    fromProfile = true;
 } else {
     inputUrl = "/game/summary";
+    fromSummary = true;
 }
 
 console.log(inputUrl);
@@ -52,7 +57,7 @@ fetch(inputUrl, {
     });
 
 
-function setPictureLocationGuessPairMarker(location, guess){
+function setPictureLocationGuessPairMarker(location, guess) {
     const actualCoordinates = new LatLng(location.latitude, location.longitude);
 
     new google.maps.Marker({
@@ -96,10 +101,19 @@ function setPictureLocationGuessPairMarker(location, guess){
 const rounds = document.querySelectorAll('.round-info');
 
 rounds.forEach(round => {
-    round.addEventListener("click", () => {
-        const roundNumber = round.getAttribute("data-round");
-        window.location.href = `/profile/best-game/summary/round=${roundNumber}`;
-    });
+
+    if (fromProfile) {
+        round.addEventListener("click", () => {
+            const roundNumber = round.getAttribute("data-round");
+            window.location.href = `/profile/best-game/summary/round=${roundNumber}`;
+        });
+    } else {
+        round.addEventListener("click", () => {
+            const roundNumber = round.getAttribute("data-round");
+            window.location.href = `/summary/round=${roundNumber}`;
+        });
+    }
+
 });
 
 
