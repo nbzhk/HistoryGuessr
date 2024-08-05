@@ -79,5 +79,12 @@ An admin user is created during initialization. You can log in with the followin
 
 You can also create a new account, though it will not have admin rights by default. Only an admin can promote other users to admin status.
 
+## Deployed Test Version
+You can try out a deployed test version of the History Guessr application at the following URL:  
+
+https://guessr-historyguessr.azuremicroservices.io
+
+Feel free to explore the app and test its features. Please note that this is a test environment and may have limited functionality.
+
 
     
