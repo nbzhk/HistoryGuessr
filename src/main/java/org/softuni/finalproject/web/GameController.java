@@ -38,7 +38,6 @@ public class GameController {
         }
 
         if (gameSession.lastRound()) {
-            //TODO change last round to previous round
             gameSession.nextRound();
             return "redirect:/result";
         }

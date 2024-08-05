@@ -85,7 +85,7 @@ public class DropboxExceptionController {
         return "error";
     }
 
-    //TODO : show appropriate message
+
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler({BadRequestException.class})
     public String handleBadRequest(BadRequestException exception, Model model) {
