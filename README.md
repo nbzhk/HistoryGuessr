@@ -66,8 +66,9 @@ BASE_URL=http://localhost:8080
 
 7. **Build the project:**  
 Compile and package the project using Maven:  
-    
+    ```bash
     mvn clean install
+    ````
     
 8. **Run the application**  
     ```bash
