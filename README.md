@@ -57,16 +57,23 @@ MySQL: Set up a MySQL database to use with the project.
     dropbox.appKey=${DROPBOX_APP_KEY}
     dropbox.appSecret=${DROPBOX_APP_SECRET}
     ```
-5. **Build the project:**  
+ 5. Configure Additional Environment Variables
+To ensure that the scheduler and REST client function correctly, you need to set the BASE_URL environment variable:
+ ```bash
+#Example for localhost:8080
+BASE_URL=http://localhost:8080
+```
+
+7. **Build the project:**  
 Compile and package the project using Maven:  
     
     mvn clean install
     
-6. **Run the application**  
+8. **Run the application**  
     ```bash
     mvn spring-boot:run
     ```
-7. **Access the application**  
+9. **Access the application**  
 Once the application is running, open your web browser and navigate to: 
 
     http://localhost:8080
