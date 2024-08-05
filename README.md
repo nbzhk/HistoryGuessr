@@ -25,7 +25,7 @@ History Guessr is an interactive web game inspired by GeoGuessr and TimeGuessr. 
 * JUnit: For testing.
 
 ## Installation
-Java: Ensure you have Java 11 or later installed.  
+Java: Ensure you have Java 17 or later installed.  
 Maven: Make sure Maven is installed for dependency management.  
 MySQL: Set up a MySQL database to use with the project. 
 
