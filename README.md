@@ -1,7 +1,7 @@
 
 # History Guessr
 
-History Guessr is an interactive web game inspired by GeoGuessr and TimeGuessr. This is my final project for the Spring Advanced Course @SoftUni. Players are presented with historical pictures and must guess the time period and its location. Players can compete against one another with the daily challenge.
+History Guessr is an interactive web game inspired by GeoGuessr and TimeGuessr. This is my final project for the Spring Advanced Course @SoftUni. Players are presented with a historical pictures and must guess the time period and its location. Players can compete against one another with the daily challenge.
 
 ## Features
 * Guess the time period and location of historical pictures.
