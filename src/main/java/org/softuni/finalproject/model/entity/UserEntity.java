@@ -31,6 +31,9 @@ public class UserEntity extends BaseEntity {
             inverseJoinColumns = @JoinColumn(
                         name = "dropbox_token_id", referencedColumnName = "id"))
     private DropboxCredentialEntity dropboxCredentialEntity;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ChallengeParticipantEntity> challengeParticipants = new ArrayList<>();
+
 
 
     public String getUsername() {
