@@ -38,7 +38,7 @@ const summaryRound = url.match(summaryRegex);
 const regex = /^\/profile\/best-game\/summary\/round=(\d+)$/;
 const roundInfo = url.match(regex);
 
-console.log(summaryRound);
+
 
 if (summaryRound) {
     currentRound = summaryRound[1] - 1;
@@ -50,7 +50,6 @@ if (isDaily) {
 } else if(roundInfo) {
     const round = roundInfo[1];
     inputUrl = `/summary/round-info/${round}`
-    console.log(inputUrl)
 } else {
     inputUrl = "/game/get-result"
 }
@@ -67,14 +66,12 @@ fetch(inputUrl, {
     .then(data => {
             let actualCoordinates;
             let guessCoordinates;
-            console.log(data);
             if (data.hasOwnProperty("round") && !roundInfo) {
 
                 if (!summaryRound) {
                     currentRound = data.round - 1;
                 }
 
-                console.log("Current round: " + currentRound);
                 actualCoordinates = new LatLng(data.pictureLocations[currentRound].latitude,
                     data.pictureLocations[currentRound].longitude);
 
@@ -95,7 +92,6 @@ fetch(inputUrl, {
             new google.maps.Marker({
                 position: actualCoordinates,
                 map: map,
-                icon: "/images/geolocation.png"
             });
 
 
