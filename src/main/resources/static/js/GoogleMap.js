@@ -52,7 +52,6 @@ yearValue.textContent = yearSlider.value;
 
 yearSlider.addEventListener("input", function () {
     yearValue.textContent = this.value;
-    console.log("year Value change")
 });
 
 let guessLat;
@@ -62,7 +61,6 @@ let guessYear;
 function position(mapsMouseEvent) {
     guessLat = mapsMouseEvent.latLng.lat();
     guessLng = mapsMouseEvent.latLng.lng();
-    console.log("set LAt and Lng")
 }
 
 map.addListener("click", position);
@@ -98,8 +96,6 @@ async function fetchCoordinates() {
     }).then(response => {
         if (response.ok) {
             window.location.href = redirectUrl;
-        } else {
-            console.log(response);
         }
     })
 }
@@ -108,5 +104,5 @@ async function fetchCoordinates() {
 const fetchButton = document.getElementById("fetchButton");
 
 fetchButton.addEventListener("click", () => {
-    fetchCoordinates().then(() => console.log("fetched"));
+    fetchCoordinates();
 });
