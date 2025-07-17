@@ -37,8 +37,6 @@ if (url.match(regex)) {
     fromSummary = true;
 }
 
-console.log(inputUrl);
-
 let guess;
 
 fetch(inputUrl, {
@@ -49,7 +47,6 @@ fetch(inputUrl, {
 })
     .then(response => response.json())
     .then(data => {
-        console.log(data);
         data.pictureLocations.forEach((location, index) => {
             guess = data.userGuesses[index];
             setPictureLocationGuessPairMarker(location, guess);
@@ -63,7 +60,6 @@ function setPictureLocationGuessPairMarker(location, guess) {
     new google.maps.Marker({
         position: actualCoordinates,
         map: map,
-        icon: "/images/TargetMarker.png"
     });
 
     const guessCoordinates = new LatLng(guess.guessLat, guess.guessLng);
