@@ -2,6 +2,7 @@ package org.softuni.finalproject.model.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 
 @Entity
@@ -9,7 +10,7 @@ import jakarta.persistence.Table;
 public class DropboxCredentialEntity extends BaseEntity {
 
 
-    @Column(name = "encoded_access_token", nullable = false)
+    @Column(name = "encoded_access_token", nullable = false, columnDefinition = "TEXT")
     private String accessToken;
     @Column(name = "encoded_refresh_token", nullable = false)
     private String refreshToken;
