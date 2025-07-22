@@ -90,7 +90,7 @@ You can also create a new account, though it will not have admin rights by defau
 ## Deployed Test Version
 You can try out a deployed test version of the History Guessr application at the following URL:  
 
-https://guessr-historyguessr.azuremicroservices.io
+https://historyguessr-production.up.railway.app/
 
 Feel free to explore the app and test its features. Please note that this is a test environment and may have limited functionality.
 
