@@ -1,0 +1,16 @@
+{
+  "types":[
+    {
+      "name":"org.softuni.finalproject.model.dto.GameSessionDTO$ByteBuddy$WL1d6bOX",
+      "customTargetConstructorClass":"java.lang.Object"
+    },
+    {
+      "name":"org.softuni.finalproject.service.impl.GameServiceImpl$$SpringCGLIB$$0",
+      "customTargetConstructorClass":"java.lang.Object"
+    }
+  ],
+  "lambdaCapturingTypes":[
+  ],
+  "proxies":[
+  ]
+}
