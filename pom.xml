@@ -6,8 +6,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.2.4</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
+        <relativePath/> </parent>
     <groupId>org.softuni</groupId>
     <artifactId>HistoryGuessr</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -15,6 +14,7 @@
     <description>finalproject</description>
     <properties>
         <java.version>17</java.version>
+        <native-buildtools.version>0.10.6</native-buildtools.version>
     </properties>
     <dependencies>
         <dependency>
@@ -53,13 +53,11 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.modelmapper/modelmapper -->
         <dependency>
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>
             <version>3.2.0</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework.session/spring-session-core -->
         <dependency>
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-core</artifactId>
@@ -70,7 +68,6 @@
             <artifactId>dropbox-core-sdk</artifactId>
             <version>7.0.0</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
@@ -81,7 +78,6 @@
             <artifactId>spring-security-crypto</artifactId>
             <version>5.7.1</version>
         </dependency>
-        <!--H2 Test DB-->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -92,7 +88,6 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework/spring-aop -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
@@ -105,8 +100,51 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <image>
+                        <builder>paketobuildpacks/builder-jammy-buildpackless-tiny</builder>
+                        <buildpacks>
+                            <buildpack>paketobuildpacks/oracle</buildpack>
+                            <buildpack>paketobuildpacks/java-native-image</buildpack>
+                        </buildpacks>
+                    </image>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.graalvm.buildtools</groupId>
+                <artifactId>native-maven-plugin</artifactId>
+                <version>${native-buildtools.version}</version>
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>native</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <configuration>
+                            <parameters>true</parameters>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>process-aot</id>
+                                <goals>
+                                    <goal>process-aot</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>
