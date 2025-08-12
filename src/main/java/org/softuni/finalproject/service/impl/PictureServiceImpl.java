@@ -53,17 +53,12 @@ public class PictureServiceImpl implements PictureService {
 
     @Override
     public PictureLocationDTO[] createPictureLocations() {
-        List<Long> allPictures = this.pictureRepository.getAllIds();
+        List<PictureEntity> randomPictures = this.pictureRepository.findAll();
 
-        Collections.shuffle(allPictures);
-
-        List<Long> randomIds = allPictures.stream()
-                .limit(MAX_ROUNDS)
-                .toList();
-
-        List<PictureEntity> randomPictures = this.pictureRepository.findAllById(randomIds);
+        Collections.shuffle(randomPictures);
 
         return randomPictures.stream()
+                .limit(MAX_ROUNDS)
                 .map(this::map)
                 .toArray(PictureLocationDTO[]::new);
 
