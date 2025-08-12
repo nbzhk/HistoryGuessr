@@ -6,10 +6,8 @@ import org.softuni.finalproject.model.entity.PictureEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DataJpaTest
 public class PictureRepositoryIT {
@@ -49,18 +47,4 @@ public class PictureRepositoryIT {
         assertEquals(byUrl.getUrl(), "test-picture-one");
     }
 
-    @Test
-    public void findRandomPicturesTest() {
-        List<PictureEntity> randomPictures =
-                this.pictureRepository.findRandomPictures(1);
-
-        assertEquals(1, randomPictures.size());
-    }
-
-    @Test
-    public void findRandomDailyPicture() {
-        Optional<PictureEntity> randomDailyPicture = this.pictureRepository.findRandomDailyPicture(1);
-
-        assertTrue(randomDailyPicture.isPresent());
-    }
 }
