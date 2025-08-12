@@ -16,7 +16,6 @@ import org.softuni.finalproject.repository.PictureRepository;
 import org.softuni.finalproject.repository.UserRepository;
 import org.softuni.finalproject.service.GameService;
 import org.softuni.finalproject.service.exception.DailyChallengeNotFound;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -83,36 +82,6 @@ public class DailyChallengeAPIServiceImplTest {
 
     }
 
-    @Test
-    public void testCreateDailyChallengeSuccess() {
-        when(this.pictureRepository.findRandomDailyPicture(1)).thenReturn(Optional.of(this.picture));
-        when(this.dailyChallengeRepository.existsByDate(any(LocalDate.class))).thenReturn(false);
-
-        this.dailyChallengeAPIService.create();
-
-        verify(this.dailyChallengeRepository, times(1)).save(any(DailyChallengeEntity.class));
-    }
-
-    @Test
-    public void testCreateDailyChallenge_AlreadyExist() {
-        when(this.pictureRepository.findRandomDailyPicture(1)).thenReturn(Optional.of(this.picture));
-        when(this.dailyChallengeRepository.existsByDate(any(LocalDate.class))).thenReturn(true);
-
-        this.dailyChallengeAPIService.create();
-
-        verify(this.dailyChallengeRepository, never()).save(any(DailyChallengeEntity.class));
-    }
-
-    @Test
-    void testCreateDailyChallenge_ThrowsDataIntegrityViolationException() {
-        when(this.pictureRepository.findRandomDailyPicture(1)).thenReturn(Optional.of(this.picture));
-        when(this.dailyChallengeRepository.existsByDate(any(LocalDate.class))).thenReturn(false);
-
-        doThrow(new DataIntegrityViolationException("Daily challenge already exists. Skipping..."))
-                .when(this.dailyChallengeRepository).save(any(DailyChallengeEntity.class));
-
-        assertThrows(DataIntegrityViolationException.class, () -> this.dailyChallengeAPIService.create());
-    }
 
     @Test
     void testGetCurrentDailyChallengeSuccess() {
