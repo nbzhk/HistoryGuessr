@@ -8,6 +8,7 @@ import org.softuni.finalproject.service.PictureService;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -52,7 +53,15 @@ public class PictureServiceImpl implements PictureService {
 
     @Override
     public PictureLocationDTO[] createPictureLocations() {
-        List<PictureEntity> randomPictures = this.pictureRepository.findRandomPictures(MAX_ROUNDS);
+        List<Long> allPictures = this.pictureRepository.getAllIds();
+
+        Collections.shuffle(allPictures);
+
+        List<Long> randomIds = allPictures.stream()
+                .limit(MAX_ROUNDS)
+                .toList();
+
+        List<PictureEntity> randomPictures = this.pictureRepository.findAllById(randomIds);
 
         return randomPictures.stream()
                 .map(this::map)

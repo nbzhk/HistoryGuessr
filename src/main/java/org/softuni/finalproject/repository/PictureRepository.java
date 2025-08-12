@@ -19,4 +19,7 @@ public interface PictureRepository extends JpaRepository<PictureEntity, Long> {
 
     @Query(value = "select * from pictures ORDER BY RAND() LIMIT :limit", nativeQuery = true)
     Optional<PictureEntity> findRandomDailyPicture(@Param("limit") int limit);
+
+    @Query(value = "select id from pictures", nativeQuery = true)
+    List<Long> getAllIds();
 }
