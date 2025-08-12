@@ -19,7 +19,9 @@ import org.springframework.stereotype.Service;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class DailyChallengeAPIServiceImpl implements DailyChallengeAPIService {
@@ -40,17 +42,25 @@ public class DailyChallengeAPIServiceImpl implements DailyChallengeAPIService {
 
     @Override
     public void create() {
-        Optional<PictureEntity> randomDailyPicture =
-                this.pictureRepository.findRandomDailyPicture(1);
+        List<Long> allIds = this.pictureRepository.getAllIds();
 
-        if (randomDailyPicture.isPresent() && !this.dailyChallengeRepository.existsByDate(LocalDate.now())) {
-            DailyChallengeEntity dailyChallenge =
-                    new DailyChallengeEntity(randomDailyPicture.get(), LocalDate.now());
 
-            try {
-                this.dailyChallengeRepository.save(dailyChallenge);
-            } catch (DataIntegrityViolationException e) {
-                throw new DataIntegrityViolationException("Daily challenge already exists. Skipping...");
+        if (!allIds.isEmpty()) {
+            Long randomId = allIds.get(new Random().nextInt(allIds.size()));
+
+            Optional<PictureEntity> randomDailyPicture = pictureRepository.findById(randomId);
+
+            if (randomDailyPicture.isPresent() &&
+                    !dailyChallengeRepository.existsByDate(LocalDate.now())) {
+
+                DailyChallengeEntity dailyChallenge =
+                        new DailyChallengeEntity(randomDailyPicture.get(), LocalDate.now());
+
+                try {
+                    dailyChallengeRepository.save(dailyChallenge);
+                } catch (DataIntegrityViolationException e) {
+                    throw new DataIntegrityViolationException("Daily challenge already exists. Skipping...");
+                }
             }
         }
     }
