@@ -1,5 +1,6 @@
 package org.softuni.finalproject.Init;
 
+import jakarta.annotation.PostConstruct;
 import org.softuni.finalproject.repository.DailyChallengeRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -20,8 +21,8 @@ public class DailyChallengeScheduler {
     }
 
 
-//    @Scheduled(cron = "0 0 0 * * ?")
-    @Scheduled(cron = "0 * * * * *")
+    @Scheduled(cron = "0 0 0 * * ?")
+    // @Scheduled(cron = "0 * * * * *")
     public void createDailyChallenge() {
         if (!dailyChallengeRepository.existsByDate(LocalDate.now())) {
             this.restClient
@@ -30,5 +31,11 @@ public class DailyChallengeScheduler {
                     .retrieve()
                     .toBodilessEntity();
         }
+    }
+
+    //Creates dailyChallenge on startup
+    @PostConstruct
+    public void initDailyChallengeOnStartup() {
+        createDailyChallenge();
     }
 }
