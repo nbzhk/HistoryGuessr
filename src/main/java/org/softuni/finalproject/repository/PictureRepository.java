@@ -14,11 +14,11 @@ public interface PictureRepository extends JpaRepository<PictureEntity, Long> {
 
     PictureEntity findByUrl(String url);
 
-    @Query(value = "SELECT * FROM pictures ORDER BY RAND() LIMIT :limit", nativeQuery = true)
-    List<PictureEntity> findRandomPictures(@Param("limit") int limit);
-
-    @Query(value = "select * from pictures ORDER BY RAND() LIMIT :limit", nativeQuery = true)
-    Optional<PictureEntity> findRandomDailyPicture(@Param("limit") int limit);
+//    @Query(value = "SELECT * FROM pictures ORDER BY RAND() LIMIT :limit", nativeQuery = true)
+//    List<PictureEntity> findRandomPictures(@Param("limit") int limit);
+//
+//    @Query(value = "select * from pictures ORDER BY RAND() LIMIT :limit", nativeQuery = true)
+//    Optional<PictureEntity> findRandomDailyPicture(@Param("limit") int limit);
 
     @Query(value = "select id from pictures", nativeQuery = true)
     List<Long> getAllIds();
