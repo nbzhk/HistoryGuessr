@@ -2,6 +2,8 @@ package org.softuni.finalproject.Init;
 
 import jakarta.annotation.PostConstruct;
 import org.softuni.finalproject.repository.DailyChallengeRepository;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -34,8 +36,9 @@ public class DailyChallengeScheduler {
     }
 
     //Creates dailyChallenge on startup
-    @PostConstruct
+    @EventListener(ApplicationReadyEvent.class)
     public void initDailyChallengeOnStartup() {
         createDailyChallenge();
     }
+
 }
